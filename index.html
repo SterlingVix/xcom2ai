@@ -54,50 +54,50 @@
 	}
 
 	.node-type-label {
-		color: black;
 		font-weight: 900;
+		font-size: 2em;
 		text-align: center;
-		text-decoration: underline;;
+		text-decoration: underline;
+		display: block;
+		width: 100%;
+		padding: 1em 0em 0.5em 0em;
 	}
 
+	.node-type-container.Action {
+		background-color: lavendarblush;
+	}
+	.node-type-container.Condition  {
+		background-color: darkseagreen;
+	}
+	.node-type-container.Failer {
+		background-color: rosybrown;
+	}
+	.node-type-container.Inverter {
+		background-color: darkkhaki;
+	}
+	.node-type-container.RandFilter {
+		background-color: mistyrose;
+	}
+	.node-type-container.RandSelector {
+		background-color: burlywood;
+	}
+	.node-type-container.RepeatUntilFail {
+		background-color: lightgray;
+	}
 	.node-type-container.Selector {
 		background-color: antiquewhite;
 	}
 	.node-type-container.Sequence {
 		background-color: azure;
 	}
-	.node-type-container.Condition {
-		background-color: beige;
-	}
-	.node-type-container.RandSelector {
-		background-color: burlywood;
-	}
-	.node-type-container.Inverter {
-		background-color: darkkhaki;
-	}
 	.node-type-container.StatCondition {
 		background-color: darksalmon;
-	}
-	.node-type-container.Condition  {
-		background-color: darkseagreen;
-	}
-	.node-type-container.Action {
-		background-color: lavendarblush;
-	}
-	.node-type-container.RepeatUntilFail {
-		background-color: lightgray;
-	}
-	.node-type-container.TargetStatCondition {
-		background-color: lightsteelblue;
 	}
 	.node-type-container.Successor {
 		background-color: mediumturquoise;
 	}
-	.node-type-container.RandFilter {
-		background-color: mistyrose;
-	}
-	.node-type-container.Failer {
-		background-color: rosybrown;
+	.node-type-container.TargetStatCondition {
+		background-color: lightsteelblue;
 	}
 
 	.input-form-container {
@@ -106,25 +106,31 @@
 		text-align: center;
 	}
 
-
-
-
-/*	#node-type-child-container {
-
+	.state-description-container {
+		margin: 1em auto 1em auto;
+		padding: 0.1em 0.2em;
+		text-align: center;
 	}
-	#node-type-param-container {
 
+	a.node-type-anchor-element {
+		display: inline-block;
+		margin: 0.1em 0.2em;
+		padding: 0.1em 0.2em;
+		text-align: center;
 	}
-	#node-type-intent-container {
-
-	}*/
 
 
 	</style>
 
-<div class="input-form-container">
+<div class="input-form-container" id="page-top">
 	<input type="text" id="filter-input"></input>
 	<button id="filter-button">Filter by term...</button>
+</div>
+<div class="state-description-container">
+	<h2 id="node-types-label" class="state-description-label">Node Types: </h2>
+	<P id="node-types-list"></p>
+	<h2 id="class-types-label" class="state-description-label">Class Types: </h2>
+	<P id="class-types-list"></p>
 </div>
 
 <div id="container"></div>
@@ -9512,6 +9518,9 @@ window.onload = function() {
 	var containerElement = $('#container');
 	window.filterInputElement = $('#filter-input');
 	var filterButtonElement = $('#filter-button');
+	var stateDescriptionContainer = $('.state-description-container');
+	var nodeTypesList = $('#node-types-list');
+	var classTypesList = $('#class-types-list');
 
 	var nodeTypeChildElement = $('#node-type-child-container');
 	var nodeTypeParamElement = $('#node-type-param-container');
@@ -9526,8 +9535,6 @@ window.onload = function() {
 		queryTerm = queryTerm.slice(1, (queryTerm.length));
 		window.filterInputElement.value = queryTerm;
 		wordFilter = queryTerm;
-
-		console.log(wordFilter);
 	}
 
 
@@ -9636,9 +9643,13 @@ window.onload = function() {
 					containerElement: document.createElement('div')
 				};
 				classesByNodeType[nodeType].containerElement.className = nodeType + ' node-type-container';
-				var nodeTypeLabel = document.createElement('h1');
+				var nodeTypeLabel = document.createElement('a');
 				nodeTypeLabel.className = 'node-type-label';
+				nodeTypeLabel.id = nodeType + '-label';
 				nodeTypeLabel.textContent = 'Node Type: ' + nodeType;
+				nodeTypeLabel.setAttribute('href', '#page-top');
+				nodeTypeLabel.setAttribute('title', 'Click to go to the top of the page');
+
 
 				
 				classesByNodeType[nodeType].elements.push(behaviorRootNode);
@@ -9668,5 +9679,31 @@ window.onload = function() {
 			// containerElement.appendChild(behaviorRootNode);
 		}
 	}
+
+console.log('classesByNodeType =', classesByNodeType);
+console.log('childClasses =', childClasses);
+
+
+
+for (var key in classesByNodeType) {
+
+	// Don't create links for Class Type selectors (child, param, intent, etc.)
+	if (key.toLowerCase() === key) {
+		continue;
+	}
+
+	var anchorTarget = '#' + key + '-label';
+	var nodeTypeAnchorElement = document.createElement('a');
+	nodeTypeAnchorElement.className = 'node-type-anchor-element';
+	nodeTypeAnchorElement.textContent = key + ';'
+	nodeTypeAnchorElement.setAttribute('href', anchorTarget);
+
+	nodeTypesList.appendChild(nodeTypeAnchorElement);
+}
+
+for (var key in childClasses) {
+	classTypesList.textContent = classTypesList.textContent + key + '; ';	
+}
+
 }; // end onload
 </script>
