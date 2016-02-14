@@ -1,0 +1,11351 @@
+// Array of node objects
+//window.behaviorTreeGraphNodesArray = [
+window.behaviorGraphNodesArray = [
+    {
+        id: "GenericAIRoot",
+        reflexive: true,
+        nodeName: "GenericAIRoot",
+        NodeType: "Selector",
+        Child0: "TryNonAggressiveBehavior",
+        Child1: "TryMindControlledRoot",
+        Child2: "::CharacterRoot",
+        Child3: "SkipMove"
+},
+    {
+        id: "TryNonAggressiveBehavior",
+        reflexive: true,
+        nodeName: "TryNonAggressiveBehavior",
+        NodeType: "Sequence",
+        Child0: "HasHitAttackLimit",
+        Child1: "NonAggressiveBehavior"
+},
+    {
+        id: "HasHitAttackLimit",
+        reflexive: true,
+        nodeName: "HasHitAttackLimit",
+        NodeType: "Condition" //  Uses values defined above for MaxEngagedEnemies", per difficulty level.
+},
+    {
+        id: "NonAggressiveBehavior",
+        reflexive: true,
+        nodeName: "NonAggressiveBehavior",
+        NodeType: "Selector",
+        Child0: "TryNonAggressiveBehaviorFirstAction",
+        Child1: "MoveFlanking",
+        Child2: "SkipMove"
+},
+    {
+        id: "TryNonAggressiveBehaviorFirstAction",
+        reflexive: true,
+        nodeName: "TryNonAggressiveBehaviorFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "NonAggressiveBehaviorFirstAction"
+},
+    {
+        id: "NonAggressiveBehaviorFirstAction",
+        reflexive: true,
+        nodeName: "NonAggressiveBehaviorFirstAction",
+        NodeType: "RandSelector",
+        Child0: "TryOverwatch",
+        Param0: "33",
+        Child1: "MoveFlankingOrDefensive",
+        Param1: "67"
+},
+    {
+        id: "MoveFlankingOrDefensive",
+        reflexive: true,
+        nodeName: "MoveFlankingOrDefensive",
+        NodeType: "Selector",
+        Child0: "MoveFlanking",
+        Child1: "MoveDefensive",
+        Child2: "SkipMove"
+},
+    {
+        id: "TryMindControlledRoot",
+        reflexive: true,
+        nodeName: "TryMindControlledRoot",
+        NodeType: "Sequence",
+        Child0: "AffectedByEffect-MindControl",
+        Child1: "MindControlledRoot"
+},
+    {
+        id: "NotRedAlert",
+        reflexive: true,
+        nodeName: "NotRedAlert",
+        NodeType: "Inverter",
+        Child0: "IsRedAlert"
+},
+    {
+        id: "IsInFirstCombatTurn",
+        reflexive: true,
+        nodeName: "IsInFirstCombatTurn",
+        NodeType: "Condition"
+},
+    {
+        id: "IsFlanked",
+        reflexive: true,
+        nodeName: "IsFlanked",
+        NodeType: "Condition"
+},
+    {
+        id: "NotFlanked",
+        reflexive: true,
+        nodeName: "NotFlanked",
+        NodeType: "Inverter",
+        Child0: "IsFlanked"
+},
+    {
+        id: "IsVisibleToPlayer",
+        reflexive: true,
+        nodeName: "IsVisibleToPlayer",
+        NodeType: "Condition"
+},
+    {
+        id: "TargetIsVisibleToPlayer",
+        reflexive: true,
+        nodeName: "TargetIsVisibleToPlayer",
+        NodeType: "Condition"
+},
+    {
+        id: "DidNotMoveLastTurn",
+        reflexive: true,
+        nodeName: "DidNotMoveLastTurn",
+        NodeType: "Condition"
+},
+    {
+        id: "HighPopularSupport",
+        reflexive: true,
+        nodeName: "HighPopularSupport",
+        NodeType: "Condition",
+        Param0: "PopularSupport",
+        Param1: ">",
+        Param2: "50%"
+},
+    {
+        id: "LowPopularSupport",
+        reflexive: true,
+        nodeName: "LowPopularSupport",
+        NodeType: "Inverter",
+        Child0: "HighPopularSupport"
+},
+    {
+        id: "IsGroupLeader",
+        reflexive: true,
+        nodeName: "IsGroupLeader",
+        NodeType: "Condition"
+},
+    {
+        id: "IsFollower",
+        reflexive: true,
+        nodeName: "IsFollower",
+        NodeType: "Inverter",
+        Child0: "IsGroupLeader"
+},
+    {
+        id: "HasAmmo",
+        reflexive: true,
+        nodeName: "HasAmmo",
+        NodeType: "Condition"
+},
+    {
+        id: "OutOfAmmo",
+        reflexive: true,
+        nodeName: "OutOfAmmo",
+        NodeType: "Inverter",
+        Child0: "HasAmmo"
+},
+    {
+        id: "IsLastActionPoint",
+        reflexive: true,
+        nodeName: "IsLastActionPoint",
+        NodeType: "Condition"
+},
+    {
+        id: "NotLastActionPoint",
+        reflexive: true,
+        nodeName: "NotLastActionPoint",
+        NodeType: "Inverter",
+        Child0: "IsLastActionPoint"
+},
+    {
+        id: "HasThreeActionPoints",
+        reflexive: true,
+        nodeName: "HasThreeActionPoints",
+        NodeType: "Condition"
+},
+    {
+        id: "HasGoodShotTarget",
+        reflexive: true,
+        nodeName: "HasGoodShotTarget",
+        NodeType: "Condition"
+},
+    {
+        id: "IsInDangerousArea",
+        reflexive: true,
+        nodeName: "IsInDangerousArea",
+        NodeType: "Condition"
+},
+    {
+        id: "NotInDangerousArea",
+        reflexive: true,
+        nodeName: "NotInDangerousArea",
+        NodeType: "Inverter",
+        Child0: "IsInDangerousArea"
+},
+    {
+        id: "HasKillShot",
+        reflexive: true,
+        nodeName: "HasKillShot",
+        NodeType: "Condition" //  only functional for StandardShot
+},
+    {
+        id: "HasNoKillShot",
+        reflexive: true,
+        nodeName: "HasNoKillShot",
+        NodeType: "Inverter",
+        Child0: "HasKillShot"
+},
+    {
+        id: "TargetIsVulnerable",
+        reflexive: true,
+        nodeName: "TargetIsVulnerable",
+        NodeType: "Selector",
+        Child0: "TargetIsKillable",
+        Child1: "TargetHasLowHP"
+},
+    {
+        id: "HasHighHP",
+        reflexive: true,
+        nodeName: "HasHighHP",
+        NodeType: "StatCondition",
+        Param0: "eStat_HP",
+        Param1: ">:",
+        Param2: "70%"
+},
+    {
+        id: "HasLowHP",
+        reflexive: true,
+        nodeName: "HasLowHP",
+        NodeType: "StatCondition",
+        Param0: "eStat_HP",
+        Param1: "<:",
+        Param2: "30%"
+},
+    {
+        id: "NotLowHP",
+        reflexive: true,
+        nodeName: "NotLowHP",
+        NodeType: "StatCondition",
+        Param0: "eStat_HP",
+        Param1: ">",
+        Param2: "30%"
+},
+    {
+        id: "IsBloodied",
+        reflexive: true,
+        nodeName: "IsBloodied",
+        NodeType: "StatCondition",
+        Param0: "eStat_HP",
+        Param1: "<:",
+        Param2: "50%"
+},
+    {
+        id: "HasWounds",
+        reflexive: true,
+        nodeName: "HasWounds",
+        NodeType: "StatCondition",
+        Param0: "eStat_HP",
+        Param1: "<",
+        Param2: "100%"
+},
+    {
+        id: "IsRedAlert",
+        reflexive: true,
+        nodeName: "IsRedAlert",
+        NodeType: "StatCondition",
+        Param0: "eStat_AlertLevel",
+        Param1: "::",
+        Param2: "2"
+},
+    {
+        id: "IsOrangeAlert",
+        reflexive: true,
+        nodeName: "IsOrangeAlert",
+        NodeType: "Condition"
+},
+    {
+        id: "IsYellowAlert",
+        reflexive: true,
+        nodeName: "IsYellowAlert",
+        NodeType: "StatCondition",
+        Param0: "eStat_AlertLevel",
+        Param1: "::",
+        Param2: "1"
+},
+    {
+        id: "IsGreenAlert",
+        reflexive: true,
+        nodeName: "IsGreenAlert",
+        NodeType: "StatCondition",
+        Param0: "eStat_AlertLevel",
+        Param1: "::",
+        Param2: "0"
+},
+    {
+        id: "HasRevealed",
+        reflexive: true,
+        nodeName: "HasRevealed",
+        NodeType: "Condition"
+},
+    {
+        id: "NotYetRevealed",
+        reflexive: true,
+        nodeName: "NotYetRevealed",
+        NodeType: "Inverter",
+        Child0: "HasRevealed"
+},
+    {
+        id: "HasCombatOccured",
+        reflexive: true,
+        nodeName: "HasCombatOccured",
+        NodeType: "StatCondition",
+        Param0: "CombatCount",
+        Param1: ">",
+        Param2: "0"
+},
+    {
+        id: "HasMoreThanOneOverwatcher",
+        reflexive: true,
+        nodeName: "HasMoreThanOneOverwatcher",
+        NodeType: "StatCondition",
+        Param0: "OverwatcherCount",
+        Param1: ">",
+        Param2: "1"
+},
+    {
+        id: "NoOverwatchingTeammates",
+        reflexive: true,
+        nodeName: "NoOverwatchingTeammates",
+        NodeType: "StatCondition",
+        Param0: "OverwatcherCount",
+        Param1: "::",
+        Param2: "0",
+        Param3: "1"
+},
+    {
+        id: "OneOverwatchingTeammate",
+        reflexive: true,
+        nodeName: "OneOverwatchingTeammate",
+        NodeType: "StatCondition",
+        Param0: "OverwatcherCount",
+        Param1: "::",
+        Param2: "1",
+        Param3: "1"
+},
+    {
+        id: "MultipleOverwatchingTeammates",
+        reflexive: true,
+        nodeName: "MultipleOverwatchingTeammates",
+        NodeType: "StatCondition",
+        Param0: "OverwatcherCount",
+        Param1: ">",
+        Param2: "1",
+        Param3: "1"
+},
+    {
+        id: "TargetHasBeenAttackedTwice",
+        reflexive: true,
+        nodeName: "TargetHasBeenAttackedTwice",
+        NodeType: "StatCondition",
+        Param0: "TargetSelectedThisTurnCount",
+        Param1: ">:",
+        Param2: "2"
+},
+    {
+        id: "TargetHasBeenAttackedOnce",
+        reflexive: true,
+        nodeName: "TargetHasBeenAttackedOnce",
+        NodeType: "StatCondition",
+        Param0: "TargetSelectedThisTurnCount",
+        Param1: ":",
+        Param2: "1"
+},
+    {
+        id: "TargetHasNotBeenAttacked",
+        reflexive: true,
+        nodeName: "TargetHasNotBeenAttacked",
+        NodeType: "StatCondition",
+        Param0: "TargetSelectedThisTurnCount",
+        Param1: ":",
+        Param2: "0"
+},
+    {
+        id: "NoVisibleOverwatchers",
+        reflexive: true,
+        nodeName: "NoVisibleOverwatchers",
+        NodeType: "StatCondition",
+        Param0: "OverwatcherCount",
+        Param1: "::",
+        Param2: "0"
+},
+    {
+        id: "NoVisibleSuppressors",
+        reflexive: true,
+        nodeName: "NoVisibleSuppressors",
+        NodeType: "StatCondition",
+        Param0: "SuppressorCount",
+        Param1: "::",
+        Param2: "0"
+},
+    {
+        id: "HasBTVar-SafeToMove",
+        reflexive: true,
+        nodeName: "HasBTVar-SafeToMove",
+        NodeType: "Condition"
+},
+    {
+        id: "SetSafeToMoveTrue",
+        reflexive: true,
+        nodeName: "SetSafeToMoveTrue",
+        NodeType: "Action",
+        Param0: "SetBTVar",
+        Param1: "SafeToMove",
+        Param2: "1"
+}, {
+        id: "SetSafeToMoveFalse",
+        reflexive: true,
+        nodeName: "SetSafeToMoveFalse",
+        NodeType: "Action",
+        Param0: "SetBTVar",
+        Param1: "SafeToMove",
+        Param2: "0"
+}, {
+        id: "IsSafeToMove",
+        reflexive: true,
+        nodeName: "IsSafeToMove",
+        NodeType: "StatCondition",
+        Param0: "BTVar",
+        Param1: "!:",
+        Param2: "0",
+        Param3: "SafeToMove"
+}, {
+        id: "InitSafeToMoveVar",
+        reflexive: true,
+        nodeName: "InitSafeToMoveVar",
+        NodeType: "Selector",
+        Child0: "HasBTVar-SafeToMove",
+        Child1: "UpdateSafeToMoveVar"
+}, {
+        id: "UpdateSafeToMoveVar",
+        reflexive: true,
+        nodeName: "UpdateSafeToMoveVar",
+        NodeType: "Selector",
+        Child0: "TrySetSafeToMoveTrue",
+        Child1: "SetSafeToMoveFalse"
+}, {
+        id: "TrySetSafeToMoveTrue",
+        reflexive: true,
+        nodeName: "TrySetSafeToMoveTrue",
+        NodeType: "Sequence",
+        Child0: "AreConditionsSafeForMove",
+        Child1: "SetSafeToMoveTrue"
+}, {
+        id: "AreConditionsSafeForMove",
+        reflexive: true,
+        nodeName: "AreConditionsSafeForMove",
+        NodeType: "Selector",
+        Child0: "IsFlanked",
+        Child1: "PassesOverwatchSuppressMoveChecks"
+}, {
+        id: "PassesOverwatchSuppressMoveChecks",
+        reflexive: true,
+        nodeName: "PassesOverwatchSuppressMoveChecks",
+        NodeType: "Sequence",
+        Child0: "PassesSuppressMoveChecks",
+        Child1: "PassesOverwatchMoveChecks"
+}, {
+        id: "PassesOverwatchMoveChecks",
+        reflexive: false,
+        nodeName: "PassesOverwatchMoveChecks",
+        NodeType: "Selector",
+        Child0: "NoVisibleOverwatchers",
+        Child1: "RollToNotMoveAgainstOverwatchersFails"
+}, {
+        id: "PassesSuppressMoveChecks",
+        reflexive: false,
+        nodeName: "PassesSuppressMoveChecks",
+        NodeType: "Selector",
+        Child0: "NoVisibleSuppressors",
+        Child1: "RollToNotMoveAgainstSuppressorsFails"
+}, {
+        id: "RollToNotMoveAgainstOverwatchersFails",
+        reflexive: false,
+        nodeName: "RollToNotMoveAgainstOverwatchersFails",
+        NodeType: "Sequence",
+        Child0: "SetNoMoveFalse",
+        Child1: "SetOverwatcherStack",
+        Child2: "RepeatRollNoMoveOnOverwatcherUntilPass",
+        Child3: "RollToNotMoveFailed"
+}, {
+        id: "RollToNotMoveAgainstSuppressorsFails",
+        reflexive: false,
+        nodeName: "RollToNotMoveAgainstSuppressorsFails",
+        NodeType: "Sequence",
+        Child0: "SetNoMoveFalse",
+        Child1: "SetSuppressorStack",
+        Child2: "RepeatRollNoMoveOnSuppressorUntilPass",
+        Child3: "RollToNotMoveFailed"
+}, {
+        id: "RepeatRollNoMoveOnOverwatcherUntilPass",
+        reflexive: false,
+        nodeName: "RepeatRollNoMoveOnOverwatcherUntilPass",
+        NodeType: "RepeatUntilFail",
+        Child0: "IterateRollOnNoMoveToOverwatcher"
+}, {
+        id: "RepeatRollNoMoveOnSuppressorUntilPass",
+        reflexive: false,
+        nodeName: "RepeatRollNoMoveOnSuppressorUntilPass",
+        NodeType: "RepeatUntilFail",
+        Child0: "IterateRollOnNoMoveToSuppressor"
+}, {
+        id: "IterateRollOnNoMoveToOverwatcher",
+        reflexive: false,
+        nodeName: "IterateRollOnNoMoveToOverwatcher",
+        NodeType: "Sequence",
+        Child0: "SetNextOverwatcher",
+        Child1: "Roll50ToNotMove",
+        Child2: "RollToNotMoveFailed" //  If RollToNotMove failed", keep rolling until it passes or we run out of overwatchers.
+}, {
+        id: "IterateRollOnNoMoveToSuppressor",
+        reflexive: false,
+        nodeName: "IterateRollOnNoMoveToSuppressor",
+        NodeType: "Sequence",
+        Child0: "SetNextSuppressor",
+        Child1: "Roll75ToNotMove",
+        Child2: "RollToNotMoveFailed" //  If RollToNotMove failed", keep rolling until it passes or we run out of suppressors.
+}, {
+        id: "SetNextOverwatcher",
+        reflexive: false,
+        nodeName: "SetNextOverwatcher",
+        NodeType: "Action"
+}, {
+        id: "SetOverwatcherStack",
+        reflexive: false,
+        nodeName: "SetOverwatcherStack",
+        NodeType: "Action"
+}, {
+        id: "SetNextSuppressor",
+        reflexive: false,
+        nodeName: "SetNextSuppressor",
+        NodeType: "Action"
+}, {
+        id: "SetSuppressorStack",
+        reflexive: false,
+        nodeName: "SetSuppressorStack",
+        NodeType: "Action"
+}, {
+        id: "Roll50ToNotMove",
+        reflexive: false,
+        nodeName: "Roll50ToNotMove",
+        NodeType: "RandSelector",
+        Child0: "SetNoMoveTrue",
+        Param0: "50",
+        Child1: "SetNoMoveFalse",
+        Param1: "50"
+}, {
+        id: "Roll75ToNotMove",
+        reflexive: false,
+        nodeName: "Roll75ToNotMove",
+        NodeType: "RandSelector",
+        Child0: "SetNoMoveTrue",
+        Param0: "75",
+        Child1: "SetNoMoveFalse",
+        Param1: "25"
+}, {
+        id: "SetNoMoveTrue",
+        reflexive: false,
+        nodeName: "SetNoMoveTrue",
+        NodeType: "Action",
+        Param0: "SetBTVar",
+        Param1: "NoMove",
+        Param2: "1"
+}, {
+        id: "SetNoMoveFalse",
+        reflexive: false,
+        nodeName: "SetNoMoveFalse",
+        NodeType: "Action",
+        Param0: "SetBTVar",
+        Param1: "NoMove",
+        Param2: "0"
+}, {
+        id: "RollToNotMoveFailed",
+        reflexive: false,
+        nodeName: "RollToNotMoveFailed",
+        NodeType: "StatCondition",
+        Param0: "BTVar",
+        Param1: "::",
+        Param2: "0",
+        Param3: "NoMove"
+}, {
+        id: "RollToNotMovePassed",
+        reflexive: false,
+        nodeName: "RollToNotMovePassed",
+        NodeType: "StatCondition",
+        Param0: "BTVar",
+        Param1: "!:",
+        Param2: "0",
+        Param3: "NoMove"
+}, {
+        id: "SafeToMove",
+        reflexive: false,
+        nodeName: "SafeToMove",
+        NodeType: "Sequence",
+        Child0: "InitSafeToMoveVar",
+        Child1: "IsSafeToMove"
+}, {
+        id: "IsDifficultyEasy",
+        reflexive: false,
+        nodeName: "IsDifficultyEasy",
+        NodeType: "StatCondition",
+        Param0: "Difficulty",
+        Param1: "::",
+        Param2: "0"
+}, {
+        id: "IsDifficultyNormal",
+        reflexive: false,
+        nodeName: "IsDifficultyNormal",
+        NodeType: "StatCondition",
+        Param0: "Difficulty",
+        Param1: "::",
+        Param2: "1"
+}, {
+        id: "IsDifficultyHard",
+        reflexive: false,
+        nodeName: "IsDifficultyHard",
+        NodeType: "StatCondition",
+        Param0: "Difficulty",
+        Param1: "::",
+        Param2: "2"
+}, {
+        id: "IsDifficultyClassic",
+        reflexive: false,
+        nodeName: "IsDifficultyClassic",
+        NodeType: "StatCondition",
+        Param0: "Difficulty",
+        Param1: "::",
+        Param2: "3"
+}, {
+        id: "IsDifficultyAboveNormal",
+        reflexive: false,
+        nodeName: "IsDifficultyAboveNormal",
+        NodeType: "StatCondition",
+        Param0: "Difficulty",
+        Param1: ">",
+        Param2: "1"
+}, {
+        id: "IsDifficultyLow",
+        reflexive: false,
+        nodeName: "IsDifficultyLow",
+        NodeType: "StatCondition",
+        Param0: "Difficulty",
+        Param1: "<:",
+        Param2: "1"
+}, {
+        id: "UseDashMovement",
+        reflexive: false,
+        nodeName: "UseDashMovement",
+        NodeType: "Action"
+}, {
+        id: "SetCiviliansAsEnemiesInMoveCalculation",
+        reflexive: false,
+        nodeName: "SetCiviliansAsEnemiesInMoveCalculation",
+        NodeType: "Action"
+}, {
+        id: "SetNoCoverMovement",
+        reflexive: false,
+        nodeName: "SetNoCoverMovement",
+        NodeType: "Action"
+}, {
+        id: "HasPriorityTargetUnit",
+        reflexive: false,
+        nodeName: "HasPriorityTargetUnit",
+        NodeType: "Condition"
+}, {
+        id: "HasPriorityTargetObject",
+        reflexive: false,
+        nodeName: "HasPriorityTargetObject",
+        NodeType: "Condition"
+}, {
+        id: "HasPriorityTarget",
+        reflexive: false,
+        nodeName: "HasPriorityTarget",
+        NodeType: "Selector",
+        Child0: "HasPriorityTargetUnit",
+        Child1: "HasValidProtectDeviceTarget"
+}, {
+        id: "HasValidProtectDeviceTarget",
+        reflexive: false,
+        nodeName: "HasValidProtectDeviceTarget",
+        NodeType: "Sequence",
+        Child0: "HasPriorityTargetObject",
+        Child1: "PriorityTargetNotAttackedThisTurn"
+}, {
+        id: "PriorityTargetNotAttackedThisTurn",
+        reflexive: false,
+        nodeName: "PriorityTargetNotAttackedThisTurn",
+        NodeType: "StatCondition",
+        Param0: "PriorityObjectAttackCount",
+        Param1: "::",
+        Param2: "0"
+}, {
+        id: "HasEnemyVIP",
+        reflexive: false,
+        nodeName: "HasEnemyVIP",
+        NodeType: "Condition" //  Slightly different from HasPriorityTargetUnit in that the Enemy VIP is not always the priority target.
+}, {
+        id: "TargetIsPriorityUnit",
+        reflexive: false,
+        nodeName: "TargetIsPriorityUnit",
+        NodeType: "Condition"
+}, {
+        id: "TargetIsPriorityObject",
+        reflexive: false,
+        nodeName: "TargetIsPriorityObject",
+        NodeType: "Condition"
+}, {
+        id: "TargetIsEnemyVIP",
+        reflexive: false,
+        nodeName: "TargetIsEnemyVIP",
+        NodeType: "Condition"
+},
+    {
+        id: "AffectedByEffect-MindControl",
+        reflexive: false,
+        nodeName: "AffectedByEffect-MindControl",
+        NodeType: "Condition"
+},
+    {
+        id: "AffectedByEffect-RageTriggered",
+        reflexive: false,
+        nodeName: "AffectedByEffect-RageTriggered",
+        NodeType: "Condition"
+},
+    {
+        id: "AffectedByEffect-PsychosisTriggered",
+        reflexive: false,
+        nodeName: "AffectedByEffect-PsychosisTriggered",
+        NodeType: "Condition"
+},
+    {
+        id: "AffectedByEffect-GatekeeperClosedEffect",
+        reflexive: false,
+        nodeName: "AffectedByEffect-GatekeeperClosedEffect",
+        NodeType: "Condition"
+},
+    {
+        id: "AffectedByEffect-WrathCannonStage1Effect",
+        reflexive: false,
+        nodeName: "AffectedByEffect-WrathCannonStage1Effect",
+        NodeType: "Condition"
+},
+    {
+        id: "AffectedByEffect-FrenzyEffect",
+        reflexive: false,
+        nodeName: "AffectedByEffect-FrenzyEffect",
+        NodeType: "Condition"
+},
+    {
+        id: "AffectedByEffect-Burrowed",
+        reflexive: false,
+        nodeName: "AffectedByEffect-Burrowed",
+        NodeType: "Condition"
+},
+    {
+        id: "TargetAffectedByEffect-MarkedTarget",
+        reflexive: false,
+        nodeName: "TargetAffectedByEffect-MarkedTarget",
+        NodeType: "Condition"
+},
+    {
+        id: "AffectedByEffect-Poisoned",
+        reflexive: false,
+        nodeName: "AffectedByEffect-Poisoned",
+        NodeType: "Condition"
+},
+    {
+        id: "TargetAffectedByEffect-Disoriented",
+        reflexive: false,
+        nodeName: "TargetAffectedByEffect-Disoriented",
+        NodeType: "Condition"
+},
+    {
+        id: "TargetAffectedByEffect-Confused",
+        reflexive: false,
+        nodeName: "TargetAffectedByEffect-Confused",
+        NodeType: "Condition"
+},
+    {
+        id: "TargetAffectedByEffect-Panicked",
+        reflexive: false,
+        nodeName: "TargetAffectedByEffect-Panicked",
+        NodeType: "Condition"
+},
+    {
+        id: "TargetAffectedByEffect-Suppression",
+        reflexive: false,
+        nodeName: "TargetAffectedByEffect-Suppression",
+        NodeType: "Condition"
+},
+    {
+        id: "TargetIsApplyingEffect-Suppression",
+        reflexive: false,
+        nodeName: "TargetIsApplyingEffect-Suppression",
+        NodeType: "Condition"
+}, {
+        id: "TargetWillWeakened",
+        reflexive: false,
+        nodeName: "TargetWillWeakened",
+        NodeType: "Selector",
+        Child0: "TargetAffectedByEffect-Disoriented",
+        Child1: "TargetAffectedByEffect-Confused",
+        Child2: "TargetAffectedByEffect-Panicked",
+        Child3: "TargetNotAffectedByDominated"
+},
+    {
+        id: "TargetWillunWeakened",
+        reflexive: false,
+        nodeName: "TargetWillunWeakened",
+        NodeType: "Inverter",
+        Child0: "TargetWillWeakened"
+},
+    {
+        id: "IsMissionOfType-Terror",
+        reflexive: false,
+        nodeName: "IsMissionOfType-Terror",
+        NodeType: "Condition"
+}, {
+        id: "IsAIInCivilianRadius",
+        reflexive: false,
+        nodeName: "IsAIInCivilianRadius",
+        NodeType: "Condition"
+}, {
+        id: "HasMultipleEnergyShieldTargets",
+        reflexive: false,
+        nodeName: "HasMultipleEnergyShieldTargets",
+        NodeType: "StatCondition",
+        Param0: "AbilityTargetUnitCount-EnergyShield",
+        Param1: ">:",
+        Param2: "3" //  Param2 count includes self.
+}, {
+        id: "HasAnyEnergyShieldTargets",
+        reflexive: false,
+        nodeName: "HasAnyEnergyShieldTargets",
+        NodeType: "StatCondition",
+        Param0: "AbilityTargetUnitCount-EnergyShield",
+        Param1: ">:",
+        Param2: "2"
+}, {
+        id: "TargetHasLowHP",
+        reflexive: false,
+        nodeName: "TargetHasLowHP",
+        NodeType: "TargetStatCondition",
+        Param0: "eStat_HP",
+        Param1: "<:",
+        Param2: "40%"
+}, {
+        id: "TargetHasHighHP",
+        reflexive: false,
+        nodeName: "TargetHasHighHP",
+        NodeType: "TargetStatCondition",
+        Param0: "eStat_HP",
+        Param1: ">:",
+        Param2: "75%"
+}, {
+        id: "TargetHasMaxHP",
+        reflexive: false,
+        nodeName: "TargetHasMaxHP",
+        NodeType: "TargetStatCondition",
+        Param0: "eStat_HP",
+        Param1: ">:",
+        Param2: "100%"
+}, {
+        id: "TargetWounded",
+        reflexive: false,
+        nodeName: "TargetWounded",
+        NodeType: "Inverter",
+        Child0: "TargetHasMaxHP"
+}, {
+        id: "TargetIsKillable",
+        reflexive: false,
+        nodeName: "TargetIsKillable",
+        NodeType: "Condition"
+}, {
+        id: "TargetHitChanceLow",
+        reflexive: false,
+        nodeName: "TargetHitChanceLow",
+        NodeType: "Condition"
+}, {
+        id: "TargetHitChanceHigh",
+        reflexive: false,
+        nodeName: "TargetHitChanceHigh",
+        NodeType: "Condition"
+}, {
+        id: "IsFlankingTarget",
+        reflexive: false,
+        nodeName: "IsFlankingTarget",
+        NodeType: "Condition"
+}, {
+        id: "TargetIsCivilian",
+        reflexive: false,
+        nodeName: "TargetIsCivilian",
+        NodeType: "Condition"
+}, {
+        id: "TargetIsNotCivilian",
+        reflexive: false,
+        nodeName: "TargetIsNotCivilian",
+        NodeType: "Inverter",
+        Child0: "TargetIsCivilian"
+}, {
+        id: "TargetIsEnemy",
+        reflexive: false,
+        nodeName: "TargetIsEnemy",
+        NodeType: "Condition"
+}, {
+        id: "TargetIsAlly",
+        reflexive: false,
+        nodeName: "TargetIsAlly",
+        NodeType: "Condition"
+}, {
+        id: "TargetIsAdvent",
+        reflexive: false,
+        nodeName: "TargetIsAdvent",
+        NodeType: "Condition"
+}, {
+        id: "TargetIsAlien",
+        reflexive: false,
+        nodeName: "TargetIsAlien",
+        NodeType: "Condition"
+}, {
+        id: "TargetIsNotAlien",
+        reflexive: false,
+        nodeName: "TargetIsNotAlien",
+        NodeType: "Inverter",
+        Child0: "TargetIsAlien"
+}, {
+        id: "TargetIsRobotic",
+        reflexive: false,
+        nodeName: "TargetIsRobotic",
+        NodeType: "Condition"
+}, {
+        id: "TargetIsClosestValidTarget",
+        reflexive: false,
+        nodeName: "TargetIsClosestValidTarget",
+        NodeType: "Condition"
+}, {
+        id: "TargetIsNotAttackable",
+        reflexive: false,
+        nodeName: "TargetIsNotAttackable",
+        NodeType: "Condition" //  Dead", or incapacitated.
+},
+    {
+        id: "FindDestination-FallBack",
+        reflexive: false,
+        nodeName: "FindDestination-FallBack",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestination-Defensive",
+        reflexive: false,
+        nodeName: "FindDestination-Defensive",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestination-Standard",
+        reflexive: false,
+        nodeName: "FindDestination-Standard",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestination-Aggressive",
+        reflexive: false,
+        nodeName: "FindDestination-Aggressive",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestination-Fanatic",
+        reflexive: false,
+        nodeName: "FindDestination-Fanatic",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestination-AdvanceCover",
+        reflexive: false,
+        nodeName: "FindDestination-AdvanceCover",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestination-Flanking",
+        reflexive: false,
+        nodeName: "FindDestination-Flanking",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestination-Hunting",
+        reflexive: false,
+        nodeName: "FindDestination-Hunting",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestination-Melee",
+        reflexive: false,
+        nodeName: "FindDestination-Melee",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestination-MeleeDefensive",
+        reflexive: false,
+        nodeName: "FindDestination-MeleeDefensive",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestination-MeleeAggressive",
+        reflexive: false,
+        nodeName: "FindDestination-MeleeAggressive",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestination-MeleeFanatic",
+        reflexive: false,
+        nodeName: "FindDestination-MeleeFanatic",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestination-CivilianGreen",
+        reflexive: false,
+        nodeName: "FindDestination-CivilianGreen",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestination-CivilianRed",
+        reflexive: false,
+        nodeName: "FindDestination-CivilianRed",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestination-RandomNoCover",
+        reflexive: false,
+        nodeName: "FindDestination-RandomNoCover",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestinationWithLoS-Teleport",
+        reflexive: false,
+        nodeName: "FindDestinationWithLoS-Teleport",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestinationWithLoS-IsoTeleport",
+        reflexive: false,
+        nodeName: "FindDestinationWithLoS-IsoTeleport",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestinationWithLoS-FallBack",
+        reflexive: false,
+        nodeName: "FindDestinationWithLoS-FallBack",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestinationWithLoS-Defensive",
+        reflexive: false,
+        nodeName: "FindDestinationWithLoS-Defensive",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestinationWithLoS-Standard",
+        reflexive: false,
+        nodeName: "FindDestinationWithLoS-Standard",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestinationWithLoS-Aggressive",
+        reflexive: false,
+        nodeName: "FindDestinationWithLoS-Aggressive",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestinationWithLoS-Fanatic",
+        reflexive: false,
+        nodeName: "FindDestinationWithLoS-Fanatic",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestinationWithLoS-AdvanceCover",
+        reflexive: false,
+        nodeName: "FindDestinationWithLoS-AdvanceCover",
+        NodeType: "Action"
+},
+    {
+        id: "FindDestinationWithLoS-Flanking",
+        reflexive: false,
+        nodeName: "FindDestinationWithLoS-Flanking",
+        NodeType: "Action"
+},
+    {
+        id: "FindRestrictedDestination-FallBack",
+        reflexive: false,
+        nodeName: "FindRestrictedDestination-FallBack",
+        NodeType: "Action"
+},
+    {
+        id: "FindRestrictedDestination-Defensive",
+        reflexive: false,
+        nodeName: "FindRestrictedDestination-Defensive",
+        NodeType: "Action"
+},
+    {
+        id: "FindRestrictedDestination-Standard",
+        reflexive: false,
+        nodeName: "FindRestrictedDestination-Standard",
+        NodeType: "Action"
+},
+    {
+        id: "FindRestrictedDestination-Aggressive",
+        reflexive: false,
+        nodeName: "FindRestrictedDestination-Aggressive",
+        NodeType: "Action"
+},
+    {
+        id: "FindRestrictedDestination-Fanatic",
+        reflexive: false,
+        nodeName: "FindRestrictedDestination-Fanatic",
+        NodeType: "Action"
+},
+    {
+        id: "FindRestrictedDestination-AdvanceCover",
+        reflexive: false,
+        nodeName: "FindRestrictedDestination-AdvanceCover",
+        NodeType: "Action"
+},
+    {
+        id: "FindRestrictedDestination-Melee",
+        reflexive: false,
+        nodeName: "FindRestrictedDestination-Melee",
+        NodeType: "Action"
+},
+    {
+        id: "FindRestrictedDestination-MeleeDefensive",
+        reflexive: false,
+        nodeName: "FindRestrictedDestination-MeleeDefensive",
+        NodeType: "Action"
+},
+    {
+        id: "FindRestrictedDestination-MeleeFanatic",
+        reflexive: false,
+        nodeName: "FindRestrictedDestination-MeleeFanatic",
+        NodeType: "Action"
+},
+    {
+        id: "FindRestrictedDestination-Teleport",
+        reflexive: false,
+        nodeName: "FindRestrictedDestination-Teleport",
+        NodeType: "Action"
+},
+    {
+        id: "FindRestrictedDestination-IsoTeleport",
+        reflexive: false,
+        nodeName: "FindRestrictedDestination-IsoTeleport",
+        NodeType: "Action"
+},
+    {
+        id: "FindRestrictedDestination-MimicBeacon",
+        reflexive: false,
+        nodeName: "FindRestrictedDestination-MimicBeacon",
+        NodeType: "Action"
+},
+    {
+        id: "FindRestrictedDestination-Burrow",
+        reflexive: false,
+        nodeName: "FindRestrictedDestination-Burrow",
+        NodeType: "Action"
+}, {
+        id: "ResetDestinationSearch",
+        reflexive: false,
+        nodeName: "ResetDestinationSearch",
+        NodeType: "Action"
+}, {
+        id: "RestrictToEnemyLoS",
+        reflexive: false,
+        nodeName: "RestrictToEnemyLoS",
+        NodeType: "Action"
+}, {
+        id: "RestrictToAllyLoS",
+        reflexive: false,
+        nodeName: "RestrictToAllyLoS",
+        NodeType: "Action"
+}, {
+        id: "RestrictToFlanking",
+        reflexive: false,
+        nodeName: "RestrictToFlanking",
+        NodeType: "Action"
+},
+    {
+        id: "RestrictToAbilityRange-ThrowGrenade",
+        reflexive: false,
+        nodeName: "RestrictToAbilityRange-ThrowGrenade",
+        NodeType: "Action"
+},
+    {
+        id: "RestrictToAbilityRange-PoisonSpit",
+        reflexive: false,
+        nodeName: "RestrictToAbilityRange-PoisonSpit",
+        NodeType: "Action"
+},
+    {
+        id: "RestrictToAbilityRange-AcidBlob",
+        reflexive: false,
+        nodeName: "RestrictToAbilityRange-AcidBlob",
+        NodeType: "Action"
+},
+    {
+        id: "RestrictToAbilityRange-MicroMissiles",
+        reflexive: false,
+        nodeName: "RestrictToAbilityRange-MicroMissiles",
+        NodeType: "Action"
+},
+    {
+        id: "RestrictToAbilityRange-BlazingPinionsStage1",
+        reflexive: false,
+        nodeName: "RestrictToAbilityRange-BlazingPinionsStage1",
+        NodeType: "Action"
+},
+    {
+        id: "RestrictToAbilityRange-PsiDimensionalRiftStage1",
+        reflexive: false,
+        nodeName: "RestrictToAbilityRange-PsiDimensionalRiftStage1",
+        NodeType: "Action"
+},
+    {
+        id: "RestrictToAbilityRange-NullLance",
+        reflexive: false,
+        nodeName: "RestrictToAbilityRange-NullLance",
+        NodeType: "Action"
+},
+    {
+        id: "RestrictToAbilityRange-PsiMindControl",
+        reflexive: false,
+        nodeName: "RestrictToAbilityRange-PsiMindControl",
+        NodeType: "Action"
+},
+    {
+        id: "RestrictToAbilityRange-AnimaInversion",
+        reflexive: false,
+        nodeName: "RestrictToAbilityRange-AnimaInversion",
+        NodeType: "Action"
+},
+    {
+        id: "RestrictToAbilityRange-PsiBombStage1",
+        reflexive: false,
+        nodeName: "RestrictToAbilityRange-PsiBombStage1",
+        NodeType: "Action"
+},
+    {
+        id: "RestrictToAbilityRange-StandardShot",
+        reflexive: false,
+        nodeName: "RestrictToAbilityRange-StandardShot",
+        NodeType: "Action"
+},
+    {
+        id: "RestrictToAbilityRange-Suppression",
+        reflexive: false,
+        nodeName: "RestrictToAbilityRange-Suppression",
+        NodeType: "Action"
+},
+    {
+        id: "RestrictToPotentialTargetRange-EnergyShield",
+        reflexive: false,
+        nodeName: "RestrictToPotentialTargetRange-EnergyShield",
+        NodeType: "Action" //  Requires a potential target.  Used for finding a destination to shield our "best" unit.
+},
+    {
+        id: "RestrictToAlliedAbilityRange-EnergyShield",
+        reflexive: false,
+        nodeName: "RestrictToAlliedAbilityRange-EnergyShield",
+        NodeType: "Action",
+        Param0: "2" // Param0 is the minimum number of Allied Targets in range for each tile to be considered.
+},
+    {
+        id: "RestrictToPotentialTargetRange-StandardMelee",
+        reflexive: false,
+        nodeName: "RestrictToPotentialTargetRange-StandardMelee",
+        NodeType: "Action" //  StandardMelee has aliases in equivalentAbilities list.
+},
+    {
+        id: "RestrictToPotentialTargetRange-NullLance",
+        reflexive: false,
+        nodeName: "RestrictToPotentialTargetRange-NullLance",
+        NodeType: "Action"
+},
+    {
+        id: "AddAbilityRangeWeight-EnergyShield",
+        reflexive: false,
+        nodeName: "AddAbilityRangeWeight-EnergyShield",
+        NodeType: "Action",
+        Param0: "5.5"
+}, {
+        id: "FindGrenadeDestination",
+        reflexive: false,
+        nodeName: "FindGrenadeDestination",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "RestrictToAbilityRange-ThrowGrenade",
+        Child2: "RestrictToEnemyLoS",
+        Child3: "FindRestrictedDestination-Standard"
+}, {
+        id: "FindPoisonSpitDestination",
+        reflexive: false,
+        nodeName: "FindPoisonSpitDestination",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "RestrictToAbilityRange-PoisonSpit",
+        Child2: "RestrictToEnemyLoS",
+        Child3: "FindRestrictedDestination-Standard"
+}, {
+        id: "FindAcidBlobDestination",
+        reflexive: false,
+        nodeName: "FindAcidBlobDestination",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "RestrictToAbilityRange-AcidBlob",
+        Child2: "RestrictToEnemyLoS",
+        Child3: "FindRestrictedDestination-Standard"
+}, {
+        id: "FindMicroMissilesDestination",
+        reflexive: false,
+        nodeName: "FindMicroMissilesDestination",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "RestrictToAbilityRange-MicroMissiles",
+        Child2: "RestrictToEnemyLoS",
+        Child3: "FindRestrictedDestination-Fanatic"
+}, {
+        id: "FindBlazingPinionsDestination",
+        reflexive: false,
+        nodeName: "FindBlazingPinionsDestination",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "RestrictToAbilityRange-BlazingPinionsStage1",
+        Child2: "RestrictToEnemyLoS",
+        Child3: "FindRestrictedDestination-Fanatic"
+}, {
+        id: "FindShieldDestinationDefensive",
+        reflexive: false,
+        nodeName: "FindShieldDestinationDefensive",
+        NodeType: "Selector",
+        Child0: "FindShieldDestinationDefensive_MultipleUnits",
+        Child1: "FindShieldDestinationDefensive_BestUnit"
+}, {
+        id: "FindShieldDestinationDefensive_MultipleUnits",
+        reflexive: false,
+        nodeName: "FindShieldDestinationDefensive_MultipleUnits",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "RestrictToAlliedAbilityRange-EnergyShield",
+        Child2: "AddAbilityRangeWeight-EnergyShield",
+        Child3: "FindRestrictedDestination-Defensive"
+}, {
+        id: "FindShieldDestinationDefensive_BestUnit",
+        reflexive: false,
+        nodeName: "FindShieldDestinationDefensive_BestUnit",
+        NodeType: "Sequence",
+        Child0: "SelectPotentialTargetForEnergyShield",
+        Child1: "ResetDestinationSearch",
+        Child2: "RestrictToPotentialTargetRange-EnergyShield",
+        Child3: "FindRestrictedDestination-Defensive"
+}, {
+        id: "FindDimensionalRiftDestination",
+        reflexive: false,
+        nodeName: "FindDimensionalRiftDestination",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "RestrictToAbilityRange-PsiDimensionalRiftStage1",
+        Child2: "RestrictToEnemyLoS",
+        Child3: "FindRestrictedDestination-Defensive"
+}, {
+        id: "FindMindControlDestinationDefensive",
+        reflexive: false,
+        nodeName: "FindMindControlDestinationDefensive",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "RestrictToAbilityRange-PsiMindControl",
+        Child2: "RestrictToEnemyLoS",
+        Child3: "FindRestrictedDestination-Defensive"
+}, {
+        id: "FindAnimaInversionDestination",
+        reflexive: false,
+        nodeName: "FindAnimaInversionDestination",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "RestrictToAbilityRange-AnimaInversion",
+        Child2: "RestrictToEnemyLoS",
+        Child3: "FindRestrictedDestination-Fanatic"
+}, {
+        id: "FindPsiBombDestination",
+        reflexive: false,
+        nodeName: "FindPsiBombDestination",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "RestrictToAbilityRange-PsiBombStage1",
+        Child2: "RestrictToEnemyLoS",
+        Child3: "FindRestrictedDestination-Standard"
+}, {
+        id: "FindNullLanceDestination",
+        reflexive: false,
+        nodeName: "FindNullLanceDestination",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "RestrictToAbilityRange-NullLance",
+        Child2: "RestrictToEnemyLoS",
+        Child3: "FindRestrictedDestination-Standard"
+}, {
+        id: "FindPsiBombTeleportDestination",
+        reflexive: false,
+        nodeName: "FindPsiBombTeleportDestination",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "RestrictToAbilityRange-PsiBombStage1",
+        Child2: "RestrictToEnemyLoS",
+        Child3: "UseDashMovement",
+        Child4: "FindRestrictedDestination-Teleport"
+}, {
+        id: "FindPsiMindControlTeleportDestination",
+        reflexive: false,
+        nodeName: "FindPsiMindControlTeleportDestination",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "RestrictToAbilityRange-PsiMindControl",
+        Child2: "RestrictToEnemyLoS",
+        Child3: "UseDashMovement",
+        Child4: "FindRestrictedDestination-Teleport"
+}, {
+        id: "FindPsiDimensionalRiftTeleportDestination",
+        reflexive: false,
+        nodeName: "FindPsiDimensionalRiftTeleportDestination",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "RestrictToAbilityRange-PsiDimensionalRiftStage1",
+        Child2: "RestrictToEnemyLoS",
+        Child3: "UseDashMovement",
+        Child4: "FindRestrictedDestination-Teleport"
+}, {
+        id: "FindNullLanceTeleportDestination",
+        reflexive: false,
+        nodeName: "FindNullLanceTeleportDestination",
+        NodeType: "Sequence",
+        Child0: "RestrictToPotentialTargetRange-NullLance",
+        Child1: "UseDashMovement",
+        Child2: "FindRestrictedDestination-Teleport"
+}, {
+        id: "FindSuppressionDestination",
+        reflexive: false,
+        nodeName: "FindSuppressionDestination",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "RestrictToAbilityRange-Suppression",
+        Child2: "RestrictToEnemyLoS",
+        Child3: "FindRestrictedDestination-Standard"
+},
+    {
+        id: "SetAbilityForFindDestination-StunLance",
+        reflexive: false,
+        nodeName: "SetAbilityForFindDestination-StunLance",
+        NodeType: "Action"
+},
+    {
+        id: "SetAbilityForFindDestination-DevastatingPunch",
+        reflexive: false,
+        nodeName: "SetAbilityForFindDestination-DevastatingPunch",
+        NodeType: "Action"
+}, {
+        id: "SkipMove",
+        reflexive: false,
+        nodeName: "SkipMove",
+        NodeType: "Action"
+}, {
+        id: "SelectMoveStandard",
+        reflexive: false,
+        nodeName: "SelectMoveStandard",
+        NodeType: "Selector",
+        Child0: "SelectMoveProfileByJob",
+        Child1: "MoveStandard"
+}, {
+        id: "SelectMove_JobOrDefensive",
+        reflexive: false,
+        nodeName: "SelectMove_JobOrDefensive",
+        NodeType: "Selector",
+        Child0: "SelectMoveProfileByJob",
+        Child1: "MoveDefensive"
+}, {
+        id: "SelectMove_JobOrAggressive",
+        reflexive: false,
+        nodeName: "SelectMove_JobOrAggressive",
+        NodeType: "Selector",
+        Child0: "SelectMoveProfileByJob",
+        Child1: "MoveAggressive"
+}, {
+        id: "SelectNCMove_JobOrFanatic",
+        reflexive: false,
+        nodeName: "SelectNCMove_JobOrFanatic",
+        NodeType: "Selector",
+        Child0: "SelectNCMoveProfileByJob",
+        Child1: "MoveNoCover"
+}, {
+        id: "SelectMove_JobOrHunter",
+        reflexive: false,
+        nodeName: "SelectMove_JobOrHunter",
+        NodeType: "Selector",
+        Child0: "SelectMoveProfileByJob",
+        Child1: "MoveHunting"
+}, {
+        id: "SelectMove_JobOrFlanking",
+        reflexive: false,
+        nodeName: "SelectMove_JobOrFlanking",
+        NodeType: "Selector",
+        Child0: "SelectMoveProfileByJob",
+        Child1: "MoveFlanking"
+}, {
+        id: "SelectMove_JobOrMelee",
+        reflexive: false,
+        nodeName: "SelectMove_JobOrMelee",
+        NodeType: "Selector",
+        Child0: "SelectMoveProfileByJob",
+        Child1: "MoveMelee"
+}, {
+        id: "SelectUnsafeMove_JobOrMelee",
+        reflexive: false,
+        nodeName: "SelectUnsafeMove_JobOrMelee",
+        NodeType: "Selector",
+        Child0: "SelectMoveProfileByJobUnsafe",
+        Child1: "MoveMeleeUnsafe"
+}, {
+        id: "FallBack",
+        reflexive: false,
+        nodeName: "FallBack",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "FallBackUnsafe"
+}, {
+        id: "FallBackUnsafe",
+        reflexive: false,
+        nodeName: "FallBackUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "FindBestFallbackDestination",
+        Child3: "SelectAbility-StandardMove"
+}, {
+        id: "FindBestFallbackDestination",
+        reflexive: false,
+        nodeName: "FindBestFallbackDestination",
+        NodeType: "Selector",
+        Child0: "FindDestinationWithLoS-Defensive",
+        Child1: "FindDestinationWithLoS-FallBack",
+        Child2: "FindDestination-Defensive",
+        Child3: "FindDestination-FallBack"
+}, {
+        id: "FallBackWithLoS",
+        reflexive: false,
+        nodeName: "FallBackWithLoS",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "FallBackWithLoSUnsafe"
+}, {
+        id: "FallBackWithLoSUnsafe",
+        reflexive: false,
+        nodeName: "FallBackWithLoSUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "FindDestinationWithLoS-FallBack",
+        Child3: "SelectAbility-StandardMove"
+}, {
+        id: "NCFallBackWithLoS",
+        reflexive: false,
+        nodeName: "NCFallBackWithLoS",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "NCFallBackWithLoSUnsafe"
+}, {
+        id: "NCFallBackWithLoSUnsafe",
+        reflexive: false,
+        nodeName: "NCFallBackWithLoSUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "SetNoCoverMovement",
+        Child3: "FindDestinationWithLoS-FallBack",
+        Child4: "SelectAbility-StandardMove"
+}, {
+        id: "FindFriendlyFallbackDestination",
+        reflexive: false,
+        nodeName: "FindFriendlyFallbackDestination",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "RestrictToAllyLoS",
+        Child2: "FindRestrictedDestination-FallBack"
+}, {
+        id: "FallBackIfFirstAbility",
+        reflexive: false,
+        nodeName: "FallBackIfFirstAbility",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "FallBack"
+}, {
+        id: "FallBackIfFirstAbilityUnsafe",
+        reflexive: false,
+        nodeName: "FallBackIfFirstAbilityUnsafe",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "FallBackUnsafe"
+}, {
+        id: "FallBackWithLoSIfFirstAbility",
+        reflexive: false,
+        nodeName: "FallBackWithLoSIfFirstAbility",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "FallBackWithLoS"
+}, {
+        id: "FallBackWithLoSIfFirstAbilityUnsafe",
+        reflexive: false,
+        nodeName: "FallBackWithLoSIfFirstAbilityUnsafe",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "FallBackWithLoSUnsafe"
+}, {
+        id: "MoveDefensive",
+        reflexive: false,
+        nodeName: "MoveDefensive",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "MoveDefensiveUnsafe"
+}, {
+        id: "MoveDefensiveUnsafe",
+        reflexive: false,
+        nodeName: "MoveDefensiveUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "FindDestination-Defensive",
+        Child3: "SelectAbility-StandardMove"
+}, {
+        id: "NCMoveDefensive",
+        reflexive: false,
+        nodeName: "NCMoveDefensive",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "NCMoveDefensiveUnsafe"
+}, {
+        id: "NCMoveDefensiveUnsafe",
+        reflexive: false,
+        nodeName: "NCMoveDefensiveUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "SetNoCoverMovement",
+        Child3: "FindDestination-Defensive",
+        Child4: "SelectAbility-StandardMove"
+}, {
+        id: "MoveDefensiveIfFirstAbility",
+        reflexive: false,
+        nodeName: "MoveDefensiveIfFirstAbility",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveDefensive"
+}, {
+        id: "MoveDefensiveIfFirstAbilityUnsafe",
+        reflexive: false,
+        nodeName: "MoveDefensiveIfFirstAbilityUnsafe",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveDefensiveUnsafe"
+}, {
+        id: "MoveDefensiveWithLoS",
+        reflexive: false,
+        nodeName: "MoveDefensiveWithLoS",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "MoveDefensiveWithLoSUnsafe"
+}, {
+        id: "MoveDefensiveWithLoSUnsafe",
+        reflexive: false,
+        nodeName: "MoveDefensiveWithLoSUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "FindDestinationWithLoS-Defensive",
+        Child3: "SelectAbility-StandardMove"
+}, {
+        id: "MoveDefensiveWithLoSIfFirstAbility",
+        reflexive: false,
+        nodeName: "MoveDefensiveWithLoSIfFirstAbility",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveDefensiveWithLoS"
+}, {
+        id: "MoveDefensiveWithLoSIfFirstAbilityUnsafe",
+        reflexive: false,
+        nodeName: "MoveDefensiveWithLoSIfFirstAbilityUnsafe",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveDefensiveWithLoSUnsafe"
+}, {
+        id: "MoveStandard",
+        reflexive: false,
+        nodeName: "MoveStandard",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "MoveStandardUnsafe"
+}, {
+        id: "MoveStandardUnsafe",
+        reflexive: false,
+        nodeName: "MoveStandardUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "FindDestination-Standard",
+        Child2: "SelectAbility-StandardMove"
+}, {
+        id: "MoveStandardIfFirstAbility",
+        reflexive: false,
+        nodeName: "MoveStandardIfFirstAbility",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveStandard"
+}, {
+        id: "MoveStandardWithLoS",
+        reflexive: false,
+        nodeName: "MoveStandardWithLoS",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "MoveStandardWithLoSUnsafe"
+}, {
+        id: "MoveStandardWithLoSUnsafe",
+        reflexive: false,
+        nodeName: "MoveStandardWithLoSUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "FindDestinationWithLoS-Standard",
+        Child3: "SelectAbility-StandardMove"
+}, {
+        id: "MoveStandardWithLoSIfFirstAbility",
+        reflexive: false,
+        nodeName: "MoveStandardWithLoSIfFirstAbility",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveStandardWithLoS"
+}, {
+        id: "MoveStandardWithLoSIfFirstAbilityUnsafe",
+        reflexive: false,
+        nodeName: "MoveStandardWithLoSIfFirstAbilityUnsafe",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveStandardWithLoSUnsafe"
+}, {
+        id: "MoveAggressiveUnsafe",
+        reflexive: false,
+        nodeName: "MoveAggressiveUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "FindDestinationWithLoS-Aggressive",
+        Child3: "SelectAbility-StandardMove"
+}, {
+        id: "MoveAggressive",
+        reflexive: false,
+        nodeName: "MoveAggressive",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "MoveAggressiveUnsafe"
+}, {
+        id: "MoveAggressiveIfFirstAbility",
+        reflexive: false,
+        nodeName: "MoveAggressiveIfFirstAbility",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveAggressive"
+}, {
+        id: "MoveAggressiveIfFirstAbilityUnsafe",
+        reflexive: false,
+        nodeName: "MoveAggressiveIfFirstAbilityUnsafe",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveAggressiveUnsafe"
+}, {
+        id: "NCMoveAggressiveUnsafe",
+        reflexive: false,
+        nodeName: "NCMoveAggressiveUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "SetNoCoverMovement",
+        Child3: "FindDestinationWithLoS-Aggressive",
+        Child4: "SelectAbility-StandardMove"
+}, {
+        id: "NCMoveAggressive",
+        reflexive: false,
+        nodeName: "NCMoveAggressive",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "NCMoveAggressiveUnsafe"
+}, {
+        id: "MoveNoCoverUnsafe",
+        reflexive: false,
+        nodeName: "MoveNoCoverUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "SetNoCoverMovement",
+        Child3: "FindDestination-Fanatic",
+        Child4: "SelectAbility-StandardMove"
+}, {
+        id: "MoveNoCover",
+        reflexive: false,
+        nodeName: "MoveNoCover",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "MoveNoCoverUnsafe"
+}, {
+        id: "MoveNoCoverIfFirstAbility",
+        reflexive: false,
+        nodeName: "MoveNoCoverIfFirstAbility",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveNoCover"
+}, {
+        id: "MoveNoCoverIfFirstAbilityUnsafe",
+        reflexive: false,
+        nodeName: "MoveNoCoverIfFirstAbilityUnsafe",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveNoCoverUnsafe"
+}, {
+        id: "MoveHuntingUnsafe",
+        reflexive: false,
+        nodeName: "MoveHuntingUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "FindDestinationForHunter",
+        Child2: "SelectAbility-StandardMove"
+}, {
+        id: "MoveHunting",
+        reflexive: false,
+        nodeName: "MoveHunting",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "MoveHuntingUnsafe"
+}, {
+        id: "FindDestinationForHunter",
+        reflexive: false,
+        nodeName: "FindDestinationForHunter",
+        NodeType: "Selector",
+        Child0: "HuntWithLoS",
+        Child1: "BestHuntDestinationWithoutLoS"
+}, {
+        id: "HuntWithLoS",
+        reflexive: false,
+        nodeName: "HuntWithLoS",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "RestrictToEnemyLoS",
+        Child2: "FindDestination-Hunting"
+}, {
+        id: "BestHuntDestinationWithoutLoS",
+        reflexive: false,
+        nodeName: "BestHuntDestinationWithoutLoS",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "FindDestination-Hunting"
+}, {
+        id: "MoveAdvanceToCover",
+        reflexive: false,
+        nodeName: "MoveAdvanceToCover",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "MoveAdvanceToCoverUnsafe"
+}, {
+        id: "MoveAdvanceToCoverUnsafe",
+        reflexive: false,
+        nodeName: "MoveAdvanceToCoverUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "FindDestination-AdvanceCover",
+        Child3: "SelectAbility-StandardMove"
+}, {
+        id: "NCMoveAdvanceToCover",
+        reflexive: false,
+        nodeName: "NCMoveAdvanceToCover",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "NCMoveAdvanceToCoverUnsafe"
+}, {
+        id: "NCMoveAdvanceToCoverUnsafe",
+        reflexive: false,
+        nodeName: "NCMoveAdvanceToCoverUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "SetNoCoverMovement",
+        Child3: "FindDestination-AdvanceCover",
+        Child4: "SelectAbility-StandardMove"
+}, {
+        id: "MoveFlanking",
+        reflexive: false,
+        nodeName: "MoveFlanking",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "MoveFlankingUnsafe"
+}, {
+        id: "MoveFlankingUnsafe",
+        reflexive: false,
+        nodeName: "MoveFlankingUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "FindDestinationWithLoS-Flanking",
+        Child3: "SelectAbility-StandardMove"
+}, {
+        id: "MoveFlankingIfFirstAbility",
+        reflexive: false,
+        nodeName: "MoveFlankingIfFirstAbility",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveFlanking"
+}, {
+        id: "MoveFlankingIfFirstAbilityUnsafe",
+        reflexive: false,
+        nodeName: "MoveFlankingIfFirstAbilityUnsafe",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveFlankingUnsafe"
+}, {
+        id: "NCMoveFlanking",
+        reflexive: false,
+        nodeName: "NCMoveFlanking",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "NCMoveFlankingUnsafe"
+}, {
+        id: "NCMoveFlankingUnsafe",
+        reflexive: false,
+        nodeName: "NCMoveFlankingUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "SetNoCoverMovement",
+        Child3: "FindDestinationWithLoS-Flanking",
+        Child4: "SelectAbility-StandardMove"
+}, {
+        id: "MoveMelee",
+        reflexive: false,
+        nodeName: "MoveMelee",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "MoveMeleeUnsafe"
+}, {
+        id: "MoveMeleeUnsafe",
+        reflexive: false,
+        nodeName: "MoveMeleeUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "FindMeleeDestination",
+        Child3: "SelectAbility-StandardMove"
+}, {
+        id: "MoveMeleeDefensive",
+        reflexive: false,
+        nodeName: "MoveMeleeDefensive",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "MoveMeleeDefensiveUnsafe"
+}, {
+        id: "MoveMeleeDefensiveUnsafe",
+        reflexive: false,
+        nodeName: "MoveMeleeDefensiveUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "FindMeleeDestinationDefensive",
+        Child3: "SelectAbility-StandardMove"
+}, {
+        id: "MoveMeleeFANATIC",
+        reflexive: false,
+        nodeName: "MoveMeleeFANATIC",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "MoveMeleeFANATICUnsafe"
+}, {
+        id: "MoveMeleeFANATICUnsafe",
+        reflexive: false,
+        nodeName: "MoveMeleeFANATICUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "FindMeleeDestinationFANATIC",
+        Child3: "SelectAbility-StandardMove"
+}, {
+        id: "MoveToPotentialMeleeFANATIC",
+        reflexive: false,
+        nodeName: "MoveToPotentialMeleeFANATIC",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "MoveToPotentialMeleeFANATICUnsafe"
+}, {
+        id: "MoveToPotentialMeleeFANATICUnsafe",
+        reflexive: false,
+        nodeName: "MoveToPotentialMeleeFANATICUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "FindPotentialMeleeDestinationFANATIC",
+        Child2: "SelectAbility-StandardMove"
+}, {
+        id: "MoveMeleeIfFirstAbility",
+        reflexive: false,
+        nodeName: "MoveMeleeIfFirstAbility",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveMelee"
+}, {
+        id: "MoveMeleeDefensiveIfFirstAbility",
+        reflexive: false,
+        nodeName: "MoveMeleeDefensiveIfFirstAbility",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveMeleeDefensive"
+}, {
+        id: "MoveMeleeIfFirstAbilityFANATIC",
+        reflexive: false,
+        nodeName: "MoveMeleeIfFirstAbilityFANATIC",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveMeleeFANATIC"
+}, {
+        id: "MoveToPotentialMeleeIfFirstAbilityFANATIC",
+        reflexive: false,
+        nodeName: "MoveToPotentialMeleeIfFirstAbilityFANATIC",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "IncludeAlliesAsMeleeTargets",
+        Child2: "MoveToPotentialMeleeFANATIC"
+}, {
+        id: "MoveMeleeIfFirstAbilityUnsafe",
+        reflexive: false,
+        nodeName: "MoveMeleeIfFirstAbilityUnsafe",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveMeleeUnsafe"
+}, {
+        id: "MoveMeleeDefensiveIfFirstAbilityUnsafe",
+        reflexive: false,
+        nodeName: "MoveMeleeDefensiveIfFirstAbilityUnsafe",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveMeleeDefensiveUnsafe"
+}, {
+        id: "MoveMeleeIfFirstAbilityFANATICUnsafe",
+        reflexive: false,
+        nodeName: "MoveMeleeIfFirstAbilityFANATICUnsafe",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MoveMeleeFANATICUnsafe"
+}, {
+        id: "MoveMeleeDash",
+        reflexive: false,
+        nodeName: "MoveMeleeDash",
+        NodeType: "Selector",
+        Child0: "IfFirstActionMoveMeleeDash",
+        Child1: "MoveMelee"
+}, {
+        id: "MoveMeleeDashUnsafe",
+        reflexive: false,
+        nodeName: "MoveMeleeDashUnsafe",
+        NodeType: "Selector",
+        Child0: "IfFirstActionMoveMeleeDashUnsafe",
+        Child1: "MoveMeleeUnsafe"
+}, {
+        id: "IfFirstActionMoveMeleeDash",
+        reflexive: false,
+        nodeName: "IfFirstActionMoveMeleeDash",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "AttemptMoveMeleeDash"
+}, {
+        id: "IfFirstActionMoveMeleeDashUnsafe",
+        reflexive: false,
+        nodeName: "IfFirstActionMoveMeleeDashUnsafe",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "AttemptMoveMeleeDashUnsafe"
+}, {
+        id: "AttemptMoveMeleeDash",
+        reflexive: false,
+        nodeName: "AttemptMoveMeleeDash",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "AttemptMoveMeleeDashUnsafe"
+}, {
+        id: "AttemptMoveMeleeDashUnsafe",
+        reflexive: false,
+        nodeName: "AttemptMoveMeleeDashUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "UseDashMovement",
+        Child3: "FindMeleeDestination",
+        Child4: "SelectAbility-StandardMove"
+}, {
+        id: "MoveMeleeDashFANATIC",
+        reflexive: false,
+        nodeName: "MoveMeleeDashFANATIC",
+        NodeType: "Selector",
+        Child0: "IfFirstActionMoveMeleeDashFANATIC",
+        Child1: "MoveMeleeFANATIC"
+}, {
+        id: "MoveMeleeDashFANATICUnsafe",
+        reflexive: false,
+        nodeName: "MoveMeleeDashFANATICUnsafe",
+        NodeType: "Selector",
+        Child0: "IfFirstActionMoveMeleeDashFANATICUnsafe",
+        Child1: "MoveMeleeFANATICUnsafe"
+}, {
+        id: "IfFirstActionMoveMeleeDashFANATIC",
+        reflexive: false,
+        nodeName: "IfFirstActionMoveMeleeDashFANATIC",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "AttemptMoveMeleeDashFANATIC"
+}, {
+        id: "IfFirstActionMoveMeleeDashFANATICUnsafe",
+        reflexive: false,
+        nodeName: "IfFirstActionMoveMeleeDashFANATICUnsafe",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "AttemptMoveMeleeDashFANATICUnsafe"
+}, {
+        id: "AttemptMoveMeleeDashFANATIC",
+        reflexive: false,
+        nodeName: "AttemptMoveMeleeDashFANATIC",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "AttemptMoveMeleeDashFANATICUnsafe"
+}, {
+        id: "AttemptMoveMeleeDashFANATICUnsafe",
+        reflexive: false,
+        nodeName: "AttemptMoveMeleeDashFANATICUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "UseDashMovement",
+        Child3: "FindMeleeDestinationFANATIC",
+        Child4: "SelectAbility-StandardMove"
+}, {
+        id: "MoveMeleePriorityTarget",
+        reflexive: false,
+        nodeName: "MoveMeleePriorityTarget",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "MoveMeleePriorityTargetUnsafe"
+}, {
+        id: "MoveMeleePriorityTargetUnsafe",
+        reflexive: false,
+        nodeName: "MoveMeleePriorityTargetUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "UseDashMovement",
+        Child3: "FindPriorityMeleeDestination",
+        Child4: "SelectAbility-StandardMove"
+}, {
+        id: "FindMeleeDestination",
+        reflexive: false,
+        nodeName: "FindMeleeDestination",
+        NodeType: "Sequence",
+        Child0: "IncludeCiviliansIfTerrorist",
+        Child1: "SelectPotentialMeleeTarget",
+        Child2: "RestrictToPotentialTargetRange-StandardMelee",
+        Child3: "FindRestrictedDestination-Melee"
+}, {
+        id: "FindMeleeDestinationDefensive",
+        reflexive: false,
+        nodeName: "FindMeleeDestinationDefensive",
+        NodeType: "Sequence",
+        Child0: "IncludeCiviliansIfTerrorist",
+        Child1: "SelectPotentialMeleeTarget",
+        Child2: "RestrictToPotentialTargetRange-StandardMelee",
+        Child3: "FindRestrictedDestination-MeleeDefensive"
+}, {
+        id: "FindMeleeDestinationFANATIC",
+        reflexive: false,
+        nodeName: "FindMeleeDestinationFANATIC",
+        NodeType: "Sequence",
+        Child0: "IncludeCiviliansIfTerrorist",
+        Child1: "SelectPotentialMeleeTarget",
+        Child2: "RestrictToPotentialTargetRange-StandardMelee",
+        Child3: "FindRestrictedDestination-MeleeFanatic"
+}, {
+        id: "FindPriorityMeleeDestination",
+        reflexive: false,
+        nodeName: "FindPriorityMeleeDestination",
+        NodeType: "Sequence",
+        Child0: "SelectPotentialMeleePriorityTarget",
+        Child1: "RestrictToPotentialTargetRange-StandardMelee",
+        Child2: "FindRestrictedDestination-MeleeFanatic"
+}, {
+        id: "FindPotentialMeleeDestinationFANATIC",
+        reflexive: false,
+        nodeName: "FindPotentialMeleeDestinationFANATIC",
+        NodeType: "Sequence",
+        Child0: "IncludeCiviliansIfTerrorist",
+        Child1: "RestrictToPotentialTargetRange-StandardMelee",
+        Child2: "FindRestrictedDestination-MeleeFanatic"
+}, {
+        id: "TryTerroristMoveMeleeFANATICUnsafe",
+        reflexive: false,
+        nodeName: "TryTerroristMoveMeleeFANATICUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "IncludeCiviliansIfTerrorist",
+        Child3: "FindMeleeDestinationFANATIC",
+        Child4: "SelectAbility-StandardMove"
+}, {
+        id: "TryTerroristMoveMeleeFANATIC",
+        reflexive: false,
+        nodeName: "TryTerroristMoveMeleeFANATIC",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "TryTerroristMoveMeleeFANATICUnsafe"
+}, {
+        id: "MoveRandomUnsafe",
+        reflexive: false,
+        nodeName: "MoveRandomUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "FindDestination-RandomNoCover",
+        Child2: "SelectAbility-StandardMove"
+}, {
+        id: "MoveRandom",
+        reflexive: false,
+        nodeName: "MoveRandom",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "MoveRandomUnsafe"
+}, {
+        id: "MoveStandardWithDestination",
+        reflexive: false,
+        nodeName: "MoveStandardWithDestination",
+        NodeType: "Selector",
+        Child0: "MoveStandardWithDestinationUnsafe",
+        Child1: "DeleteTopAlertAndHeatSeek"
+}, {
+        id: "MoveStandardWithDestinationUnsafe",
+        reflexive: false,
+        nodeName: "MoveStandardWithDestinationUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "HasValidAlertDataLocation",
+        Child2: "FindAlertDataMovementDestination",
+        Child3: "SelectAbility-StandardMove"
+}, {
+        id: "DeleteTopAlertAndHeatSeek",
+        reflexive: false,
+        nodeName: "DeleteTopAlertAndHeatSeek",
+        NodeType: "Sequence",
+        Child0: "SSDeleteAlertDataIfValid",
+        Child1: "SelectHeatSeekMove"
+}, {
+        id: "SSDeleteAlertDataIfValid",
+        reflexive: false,
+        nodeName: "SSDeleteAlertDataIfValid",
+        NodeType: "Successor",
+        Child0: "DeleteAlertDataIfValid"
+}, {
+        id: "DeleteAlertDataIfValid",
+        reflexive: false,
+        nodeName: "DeleteAlertDataIfValid",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "HasValidAlertDataLocation",
+        Child2: "DeleteCurrentAlertData"
+}, {
+        id: "HeatSeekNearestUnconcealed",
+        reflexive: false,
+        nodeName: "HeatSeekNearestUnconcealed",
+        NodeType: "Action"
+}, {
+        id: "SelectHeatSeekMove",
+        reflexive: false,
+        nodeName: "SelectHeatSeekMove",
+        NodeType: "Sequence",
+        Child0: "UseDashMovement",
+        Child1: "HeatSeekNearestUnconcealed",
+        Child2: "SelectAbility-StandardMove"
+}, {
+        id: "SetAlertDataStack",
+        reflexive: false,
+        nodeName: "SetAlertDataStack",
+        NodeType: "Action"
+}, {
+        id: "SetNextAlertData",
+        reflexive: false,
+        nodeName: "SetNextAlertData",
+        NodeType: "Action"
+}, {
+        id: "DeleteCurrentAlertData",
+        reflexive: false,
+        nodeName: "DeleteCurrentAlertData",
+        NodeType: "Action"
+}, {
+        id: "UpdateBestAlertData",
+        reflexive: false,
+        nodeName: "UpdateBestAlertData",
+        NodeType: "Action"
+}, {
+        id: "AlertDataMovementUseCover",
+        reflexive: false,
+        nodeName: "AlertDataMovementUseCover",
+        NodeType: "Action"
+}, {
+        id: "AlertDataMovementIgnoreCover",
+        reflexive: false,
+        nodeName: "AlertDataMovementIgnoreCover",
+        NodeType: "Action"
+}, {
+        id: "FindAlertDataMovementDestination",
+        reflexive: false,
+        nodeName: "FindAlertDataMovementDestination",
+        NodeType: "Action"
+}, {
+        id: "AlertDataIsAbsoluteKnowledge",
+        reflexive: false,
+        nodeName: "AlertDataIsAbsoluteKnowledge",
+        NodeType: "Condition"
+}, {
+        id: "AlertDataWasSoundMade",
+        reflexive: false,
+        nodeName: "AlertDataWasSoundMade",
+        NodeType: "Condition"
+}, {
+        id: "AlertDataWasEnemyThere",
+        reflexive: false,
+        nodeName: "AlertDataWasEnemyThere",
+        NodeType: "Condition"
+}, {
+        id: "AlertDataIsCorpseThere",
+        reflexive: false,
+        nodeName: "AlertDataIsCorpseThere",
+        NodeType: "Condition"
+}, {
+        id: "AlertDataIsAggressive",
+        reflexive: false,
+        nodeName: "AlertDataIsAggressive",
+        NodeType: "Condition"
+}, {
+        id: "AlertDataTileIsVisible",
+        reflexive: false,
+        nodeName: "AlertDataTileIsVisible",
+        NodeType: "Condition"
+}, {
+        id: "AlertDataTileNotVisible",
+        reflexive: false,
+        nodeName: "AlertDataTileNotVisible",
+        NodeType: "Inverter",
+        Child0: "AlertDataTileIsVisible"
+},
+    {
+        id: "AlertDataHasTag-Defend",
+        reflexive: false,
+        nodeName: "AlertDataHasTag-Defend",
+        NodeType: "Condition"
+},
+    {
+        id: "AlertDataHasTag-Advance",
+        reflexive: false,
+        nodeName: "AlertDataHasTag-Advance",
+        NodeType: "Condition"
+},
+    {
+        id: "AlertDataIsType-SeesSpottedUnit",
+        reflexive: false,
+        nodeName: "AlertDataIsType-SeesSpottedUnit",
+        NodeType: "Condition" //  red alert trigger
+},
+    {
+        id: "AlertDataIsType-ThrottlingBeacon",
+        reflexive: false,
+        nodeName: "AlertDataIsType-ThrottlingBeacon",
+        NodeType: "Condition" //  group-specific trigger to influence activity-balancing from the FightManager.
+},
+    {
+        id: "AlertDataIsType-MapwideAlert",
+        reflexive: false,
+        nodeName: "AlertDataIsType-MapwideAlert",
+        NodeType: "Condition" //  Red alert trigger", kicked off by Kismet", with lower priority than visible enemies.
+},
+    {
+        id: "AlertDataIsType-TookDamage",
+        reflexive: false,
+        nodeName: "AlertDataIsType-TookDamage",
+        NodeType: "Condition" //  Conditional red alert trigger (with LOS to damage instigator"
+},
+    {
+        id: "AlertDataIsType-TakingFire",
+        reflexive: false,
+        nodeName: "AlertDataIsType-TakingFire",
+        NodeType: "Condition" //  Conditional red alert trigger (with LOS to shot instigator and within sound range"
+},
+    {
+        id: "AlertDataIsType-DetectedNewCorpse",
+        reflexive: false,
+        nodeName: "AlertDataIsType-DetectedNewCorpse",
+        NodeType: "Condition" //  Yellow alert ...
+},
+    {
+        id: "AlertDataIsType-DetectedAllyTakingDamage",
+        reflexive: false,
+        nodeName: "AlertDataIsType-DetectedAllyTakingDamage",
+        NodeType: "Condition" //  Yellow alert ...
+},
+    {
+        id: "AlertDataIsType-DetectedSound",
+        reflexive: false,
+        nodeName: "AlertDataIsType-DetectedSound",
+        NodeType: "Condition" //  Yellow alert ...
+},
+    {
+        id: "AlertDataIsType-AlertedByYell",
+        reflexive: false,
+        nodeName: "AlertDataIsType-AlertedByYell",
+        NodeType: "Condition" // 
+},
+    {
+        id: "AlertDataIsType-AlertedByCommLink",
+        reflexive: false,
+        nodeName: "AlertDataIsType-AlertedByCommLink",
+        NodeType: "Condition" // 
+},
+    {
+        id: "AlertDataIsType-CivilianRaisedAlarm",
+        reflexive: false,
+        nodeName: "AlertDataIsType-CivilianRaisedAlarm",
+        NodeType: "Condition" // 
+},
+    {
+        id: "AlertDataIsType-XCOMAchievedObjective",
+        reflexive: false,
+        nodeName: "AlertDataIsType-XCOMAchievedObjective",
+        NodeType: "Condition" // 
+},
+    {
+        id: "AlertDataIsType-SeesExplosion",
+        reflexive: false,
+        nodeName: "AlertDataIsType-SeesExplosion",
+        NodeType: "Condition" // 
+},
+    {
+        id: "AlertDataIsType-SeesSmoke",
+        reflexive: false,
+        nodeName: "AlertDataIsType-SeesSmoke",
+        NodeType: "Condition" // 
+},
+    {
+        id: "AlertDataIsType-SeesFire",
+        reflexive: false,
+        nodeName: "AlertDataIsType-SeesFire",
+        NodeType: "Condition" // 
+},
+    {
+        id: "AlertDataIsType-SeesAlertedAllies",
+        reflexive: false,
+        nodeName: "AlertDataIsType-SeesAlertedAllies",
+        NodeType: "Condition" // 
+}, {
+        id: "AlertDataWasSoundScary",
+        reflexive: false,
+        nodeName: "AlertDataWasSoundScary",
+        NodeType: "StatCondition",
+        Param0: "AlertDataRadius",
+        Param1: ">:",
+        Param2: "10"
+}, {
+        id: "IsAlertDataKismet",
+        reflexive: false,
+        nodeName: "IsAlertDataKismet",
+        NodeType: "Selector",
+        Child0: "AlertDataHasTag-Defend",
+        Child1: "AlertDataHasTag-Advance"
+}, {
+        id: "IsAlertDataNotKismet",
+        reflexive: false,
+        nodeName: "IsAlertDataNotKismet",
+        NodeType: "Inverter",
+        Child0: "IsAlertDataKismet"
+}, {
+        id: "IsAlertDataScary",
+        reflexive: false,
+        nodeName: "IsAlertDataScary",
+        NodeType: "Selector",
+        Child0: "AlertDataIsType-TakingFire",
+        Child1: "AlertDataIsType-DetectedAllyTakingDamage",
+        Child2: "AlertDataIsType-SeesExplosion",
+        Child3: "AlertDataIsType-SeesAlertedAllies"
+}, {
+        id: "IsAlertDataNOTScary",
+        reflexive: false,
+        nodeName: "IsAlertDataNOTScary",
+        NodeType: "Inverter",
+        Child0: "IsAlertDataScary"
+}, {
+        id: "IfAlertDataIsScary",
+        reflexive: false,
+        nodeName: "IfAlertDataIsScary",
+        NodeType: "Selector",
+        Child0: "ScoreIfAlertDataScary",
+        Child1: "AddToAlertDataScore_0"
+}, {
+        id: "ScoreIfAlertDataScary",
+        reflexive: false,
+        nodeName: "ScoreIfAlertDataScary",
+        NodeType: "Sequence",
+        Child0: "IsAlertDataScary",
+        Child1: "AddToAlertDataScore_50"
+}, {
+        id: "PurgeAlertDataIfNotScary",
+        reflexive: false,
+        nodeName: "PurgeAlertDataIfNotScary",
+        NodeType: "Sequence",
+        Child0: "IsAlertDataNOTScary",
+        Child1: "DeleteCurrentAlertData"
+}, {
+        id: "HasValidAlertDataLocation",
+        reflexive: false,
+        nodeName: "HasValidAlertDataLocation",
+        NodeType: "Condition"
+}, {
+        id: "IterateAlertDataForVisibility",
+        reflexive: false,
+        nodeName: "IterateAlertDataForVisibility",
+        NodeType: "RepeatUntilFail",
+        Child0: "CheckVisibilityOnAlert"
+}, {
+        id: "CheckVisibilityOnAlert",
+        reflexive: false,
+        nodeName: "CheckVisibilityOnAlert",
+        NodeType: "Sequence",
+        Child0: "SetNextAlertData",
+        Child1: "SSScoreAlertDataVisibility",
+        Child2: "UpdateBestAlertData",
+        Child3: "EarlyExitIfFoundValidAlert"
+}, {
+        id: "SSScoreAlertDataVisibility",
+        reflexive: false,
+        nodeName: "SSScoreAlertDataVisibility",
+        NodeType: "Successor",
+        Child0: "ScoreAlertDataVisibility"
+}, {
+        id: "ScoreAlertDataVisibility",
+        reflexive: false,
+        nodeName: "ScoreAlertDataVisibility",
+        NodeType: "Sequence",
+        Child0: "AlertDataTileIsVisible",
+        Child1: "AddToAlertDataScore_100"
+}, {
+        id: "EarlyExitIfFoundValidAlert",
+        reflexive: false,
+        nodeName: "EarlyExitIfFoundValidAlert",
+        NodeType: "Inverter",
+        Child0: "HasValidAlertDataLocation" //  return false if we have a alert data score > 0.
+}, {
+        id: "GenericAlertHandler",
+        reflexive: false,
+        nodeName: "GenericAlertHandler",
+        NodeType: "Selector",
+        Child0: "GenericOrangeMovement",
+        Child1: "GenericYellowMovement",
+        Child2: "SelectHeatSeekMove"
+}, {
+        id: "GenericOrangeMovement",
+        reflexive: false,
+        nodeName: "GenericOrangeMovement",
+        NodeType: "Sequence",
+        Child0: "IsOrangeAlert",
+        Child1: "TrySelectOrangeAlertAction"
+}, {
+        id: "GenericYellowMovement",
+        reflexive: false,
+        nodeName: "GenericYellowMovement",
+        NodeType: "Sequence",
+        Child0: "IsYellowAlert",
+        Child1: "TrySelectYellowAlertAction"
+}, {
+        id: "NoEnemySpotted",
+        reflexive: false,
+        nodeName: "NoEnemySpotted",
+        NodeType: "Inverter",
+        Child0: "AlertDataIsAbsoluteKnowledge"
+}, {
+        id: "IsEnemySpotted",
+        reflexive: false,
+        nodeName: "IsEnemySpotted",
+        NodeType: "Selector",
+        Child0: "IsRedAlert",
+        Child1: "IsOrangeAlert"
+}, {
+        id: "TrySelectOrangeAlertAction",
+        reflexive: false,
+        nodeName: "TrySelectOrangeAlertAction",
+        NodeType: "Sequence",
+        Child0: "SelectAlertData",
+        Child1: "HandleAlertData"
+}, {
+        id: "SelectAlertData",
+        reflexive: false,
+        nodeName: "SelectAlertData",
+        NodeType: "Sequence",
+        Child0: "SetAlertDataStack",
+        Child1: "GenericSelectBestAlert",
+        Child2: "HasValidAlertDataLocation"
+}, {
+        id: "HandleAlertData",
+        reflexive: false,
+        nodeName: "HandleAlertData",
+        NodeType: "Selector",
+        Child0: "TryAttackPriorityTarget",
+        Child1: "MoveToAlertData"
+}, {
+        id: "MoveToAlertData",
+        reflexive: false,
+        nodeName: "MoveToAlertData",
+        NodeType: "Sequence",
+        Child0: "SetAlertDataStack",
+        Child1: "GenericSelectBestAlert",
+        Child2: "HasValidAlertDataLocation",
+        Child3: "AlertDataMovementUseCover",
+        Child4: "MoveStandardWithDestination"
+}, {
+        id: "TrySelectYellowAlertAction",
+        reflexive: false,
+        nodeName: "TrySelectYellowAlertAction",
+        NodeType: "Selector",
+        Child0: "TryAttackPriorityTarget",
+        Child1: "YellowAlertMove"
+}, {
+        id: "YellowAlertMove",
+        reflexive: false,
+        nodeName: "YellowAlertMove",
+        NodeType: "Sequence",
+        Child0: "SetAlertDataStack",
+        Child1: "GenericSelectBestAlert",
+        Child2: "HasValidAlertDataLocation",
+        Child3: "MoveStandardWithDestination"
+}, {
+        id: "HuntEnemy",
+        reflexive: false,
+        nodeName: "HuntEnemy",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "NotLastActionPoint",
+        Child2: "SetAlertDataStack",
+        Child3: "GenericSelectBestAlert",
+        Child4: "HasValidAlertDataLocation",
+        Child5: "MoveStandardWithDestination"
+}, {
+        id: "HuntEnemyWithCover",
+        reflexive: false,
+        nodeName: "HuntEnemyWithCover",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "SetAlertDataStack",
+        Child2: "GenericSelectBestAlert",
+        Child3: "HasValidAlertDataLocation",
+        Child4: "AlertDataMovementUseCover",
+        Child5: "MoveStandardWithDestination"
+}, {
+        id: "HuntEnemyUnsafe",
+        reflexive: false,
+        nodeName: "HuntEnemyUnsafe",
+        NodeType: "Sequence",
+        Child0: "SetAlertDataStack",
+        Child1: "GenericSelectBestAlert",
+        Child2: "HasValidAlertDataLocation",
+        Child3: "MoveStandardWithDestinationUnsafe"
+}, {
+        id: "MoveToAlertIfNotVisible",
+        reflexive: false,
+        nodeName: "MoveToAlertIfNotVisible",
+        NodeType: "Sequence",
+        Child0: "HasValidAlertDataLocation",
+        Child1: "AlertDataTileNotVisible",
+        Child2: "AlertDataMovementUseCover",
+        Child3: "MoveStandardWithDestination"
+}, {
+        id: "MoveToAlert",
+        reflexive: false,
+        nodeName: "MoveToAlert",
+        NodeType: "Selector",
+        Child0: "TryAlertMoveWithCover",
+        Child1: "TakeAlertMoveWithoutCover"
+}, {
+        id: "TryAlertMoveWithCover",
+        reflexive: false,
+        nodeName: "TryAlertMoveWithCover",
+        NodeType: "Sequence",
+        Child0: "AlertDataMovementUseCover",
+        Child1: "MoveStandardWithDestination"
+}, {
+        id: "TakeAlertMoveWithoutCover",
+        reflexive: false,
+        nodeName: "TakeAlertMoveWithoutCover",
+        NodeType: "Sequence",
+        Child0: "AlertDataMovementIgnoreCover",
+        Child1: "MoveStandardWithDestination"
+}, {
+        id: "MoveToAlertUnsafe",
+        reflexive: false,
+        nodeName: "MoveToAlertUnsafe",
+        NodeType: "Selector",
+        Child0: "TryAlertMoveWithCoverUnsafe",
+        Child1: "TakeAlertMoveWithoutCoverUnsafe"
+}, {
+        id: "TryAlertMoveWithCoverUnsafe",
+        reflexive: false,
+        nodeName: "TryAlertMoveWithCoverUnsafe",
+        NodeType: "Sequence",
+        Child0: "AlertDataMovementUseCover",
+        Child1: "MoveStandardWithDestinationUnsafe"
+}, {
+        id: "TakeAlertMoveWithoutCoverUnsafe",
+        reflexive: false,
+        nodeName: "TakeAlertMoveWithoutCoverUnsafe",
+        NodeType: "Sequence",
+        Child0: "AlertDataMovementIgnoreCover",
+        Child1: "MoveStandardWithDestinationUnsafe"
+}, {
+        id: "GenericSelectBestAlert",
+        reflexive: false,
+        nodeName: "GenericSelectBestAlert",
+        NodeType: "RepeatUntilFail",
+        Child0: "GenericEvaluateAlertData"
+}, {
+        id: "GenericEvaluateAlertData",
+        reflexive: false,
+        nodeName: "GenericEvaluateAlertData",
+        NodeType: "Sequence",
+        Child0: "SetNextAlertData",
+        Child1: "GenericScoreAlertData",
+        Child2: "UpdateBestAlertData"
+}, {
+        id: "GenericScoreAlertData",
+        reflexive: false,
+        nodeName: "GenericScoreAlertData",
+        NodeType: "Sequence",
+        Child0: "SSScoreInvalidAlertData",
+        Child1: "IfAlertIsSpottedTarget",
+        Child2: "IfAlertDataIsScary",
+        Child3: "IfAlertIsSpottedCorpse",
+        Child4: "IfAlertIsHeardNoise",
+        Child5: "IfAlertIsDangerous",
+        Child6: "ScoreAlertDataAge",
+        Child7: "ScoreAlertDataDistance"
+}, {
+        id: "IfAlertIsSpottedTarget",
+        reflexive: false,
+        nodeName: "IfAlertIsSpottedTarget",
+        NodeType: "Selector",
+        Child0: "ScoreAlert_AbsoluteKnowledge",
+        Child1: "ScoreAlert_FormerKnowledge",
+        Child2: "AddToAlertDataScore_0"
+}, {
+        id: "ScoreAlert_AbsoluteKnowledge",
+        reflexive: false,
+        nodeName: "ScoreAlert_AbsoluteKnowledge",
+        NodeType: "Sequence",
+        Child0: "AlertDataIsAbsoluteKnowledge",
+        Child1: "AddToAlertDataScore_100"
+}, {
+        id: "ScoreAlert_FormerKnowledge",
+        reflexive: false,
+        nodeName: "ScoreAlert_FormerKnowledge",
+        NodeType: "Sequence",
+        Child0: "AlertDataWasEnemyThere",
+        Child1: "AddToAlertDataScore_50"
+}, {
+        id: "IfAlertIsSpottedCorpse",
+        reflexive: false,
+        nodeName: "IfAlertIsSpottedCorpse",
+        NodeType: "Selector",
+        Child0: "ScoreAlert_SpottedCorpse",
+        Child1: "AddToAlertDataScore_0"
+}, {
+        id: "ScoreAlert_SpottedCorpse",
+        reflexive: false,
+        nodeName: "ScoreAlert_SpottedCorpse",
+        NodeType: "Sequence",
+        Child0: "AlertDataIsCorpseThere",
+        Child1: "AddToAlertDataScore_30"
+}, {
+        id: "IfAlertIsHeardNoise",
+        reflexive: false,
+        nodeName: "IfAlertIsHeardNoise",
+        NodeType: "Selector",
+        Child0: "ScoreAlert_HeardNoise",
+        Child1: "AddToAlertDataScore_0"
+}, {
+        id: "ScoreAlert_HeardNoise",
+        reflexive: false,
+        nodeName: "ScoreAlert_HeardNoise",
+        NodeType: "Sequence",
+        Child0: "AlertDataWasSoundMade",
+        Child1: "AddToAlertDataScore_15",
+        Child2: "IfAlertNoiseIsScary"
+}, {
+        id: "IfAlertNoiseIsScary",
+        reflexive: false,
+        nodeName: "IfAlertNoiseIsScary",
+        NodeType: "Selector",
+        Child0: "ScoreAlert_NoiseScary",
+        Child1: "AddToAlertDataScore_0"
+}, {
+        id: "ScoreAlert_NoiseScary",
+        reflexive: false,
+        nodeName: "ScoreAlert_NoiseScary",
+        NodeType: "Sequence",
+        Child0: "AlertDataWasSoundScary",
+        Child1: "AddToAlertDataScore_10"
+}, {
+        id: "IfAlertIsDangerous",
+        reflexive: false,
+        nodeName: "IfAlertIsDangerous",
+        NodeType: "Selector",
+        Child0: "ScoreAlert_Dangerous",
+        Child1: "AddToAlertDataScore_0"
+}, {
+        id: "ScoreAlert_Dangerous",
+        reflexive: false,
+        nodeName: "ScoreAlert_Dangerous",
+        NodeType: "Sequence",
+        Child0: "AlertDataIsAggressive",
+        Child1: "AddToAlertDataScore_25"
+}, {
+        id: "ScoreAlertDataAge",
+        reflexive: false,
+        nodeName: "ScoreAlertDataAge",
+        NodeType: "Selector",
+        Child0: "IsAlertDataKismet",
+        Child1: "IfAlertDataOld",
+        Child2: "IfAlertDataStale",
+        Child3: "IfAlertDataRecent",
+        Child4: "IfAlertDataFresh",
+        Child5: "AddToAlertDataScore_0"
+}, {
+        id: "IfAlertDataFresh",
+        reflexive: false,
+        nodeName: "IfAlertDataFresh",
+        NodeType: "Sequence",
+        Child0: "IsAlertDataFresh",
+        Child1: "AddToAlertDataScore_-5"
+}, {
+        id: "IsAlertDataFresh",
+        reflexive: false,
+        nodeName: "IsAlertDataFresh",
+        NodeType: "StatCondition",
+        Param0: "AlertDataAge",
+        Param1: ">:",
+        Param2: "1"
+}, {
+        id: "IfAlertDataRecent",
+        reflexive: false,
+        nodeName: "IfAlertDataRecent",
+        NodeType: "Sequence",
+        Child0: "IsAlertDataRecent",
+        Child1: "AddToAlertDataScore_-10"
+}, {
+        id: "IsAlertDataRecent",
+        reflexive: false,
+        nodeName: "IsAlertDataRecent",
+        NodeType: "StatCondition",
+        Param0: "AlertDataAge",
+        Param1: ">:",
+        Param2: "2"
+}, {
+        id: "IfAlertDataStale",
+        reflexive: false,
+        nodeName: "IfAlertDataStale",
+        NodeType: "Sequence",
+        Child0: "IsAlertDataStale",
+        Child1: "PurgeAlertDataIfNotScary",
+        Child2: "AddToAlertDataScore_-15"
+}, {
+        id: "IsAlertDataStale",
+        reflexive: false,
+        nodeName: "IsAlertDataStale",
+        NodeType: "StatCondition",
+        Param0: "AlertDataAge",
+        Param1: ">:",
+        Param2: "4"
+}, {
+        id: "IfAlertDataOld",
+        reflexive: false,
+        nodeName: "IfAlertDataOld",
+        NodeType: "Sequence",
+        Child0: "IsAlertDataOld",
+        Child1: "DeleteCurrentAlertData",
+        Child2: "AddToAlertDataScore_-100"
+}, {
+        id: "IsAlertDataOld",
+        reflexive: false,
+        nodeName: "IsAlertDataOld",
+        NodeType: "StatCondition",
+        Param0: "AlertDataAge",
+        Param1: ">:",
+        Param2: "6"
+}, {
+        id: "SSScoreInvalidAlertData",
+        reflexive: false,
+        nodeName: "SSScoreInvalidAlertData",
+        NodeType: "Successor",
+        Child0: "ScoreInvalidAlertData"
+}, {
+        id: "ScoreInvalidAlertData",
+        reflexive: false,
+        nodeName: "ScoreInvalidAlertData",
+        NodeType: "Sequence",
+        Child0: "IsAlertNotValidTarget",
+        Child1: "AddToAlertDataScore_-500"
+}, {
+        id: "IsAlertNotValidTarget",
+        reflexive: false,
+        nodeName: "IsAlertNotValidTarget",
+        NodeType: "Selector",
+        Child0: "IsAlertNotValidTarget_UnitIsNotAttackable",
+        Child1: "IsAlertNotValidTarget_LastResortUnit"
+}, {
+        id: "IsAlertNotValidTarget_UnitIsNotAttackable",
+        reflexive: false,
+        nodeName: "IsAlertNotValidTarget_UnitIsNotAttackable",
+        NodeType: "Sequence",
+        Child0: "TargetIsNotAttackable",
+        Child1: "DeleteCurrentAlertData"
+}, {
+        id: "IsAlertNotValidTarget_LastResortUnit",
+        reflexive: false,
+        nodeName: "IsAlertNotValidTarget_LastResortUnit",
+        NodeType: "Sequence",
+        Child0: "HasNonLastResortEnemies",
+        Child1: "IsLastResortTarget"
+}, {
+        id: "ScoreAlertDataDistance",
+        reflexive: false,
+        nodeName: "ScoreAlertDataDistance",
+        NodeType: "Selector",
+        Child0: "IfAlertDataFar",
+        Child1: "IfAlertDataThreeMoves",
+        Child2: "IfAlertDataTwoMoves",
+        Child3: "AddToAlertDataScore_20"
+}, {
+        id: "IfAlertDataTwoMoves",
+        reflexive: false,
+        nodeName: "IfAlertDataTwoMoves",
+        NodeType: "Sequence",
+        Child0: "IsAlertDataTwoMoves",
+        Child1: "AddToAlertDataScore_15"
+}, {
+        id: "IsAlertDataTwoMoves",
+        reflexive: false,
+        nodeName: "IsAlertDataTwoMoves",
+        NodeType: "StatCondition",
+        Param0: "AlertDataDistance",
+        Param1: ">",
+        Param2: "12"
+}, {
+        id: "IfAlertDataThreeMoves",
+        reflexive: false,
+        nodeName: "IfAlertDataThreeMoves",
+        NodeType: "Sequence",
+        Child0: "IsAlertDataThreeMoves",
+        Child1: "AddToAlertDataScore_10"
+}, {
+        id: "IsAlertDataThreeMoves",
+        reflexive: false,
+        nodeName: "IsAlertDataThreeMoves",
+        NodeType: "StatCondition",
+        Param0: "AlertDataDistance",
+        Param1: ">",
+        Param2: "24"
+}, {
+        id: "IfAlertDataFar",
+        reflexive: false,
+        nodeName: "IfAlertDataFar",
+        NodeType: "Sequence",
+        Child0: "IsAlertDataFar",
+        Child1: "AddToAlertDataScore_5"
+}, {
+        id: "IsAlertDataFar",
+        reflexive: false,
+        nodeName: "IsAlertDataFar",
+        NodeType: "StatCondition",
+        Param0: "AlertDataDistance",
+        Param1: ">",
+        Param2: "36"
+}, {
+        id: "AlertScoreRandom",
+        reflexive: false,
+        nodeName: "AlertScoreRandom",
+        NodeType: "RandSelector",
+        Child0: "AddToAlertDataScore_10",
+        Child1: "AddToAlertDataScore_20",
+        Child2: "AddToAlertDataScore_30",
+        Child3: "AddToAlertDataScore_40",
+        Child4: "AddToAlertDataScore_50",
+        Child5: "AddToAlertDataScore_60 "
+}, {
+        id: "ScoreAlertFor_Defend",
+        reflexive: false,
+        nodeName: "ScoreAlertFor_Defend",
+        NodeType: "Selector",
+        Child0: "ScoreAlertIfDefend",
+        Child1: "AddToAlertDataScore_0"
+}, {
+        id: "ScoreAlertIfDefend",
+        reflexive: false,
+        nodeName: "ScoreAlertIfDefend",
+        NodeType: "Sequence",
+        Child0: "AlertDataHasTag-Defend",
+        Child1: "AddToAlertDataScore_50"
+}, {
+        id: "ScoreAlertFor_Advance",
+        reflexive: false,
+        nodeName: "ScoreAlertFor_Advance",
+        NodeType: "Selector",
+        Child0: "ScoreAlertIfAdvance",
+        Child1: "AddToAlertDataScore_0"
+}, {
+        id: "ScoreAlertIfAdvance",
+        reflexive: false,
+        nodeName: "ScoreAlertIfAdvance",
+        NodeType: "Sequence",
+        Child0: "AlertDataHasTag-Advance",
+        Child1: "AddToAlertDataScore_50"
+}, {
+        id: "SetNextTarget",
+        reflexive: false,
+        nodeName: "SetNextTarget",
+        NodeType: "Action"
+}, {
+        id: "HasUnconcealedEnemies",
+        reflexive: false,
+        nodeName: "HasUnconcealedEnemies",
+        NodeType: "Condition"
+}, {
+        id: "UpdateBestTarget",
+        reflexive: false,
+        nodeName: "UpdateBestTarget",
+        NodeType: "Action"
+}, {
+        id: "TargetHasHighestShotHitChance",
+        reflexive: false,
+        nodeName: "TargetHasHighestShotHitChance",
+        NodeType: "Condition"
+}, {
+        id: "GenericSelectBestTarget",
+        reflexive: false,
+        nodeName: "GenericSelectBestTarget",
+        NodeType: "RepeatUntilFail",
+        Child0: "GenericEvaluateTarget"
+}, {
+        id: "GenericEvaluateTarget",
+        reflexive: false,
+        nodeName: "GenericEvaluateTarget",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "GenericTargetEvaluations",
+        Child2: "UpdateBestTarget" // 
+}, {
+        id: "GenericTargetEvaluations",
+        reflexive: false,
+        nodeName: "GenericTargetEvaluations",
+        NodeType: "Sequence",
+        Child0: "TargetScoreHitChance",
+        Child1: "TargetScoreHealth",
+        Child2: "TargetScoreFlanking",
+        Child3: "TargetScoreMarked",
+        Child4: "ApplyDifficultyModifiers",
+        Child5: "TargetScoreCivilian",
+        Child6: "AvoidBoundAndPanickedTargets"
+}, {
+        id: "SelectPriorityTarget",
+        reflexive: false,
+        nodeName: "SelectPriorityTarget",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluatePriorityTarget"
+}, {
+        id: "EvaluatePriorityTarget",
+        reflexive: false,
+        nodeName: "EvaluatePriorityTarget",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "ScoreIfTarget_HighestShotHitChance",
+        Child2: "TargetScorePriority",
+        Child3: "TargetScoreCivilian",
+        Child4: "UpdateBestTarget"
+}, {
+        id: "SelectTarget_Favorable",
+        reflexive: false,
+        nodeName: "SelectTarget_Favorable",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluateTargetFavorable"
+}, {
+        id: "EvaluateTargetFavorable",
+        reflexive: false,
+        nodeName: "EvaluateTargetFavorable",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "TargetScoreHitChanceFavorable",
+        Child2: "TargetScoreHealth",
+        Child3: "ApplyDifficultyModifiers",
+        Child4: "TargetScoreCivilian",
+        Child5: "UpdateBestTarget"
+}, {
+        id: "SelectTarget_Opportunist",
+        reflexive: false,
+        nodeName: "SelectTarget_Opportunist",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluateTargetOPPORTUNIST"
+}, {
+        id: "EvaluateTargetOPPORTUNIST",
+        reflexive: false,
+        nodeName: "EvaluateTargetOPPORTUNIST",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "TargetScoreHitChanceOPPORTUNIST",
+        Child2: "TargetScoreHealth",
+        Child3: "TargetScoreFlanking",
+        Child4: "ApplyDifficultyModifiers",
+        Child5: "TargetScoreCivilian",
+        Child6: "UpdateBestTarget"
+}, {
+        id: "GenericSelectTargetSomewhatRandomly",
+        reflexive: false,
+        nodeName: "GenericSelectTargetSomewhatRandomly",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluateTargetSomewhatRandomly"
+}, {
+        id: "EvaluateTargetSomewhatRandomly",
+        reflexive: false,
+        nodeName: "EvaluateTargetSomewhatRandomly",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "GenericScoreTargetRandomly",
+        Child2: "TargetScoreMarked",
+        Child3: "ApplyDifficultyModifiers",
+        Child4: "UpdateBestTarget"
+}, {
+        id: "GenericSelectTargetRandomly",
+        reflexive: false,
+        nodeName: "GenericSelectTargetRandomly",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluateTargetRandomly"
+}, {
+        id: "EvaluateTargetRandomly",
+        reflexive: false,
+        nodeName: "EvaluateTargetRandomly",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "GenericScoreTargetRandomly",
+        Child2: "UpdateBestTarget"
+}, {
+        id: "GenericScoreTargetRandomly",
+        reflexive: false,
+        nodeName: "GenericScoreTargetRandomly",
+        NodeType: "Successor",
+        Child0: "GenericScoreTargetRandomlySequence"
+}, {
+        id: "GenericScoreTargetRandomlySequence",
+        reflexive: false,
+        nodeName: "GenericScoreTargetRandomlySequence",
+        NodeType: "RandSelector",
+        Child0: "AddToTargetScore_1",
+        Child1: "AddToTargetScore_10",
+        Child2: "AddToTargetScore_20",
+        Child3: "AddToTargetScore_30",
+        Child4: "AddToTargetScore_40",
+        Child5: "AddToTargetScore_50 "
+}, {
+        id: "SelectAnyTargetRandomly_PreferEnemies",
+        reflexive: false,
+        nodeName: "SelectAnyTargetRandomly_PreferEnemies",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluateTargetRandomly_PreferEnemies"
+}, {
+        id: "EvaluateTargetRandomly_PreferEnemies",
+        reflexive: false,
+        nodeName: "EvaluateTargetRandomly_PreferEnemies",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "GenericScoreTargetRandomly",
+        Child2: "TargetScorePreferEnemies",
+        Child3: "TargetScoreFlanking",
+        Child4: "UpdateBestTarget"
+}, {
+        id: "TargetScorePreferEnemies",
+        reflexive: false,
+        nodeName: "TargetScorePreferEnemies",
+        NodeType: "Selector",
+        Child0: "ScoreIfEnemy",
+        Child1: "AddToTargetScore_0"
+}, {
+        id: "ScoreIfEnemy",
+        reflexive: false,
+        nodeName: "ScoreIfEnemy",
+        NodeType: "Sequence",
+        Child0: "TargetIsEnemy",
+        Child1: "AddToTargetScore_10"
+}, {
+        id: "NoTargetsAvailable",
+        reflexive: false,
+        nodeName: "NoTargetsAvailable",
+        NodeType: "Inverter",
+        Child0: "HaveAnyTargets"
+}, {
+        id: "HaveAnyTargets",
+        reflexive: false,
+        nodeName: "HaveAnyTargets",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-StandardShot",
+        Child1: "FindAnyTarget",
+        Child2: "HasValidTarget-StandardShot"
+}, {
+        id: "FindAnyTarget",
+        reflexive: false,
+        nodeName: "FindAnyTarget",
+        NodeType: "RepeatUntilFail",
+        Child0: "SimpleEvaluateTarget"
+}, {
+        id: "SimpleEvaluateTarget",
+        reflexive: false,
+        nodeName: "SimpleEvaluateTarget",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "TargetScorePreferEnemies",
+        Child2: "UpdateBestTarget"
+}, {
+        id: "IsTargetValidBasedOnLastResortEffects",
+        reflexive: false,
+        nodeName: "IsTargetValidBasedOnLastResortEffects",
+        NodeType: "Condition"
+}, {
+        id: "HasNonLastResortEnemies",
+        reflexive: false,
+        nodeName: "HasNonLastResortEnemies",
+        NodeType: "Condition"
+}, {
+        id: "IsTargetLastResortWithOtherOptionsAvailable",
+        reflexive: false,
+        nodeName: "IsTargetLastResortWithOtherOptionsAvailable",
+        NodeType: "Sequence",
+        Child0: "IsLastResortTarget",
+        Child1: "HasNonLastResortEnemies"
+}, {
+        id: "IsLastResortTarget",
+        reflexive: false,
+        nodeName: "IsLastResortTarget",
+        NodeType: "Condition"
+}, {
+        id: "SelectBestSuppressionTarget",
+        reflexive: false,
+        nodeName: "SelectBestSuppressionTarget",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluateSuppressionTarget"
+}, {
+        id: "EvaluateSuppressionTarget",
+        reflexive: false,
+        nodeName: "EvaluateSuppressionTarget",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "TargetScoreUnsuppressedByClosestDistance",
+        Child2: "TargetScoreInvalidateCivilians",
+        Child3: "UpdateBestTarget"
+}, {
+        id: "SelectClosestPotentialSuppressionTarget",
+        reflexive: false,
+        nodeName: "SelectClosestPotentialSuppressionTarget",
+        NodeType: "Sequence",
+        Child0: "SetPotentialTargetStack",
+        Child1: "SelectClosestUnsuppressedTarget",
+        Child2: "HasValidTarget-Potential"
+}, {
+        id: "SelectClosestUnsuppressedTarget",
+        reflexive: false,
+        nodeName: "SelectClosestUnsuppressedTarget",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluatePotentialSuppressionTarget"
+}, {
+        id: "EvaluatePotentialSuppressionTarget",
+        reflexive: false,
+        nodeName: "EvaluatePotentialSuppressionTarget",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "TargetScoreUnsuppressedByClosestDistance",
+        Child2: "AvoidBoundAndPanickedTargets",
+        Child3: "TargetScoreInvalidateCivilians",
+        Child4: "UpdateBestTarget"
+}, {
+        id: "TargetScoreUnsuppressedByClosestDistance",
+        reflexive: false,
+        nodeName: "TargetScoreUnsuppressedByClosestDistance",
+        NodeType: "Successor",
+        Child0: "ScoreUnsuppressedByClosestDistance"
+}, {
+        id: "ScoreUnsuppressedByClosestDistance",
+        reflexive: false,
+        nodeName: "ScoreUnsuppressedByClosestDistance",
+        NodeType: "Sequence",
+        Child0: "TargetIsNotSuppressed",
+        Child1: "TargetIsEnemy",
+        Child2: "TargetScoreByScaledDistance-1",
+        Child3: "AvoidBoundAndPanickedTargets",
+        Child4: "AddToTargetScore_100"
+}, {
+        id: "TargetIsNotSuppressed",
+        reflexive: false,
+        nodeName: "TargetIsNotSuppressed",
+        NodeType: "Inverter",
+        Child0: "TargetAffectedByEffect-Suppression"
+},
+    {
+        id: "TargetScoreByScaledDistance-1",
+        reflexive: false,
+        nodeName: "TargetScoreByScaledDistance-1",
+        NodeType: "Action",
+        Param0: "-1" //  Distance in Meters", Negated to favor closer units.
+}, {
+        id: "ShootOrSuppressIfNoGoodShot",
+        reflexive: false,
+        nodeName: "ShootOrSuppressIfNoGoodShot",
+        NodeType: "Selector",
+        Child0: "ConsiderSuppression",
+        Child1: "TryShootOrReloadOrOverwatch"
+}, {
+        id: "ConsiderSuppression",
+        reflexive: false,
+        nodeName: "ConsiderSuppression",
+        NodeType: "Sequence",
+        Child0: "AllShotPercentagesBelow50",
+        Child1: "SuppressIfAvailable"
+}, {
+        id: "PsiEvaluateTargetsGeneric",
+        reflexive: false,
+        nodeName: "PsiEvaluateTargetsGeneric",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "TargetScorePsiAttack",
+        Child2: "TargetScoreHighestSoldierRank",
+        Child3: "TargetScoreHealth_HighFirst",
+        Child4: "SometimesRandomizeTarget",
+        Child5: "ApplyDifficultyModifiers",
+        Child6: "AvoidBoundAndPanickedTargets",
+        Child7: "TargetScoreInvalidateCivilians",
+        Child8: "UpdateBestTarget"
+}, {
+        id: "PsiEvaluateTargetsMindControl",
+        reflexive: false,
+        nodeName: "PsiEvaluateTargetsMindControl",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "TargetScoreMindControl",
+        Child2: "TargetScoreHighestSoldierRank",
+        Child3: "TargetScoreHealth_HighFirst",
+        Child4: "TargetScoreInvalidateCivilians",
+        Child5: "AvoidBoundAndPanickedTargets",
+        Child6: "UpdateBestTarget"
+}, {
+        id: "TargetScorePsiAttack",
+        reflexive: false,
+        nodeName: "TargetScorePsiAttack",
+        NodeType: "Selector",
+        Child0: "ScoreIfConfused",
+        Child1: "ScoreIfPanicked",
+        Child2: "ScoreIfDisoriented",
+        Child3: "AddToTargetScore_0"
+}, {
+        id: "ScoreIfConfused",
+        reflexive: false,
+        nodeName: "ScoreIfConfused",
+        NodeType: "Sequence",
+        Child0: "TargetAffectedByEffect-Confused",
+        Child1: "AddToTargetScore_30"
+}, {
+        id: "ScoreIfPanicked",
+        reflexive: false,
+        nodeName: "ScoreIfPanicked",
+        NodeType: "Sequence",
+        Child0: "TargetAffectedByEffect-Panicked",
+        Child1: "AddToTargetScore_20"
+}, {
+        id: "ScoreIfDisoriented",
+        reflexive: false,
+        nodeName: "ScoreIfDisoriented",
+        NodeType: "Sequence",
+        Child0: "TargetAffectedByEffect-Disoriented",
+        Child1: "AddToTargetScore_10"
+}, {
+        id: "TargetScoreMindControl",
+        reflexive: false,
+        nodeName: "TargetScoreMindControl",
+        NodeType: "Selector",
+        Child0: "ScoreIfTargetWillWeakened",
+        Child1: "AddToTargetScore_-10"
+}, {
+        id: "ScoreIfTargetWillWeakened",
+        reflexive: false,
+        nodeName: "ScoreIfTargetWillWeakened",
+        NodeType: "Sequence",
+        Child0: "TargetWillWeakened",
+        Child1: "AddToTargetScore_50"
+}, {
+        id: "SometimesRandomizeTarget",
+        reflexive: false,
+        nodeName: "SometimesRandomizeTarget",
+        NodeType: "RandSelector",
+        Child0: "AddToTargetScore_0",
+        Param0: "1",
+        Child1: "AddToTargetScore_10",
+        Param1: "2",
+        Child2: "AddToTargetScore_20",
+        Param2: "6",
+        Child3: "AddToTargetScore_30",
+        Param3: "2",
+        Child4: "AddToTargetScore_40",
+        Param4: "1 "
+},
+    {
+        id: "TargetScoreByHitChanceValue-1",
+        reflexive: false,
+        nodeName: "TargetScoreByHitChanceValue-1",
+        NodeType: "Action",
+        Param0: "1",
+        Param1: "StandardShot"
+}, {
+        id: "TargetScoreHitChance",
+        reflexive: false,
+        nodeName: "TargetScoreHitChance",
+        NodeType: "Selector",
+        Child0: "TargetScoreHitChanceUnlikely",
+        Child1: "TargetScoreHitChanceProbable",
+        Child2: "AddToTargetScore_40"
+}, {
+        id: "TargetScoreHitChanceUnlikely",
+        reflexive: false,
+        nodeName: "TargetScoreHitChanceUnlikely",
+        NodeType: "Sequence",
+        Child0: "TargetHitChanceLow",
+        Child1: "AddToTargetScore_10" //  30 points under mid rank shot
+}, {
+        id: "TargetScoreHitChanceProbable",
+        reflexive: false,
+        nodeName: "TargetScoreHitChanceProbable",
+        NodeType: "Sequence",
+        Child0: "TargetHitChanceHigh",
+        Child1: "AddToTargetScore_70" //  30 points over mid rank shot
+}, {
+        id: "TargetScoreHitChanceOPPORTUNIST",
+        reflexive: false,
+        nodeName: "TargetScoreHitChanceOPPORTUNIST",
+        NodeType: "Selector",
+        Child0: "TargetScoreHitChanceUnlikelyOPPORTUNIST",
+        Child1: "TargetScoreHitChanceProbableOPPORTUNIST",
+        Child2: "AddToTargetScore_-20"
+}, {
+        id: "TargetScoreHitChanceUnlikelyOPPORTUNIST",
+        reflexive: false,
+        nodeName: "TargetScoreHitChanceUnlikelyOPPORTUNIST",
+        NodeType: "Sequence",
+        Child0: "TargetHitChanceLow",
+        Child1: "AddToTargetScore_-100"
+}, {
+        id: "TargetScoreHitChanceProbableOPPORTUNIST",
+        reflexive: false,
+        nodeName: "TargetScoreHitChanceProbableOPPORTUNIST",
+        NodeType: "Sequence",
+        Child0: "TargetHitChanceHigh",
+        Child1: "AddToTargetScore_0" //  valid shot if any other paramater is positive.
+}, {
+        id: "TargetScoreHitChanceFavorable",
+        reflexive: false,
+        nodeName: "TargetScoreHitChanceFavorable",
+        NodeType: "Selector",
+        Child0: "TargetScoreHitChanceUnlikelyFavorable",
+        Child1: "TargetScoreHitChanceProbableFavorable",
+        Child2: "AddToTargetScore_40"
+}, {
+        id: "TargetScoreHitChanceUnlikelyFavorable",
+        reflexive: false,
+        nodeName: "TargetScoreHitChanceUnlikelyFavorable",
+        NodeType: "Sequence",
+        Child0: "TargetHitChanceLow",
+        Child1: "AddToTargetScore_-10" //  50 points under mid rank shot", negative
+}, {
+        id: "TargetScoreHitChanceProbableFavorable",
+        reflexive: false,
+        nodeName: "TargetScoreHitChanceProbableFavorable",
+        NodeType: "Sequence",
+        Child0: "TargetHitChanceHigh",
+        Child1: "AddToTargetScore_70" //  30 points over mid rank shot
+}, {
+        id: "TargetScoreHealth",
+        reflexive: false,
+        nodeName: "TargetScoreHealth",
+        NodeType: "Selector",
+        Child0: "ScoreIfKillShot",
+        Child1: "ScoreIfTargetLowHP",
+        Child2: "ScoreIfTargetWounded",
+        Child3: "AddToTargetScore_0"
+}, {
+        id: "ScoreIfKillShot",
+        reflexive: false,
+        nodeName: "ScoreIfKillShot",
+        NodeType: "Sequence",
+        Child0: "TargetIsKillable",
+        Child1: "AddToTargetScore_15" //  bump a kill shot up to the next aim tier with a bonus
+}, {
+        id: "ScoreIfTargetLowHP",
+        reflexive: false,
+        nodeName: "ScoreIfTargetLowHP",
+        NodeType: "Sequence",
+        Child0: "TargetHasLowHP",
+        Child1: "AddToTargetScore_10" //  low hp but not kill shot is valued target", but not more than much better hit chance
+}, {
+        id: "ScoreIfTargetWounded",
+        reflexive: false,
+        nodeName: "ScoreIfTargetWounded",
+        NodeType: "Sequence",
+        Child0: "TargetWounded",
+        Child1: "AddToTargetScore_5" //  in case of aim quality tie", shoot wounded target
+}, {
+        id: "ApplyDifficultyModifiers",
+        reflexive: false,
+        nodeName: "ApplyDifficultyModifiers",
+        NodeType: "Successor",
+        Child0: "ApplyDifficultyModifiersBase"
+}, {
+        id: "ApplyDifficultyModifiersBase",
+        reflexive: false,
+        nodeName: "ApplyDifficultyModifiersBase",
+        NodeType: "Sequence",
+        Child0: "IsDifficultyLow",
+        Child1: "AddToTargetScore_20",
+        Child2: "::DistributeAttacks"
+}, {
+        id: "AvoidBoundAndPanickedTargets",
+        reflexive: false,
+        nodeName: "AvoidBoundAndPanickedTargets",
+        NodeType: "Selector",
+        Child0: "ScoreIfTargetBoundOrPanicked",
+        Child1: "AddToTargetScore_1"
+}, {
+        id: "ScoreIfTargetBoundOrPanicked",
+        reflexive: false,
+        nodeName: "ScoreIfTargetBoundOrPanicked",
+        NodeType: "Sequence",
+        Child0: "IsTargetLastResortWithOtherOptionsAvailable",
+        Child1: "AddToTargetScore_-1000"
+},
+    {
+        id: "::DistributeAttacks",
+        reflexive: false,
+        nodeName: "::DistributeAttacks",
+        NodeType: "Selector",
+        Child0: "ScoreTargetIfMarked",
+        Child1: "AddToTargetScore_20", // ScoreIfTargetHasBeenAttackedTwice",
+        Child2: "ScoreIfTargetHasBeenAttackedOnce",
+        Child3: "AddToTargetScore_30"
+},
+    {
+        id: "Sectopod::DistributeAttacks",
+        reflexive: false,
+        nodeName: "Sectopod::DistributeAttacks",
+        NodeType: "Selector",
+        Child0: "ScoreIfTargetHasBeenAttackedTwice",
+        Child1: "ScoreIfTargetHasBeenAttackedOnce",
+        Child2: "AddToTargetScore_30"
+}, {
+        id: "ScoreIfTargetHasBeenAttackedTwice",
+        reflexive: false,
+        nodeName: "ScoreIfTargetHasBeenAttackedTwice",
+        NodeType: "Sequence",
+        Child0: "TargetHasBeenAttackedTwice",
+        Child1: "AddToTargetScore_0" // 
+}, {
+        id: "ScoreIfTargetHasBeenAttackedOnce",
+        reflexive: false,
+        nodeName: "ScoreIfTargetHasBeenAttackedOnce",
+        NodeType: "Sequence",
+        Child0: "TargetHasBeenAttackedOnce",
+        Child1: "AddToTargetScore_5" // 
+}, {
+        id: "TargetScoreHealth_HighFirst",
+        reflexive: false,
+        nodeName: "TargetScoreHealth_HighFirst",
+        NodeType: "Selector",
+        Child0: "PenalizeIfKillShot",
+        Child1: "ScoreIfTarget_MaxHP",
+        Child2: "ScoreIfTarget_HighHP",
+        Child3: "AddToTargetScore_5"
+}, {
+        id: "PenalizeIfKillShot",
+        reflexive: false,
+        nodeName: "PenalizeIfKillShot",
+        NodeType: "Sequence",
+        Child0: "TargetIsKillable",
+        Child1: "AddToTargetScore_0" //  If the attack would kill the target", deemphasize (but don"t ignore"
+}, {
+        id: "ScoreIfTarget_MaxHP",
+        reflexive: false,
+        nodeName: "ScoreIfTarget_MaxHP",
+        NodeType: "Sequence",
+        Child0: "TargetHasMaxHP",
+        Child1: "AddToTargetScore_20" //  bump a max health target to the next aim tier with a bonus
+}, {
+        id: "ScoreIfTarget_HighHP",
+        reflexive: false,
+        nodeName: "ScoreIfTarget_HighHP",
+        NodeType: "Sequence",
+        Child0: "TargetHasHighHP",
+        Child1: "AddToTargetScore_10" //  high hp is valued target", but not more than much better hit chance
+}, {
+        id: "TargetScoreFlanking",
+        reflexive: false,
+        nodeName: "TargetScoreFlanking",
+        NodeType: "Selector",
+        Child0: "ScoreTargetIfFlanked",
+        Child1: "AddToTargetScore_0"
+}, {
+        id: "ScoreTargetIfFlanked",
+        reflexive: false,
+        nodeName: "ScoreTargetIfFlanked",
+        NodeType: "Sequence",
+        Child0: "IsFlankingTarget",
+        Child1: "TargetIsEnemy",
+        Child2: "AddToTargetScore_50"
+}, {
+        id: "TargetScoreHighestSoldierRank",
+        reflexive: false,
+        nodeName: "TargetScoreHighestSoldierRank",
+        NodeType: "Selector",
+        Child0: "ScoreIfTarget_HasHighestRank",
+        Child1: "AddToTargetScore_0"
+}, {
+        id: "ScoreIfTarget_HasHighestRank",
+        reflexive: false,
+        nodeName: "ScoreIfTarget_HasHighestRank",
+        NodeType: "Sequence",
+        Child0: "TargetHasHighestSoldierRank",
+        Child1: "AddToTargetScore_5" //  Just a tie breaker
+}, {
+        id: "TargetHasHighestSoldierRank",
+        reflexive: false,
+        nodeName: "TargetHasHighestSoldierRank",
+        NodeType: "Condition"
+}, {
+        id: "TargetScoreHighestShotHitChance",
+        reflexive: false,
+        nodeName: "TargetScoreHighestShotHitChance",
+        NodeType: "Successor",
+        Child0: "ScoreIfTarget_HighestShotHitChance"
+}, {
+        id: "ScoreIfTarget_HighestShotHitChance",
+        reflexive: false,
+        nodeName: "ScoreIfTarget_HighestShotHitChance",
+        NodeType: "Sequence",
+        Child0: "TargetHasHighestShotHitChance",
+        Child1: "AddToTargetScore_10" //  tie breaker
+}, {
+        id: "TargetScoreHighestShotHitChance_50",
+        reflexive: false,
+        nodeName: "TargetScoreHighestShotHitChance_50",
+        NodeType: "Successor",
+        Child0: "ScoreIfTarget_HighestShotHitChance_50"
+}, {
+        id: "ScoreIfTarget_HighestShotHitChance_50",
+        reflexive: false,
+        nodeName: "ScoreIfTarget_HighestShotHitChance_50",
+        NodeType: "Sequence",
+        Child0: "TargetHasHighestShotHitChance",
+        Child1: "AddToTargetScore_50"
+}, {
+        id: "TargetScoreMarked",
+        reflexive: false,
+        nodeName: "TargetScoreMarked",
+        NodeType: "Selector",
+        Child0: "ScoreTargetIfMarked",
+        Child1: "AddToTargetScore_0"
+}, {
+        id: "ScoreTargetIfMarked",
+        reflexive: false,
+        nodeName: "ScoreTargetIfMarked",
+        NodeType: "Sequence",
+        Child0: "TargetAffectedByEffect-MarkedTarget",
+        Child1: "AddToTargetScore_45" //  bump a marked target up to the next aim tier with a bonus", over even a killshot
+}, {
+        id: "TargetScorePriority",
+        reflexive: false,
+        nodeName: "TargetScorePriority",
+        NodeType: "Selector",
+        Child0: "ScoreTargetIfPriority",
+        Child1: "AddToTargetScore_0" //  If I"m looking for a priority target", then if the target isn"t priority", it should be very negative.
+}, {
+        id: "ScoreTargetIfPriority",
+        reflexive: false,
+        nodeName: "ScoreTargetIfPriority",
+        NodeType: "Sequence",
+        Child0: "TargetIsPriorityUnit",
+        Child1: "AddToTargetScore_60" //  set a priority target for very high
+}, {
+        id: "TargetScoreCivilian",
+        reflexive: false,
+        nodeName: "TargetScoreCivilian",
+        NodeType: "Successor",
+        Child0: "ScoreTargetIfCivilianByJob"
+}, {
+        id: "TargetScoreInvalidateCivilians",
+        reflexive: false,
+        nodeName: "TargetScoreInvalidateCivilians",
+        NodeType: "Selector",
+        Child0: "ScoreTargetOutIfCivilian",
+        Child1: "AddToTargetScore_0"
+}, {
+        id: "ScoreTargetOutIfCivilian",
+        reflexive: false,
+        nodeName: "ScoreTargetOutIfCivilian",
+        NodeType: "Sequence",
+        Child0: "TargetIsCivilian",
+        Child1: "AddToTargetScore_-1000"
+}, {
+        id: "ScoreTargetIfCivilianByJob",
+        reflexive: false,
+        nodeName: "ScoreTargetIfCivilianByJob",
+        NodeType: "Sequence",
+        Child0: "TargetIsCivilian",
+        Child1: "ScoreCivilianByJob"
+}, {
+        id: "ScoreCivilianByJob",
+        reflexive: false,
+        nodeName: "ScoreCivilianByJob",
+        NodeType: "Selector",
+        Child0: "ScoreCivilianIfLimitHit",
+        Child1: "ScoreCivilianIfActuallyFaceless",
+        Child2: "ScoreCivilianIfTerrorist",
+        Child3: "AddToTargetScore_-10"
+}, {
+        id: "ScoreCivilianIfActuallyFaceless",
+        reflexive: false,
+        nodeName: "ScoreCivilianIfActuallyFaceless",
+        NodeType: "Sequence",
+        Child0: "TargetIsAlien",
+        Child1: "AddToTargetScore_-1000"
+}, {
+        id: "ScoreCivilianIfTerrorist",
+        reflexive: false,
+        nodeName: "ScoreCivilianIfTerrorist",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Terrorist",
+        Child1: "AddToTargetScore_40"
+}, {
+        id: "ScoreCivilianIfLimitHit",
+        reflexive: false,
+        nodeName: "ScoreCivilianIfLimitHit",
+        NodeType: "Sequence",
+        Child0: "CivilianKillLimitReached",
+        Child1: "AddToTargetScore_-1000"
+}, {
+        id: "CivilianKillLimitReached",
+        reflexive: false,
+        nodeName: "CivilianKillLimitReached",
+        NodeType: "Inverter",
+        Child0: "NumKilledCiviliansIsLessThanTurnCount"
+}, {
+        id: "TargetScoreKillAdventNotAliens",
+        reflexive: false,
+        nodeName: "TargetScoreKillAdventNotAliens",
+        NodeType: "Selector",
+        Child0: "ScoreTargetIfAllyAndAdvent",
+        Child1: "ScoreTargetIfAllyAndNotAdvent",
+        Child2: "AddToTargetScore_0"
+}, {
+        id: "ScoreTargetIfAllyAndAdvent",
+        reflexive: false,
+        nodeName: "ScoreTargetIfAllyAndAdvent",
+        NodeType: "Sequence",
+        Child0: "TargetIsAlly",
+        Child1: "TargetIsAdvent",
+        Child2: "AddToTargetScore_1"
+}, {
+        id: "ScoreTargetIfAllyAndNotAdvent",
+        reflexive: false,
+        nodeName: "ScoreTargetIfAllyAndNotAdvent",
+        NodeType: "Sequence",
+        Child0: "TargetIsAlly",
+        Child1: "AddToTargetScore_-100"
+}, {
+        id: "TargetScoreTeamVisibility",
+        reflexive: false,
+        nodeName: "TargetScoreTeamVisibility",
+        NodeType: "Selector",
+        Child0: "ScoreIfTarget_HasHighestVisibility",
+        Child1: "AddToTargetScore_0"
+}, {
+        id: "ScoreIfTarget_HasHighestVisibility",
+        reflexive: false,
+        nodeName: "ScoreIfTarget_HasHighestVisibility",
+        NodeType: "Sequence",
+        Child0: "TargetHasHighestTeamVisibility",
+        Child1: "AddToTargetScore_5" //  tie breaker
+}, {
+        id: "TargetHasHighestTeamVisibility",
+        reflexive: false,
+        nodeName: "TargetHasHighestTeamVisibility",
+        NodeType: "Condition"
+}, {
+        id: "TargetScoreReachableForMelee",
+        reflexive: false,
+        nodeName: "TargetScoreReachableForMelee",
+        NodeType: "Selector",
+        Child0: "ScoreUnReachable",
+        Child1: "AddToTargetScore_1"
+}, {
+        id: "TargetIsNotAlly",
+        reflexive: false,
+        nodeName: "TargetIsNotAlly",
+        NodeType: "Inverter",
+        Child0: "TargetIsAlly"
+}, {
+        id: "TargetCanBecomeZombie",
+        reflexive: false,
+        nodeName: "TargetCanBecomeZombie",
+        NodeType: "Condition"
+}, {
+        id: "TargetCanNotBecomeZombie",
+        reflexive: false,
+        nodeName: "TargetCanNotBecomeZombie",
+        NodeType: "Inverter",
+        Child0: "TargetCanBecomeZombie"
+}, {
+        id: "TargetScoreReachableAllyAnimaConsume",
+        reflexive: false,
+        nodeName: "TargetScoreReachableAllyAnimaConsume",
+        NodeType: "Selector",
+        Child0: "TargetIsNotAlly",
+        Child1: "TargetCanNotBecomeZombie",
+        Child2: "TargetIsVisibleToPlayer",
+        Child3: "ScoreForAnimaConsumeAlly"
+}, {
+        id: "ScoreForAnimaConsumeAlly",
+        reflexive: false,
+        nodeName: "ScoreForAnimaConsumeAlly",
+        NodeType: "Sequence",
+        Child0: "ScoreAnimaConsumeForRange",
+        Child1: "ScoreIfTargetLowHP",
+        Child2: "AddToTargetScore_1"
+}, {
+        id: "ScoreAnimaConsumeForRange",
+        reflexive: false,
+        nodeName: "ScoreAnimaConsumeForRange",
+        NodeType: "Selector",
+        Child0: "ScoreInAttackRange",
+        Child1: "ScoreUnreachable",
+        Child2: "AddToTargetScore_1"
+}, {
+        id: "ScoreInAttackRange",
+        reflexive: false,
+        nodeName: "ScoreInAttackRange",
+        NodeType: "Sequence",
+        Child0: "IsTargetInAttackRange-StandardMelee",
+        Child1: "AddToTargetScore_100"
+}, {
+        id: "ScoreUnReachable",
+        reflexive: false,
+        nodeName: "ScoreUnReachable",
+        NodeType: "Sequence",
+        Child0: "TargetNotInMovementRange",
+        Child1: "AddToTargetScore_-100"
+}, {
+        id: "TargetScoreClosestIfInRange",
+        reflexive: false,
+        nodeName: "TargetScoreClosestIfInRange",
+        NodeType: "Successor",
+        Child0: "ScoreClosestIfInRange"
+}, {
+        id: "ScoreClosestIfInRange",
+        reflexive: false,
+        nodeName: "ScoreClosestIfInRange",
+        NodeType: "Sequence",
+        Child0: "TargetIsClosestValidTarget",
+        Child1: "IsTargetInMovementRange-StandardMelee",
+        Child2: "AddToTargetScore_100"
+}, {
+        id: "SelectScoreHitChanceByJob",
+        reflexive: false,
+        nodeName: "SelectScoreHitChanceByJob",
+        NodeType: "Selector",
+        Child0: "ScoreHitIfSoldier",
+        Child1: "ScoreHitIfFlanker",
+        Child2: "ScoreHitIfLeader",
+        Child3: "ScoreHitIfSupport",
+        Child4: "TargetScoreHitChance"
+}, {
+        id: "ScoreHitIfSoldier",
+        reflexive: false,
+        nodeName: "ScoreHitIfSoldier",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Soldier",
+        Child1: "TargetScoreHitChanceUnlikely"
+}, {
+        id: "ScoreHitIfFlanker",
+        reflexive: false,
+        nodeName: "ScoreHitIfFlanker",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Flanker",
+        Child1: "TargetScoreHitChanceOPPORTUNIST"
+}, {
+        id: "ScoreHitIfLeader",
+        reflexive: false,
+        nodeName: "ScoreHitIfLeader",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Leader",
+        Child1: "TargetScoreHitChance"
+}, {
+        id: "ScoreHitIfSupport",
+        reflexive: false,
+        nodeName: "ScoreHitIfSupport",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Support",
+        Child1: "TargetScoreHitChanceProbable"
+},
+    {
+        id: "IsAbilityAvailable-Reload",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-Reload",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-StandardShot",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-StandardShot",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-StandardMove",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-StandardMove",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-Overwatch",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-Overwatch",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-ThrowGrenade",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-ThrowGrenade",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-FragGrenade",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-FragGrenade",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-Yell",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-Yell",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-CallReinforcements",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-CallReinforcements",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-Suppression",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-Suppression",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-HunkerDown",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-HunkerDown",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-StandardMelee",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-StandardMelee",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityReady-StandardMelee",
+        reflexive: false,
+        nodeName: "IsAbilityReady-StandardMelee",
+        NodeType: "Condition"
+},
+    {
+        id: "SelectAbility-Reload",
+        reflexive: false,
+        nodeName: "SelectAbility-Reload",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-StandardShot",
+        reflexive: false,
+        nodeName: "SelectAbility-StandardShot",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-StandardMove",
+        reflexive: false,
+        nodeName: "SelectAbility-StandardMove",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-Overwatch",
+        reflexive: false,
+        nodeName: "SelectAbility-Overwatch",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-ThrowGrenade",
+        reflexive: false,
+        nodeName: "SelectAbility-ThrowGrenade",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-Yell",
+        reflexive: false,
+        nodeName: "SelectAbility-Yell",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-CallReinforcements",
+        reflexive: false,
+        nodeName: "SelectAbility-CallReinforcements",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-StandardMelee",
+        reflexive: false,
+        nodeName: "SelectAbility-StandardMelee",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-Suppression",
+        reflexive: false,
+        nodeName: "SelectAbility-Suppression",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-HunkerDown",
+        reflexive: false,
+        nodeName: "SelectAbility-HunkerDown",
+        NodeType: "Action"
+}, {
+        id: "ShouldPatrol",
+        reflexive: false,
+        nodeName: "ShouldPatrol",
+        NodeType: "Selector",
+        Child0: "IsGreenAlert",
+        Child1: "NotYetRevealed"
+}, {
+        id: "GenericGreenMovement",
+        reflexive: false,
+        nodeName: "GenericGreenMovement",
+        NodeType: "Sequence",
+        Child0: "ShouldPatrol",
+        Child1: "GreenAlertActionSelector"
+}, {
+        id: "GreenAlertActionSelector",
+        reflexive: false,
+        nodeName: "GreenAlertActionSelector",
+        NodeType: "Selector",
+        Child0: "TryAttackPriorityTarget",
+        Child1: "SSSelectGreenAlertAction"
+}, {
+        id: "SSSelectGreenAlertAction",
+        reflexive: false,
+        nodeName: "SSSelectGreenAlertAction",
+        NodeType: "Successor",
+        Child0: "SelectGreenAlertAction"
+}, {
+        id: "SelectGreenAlertAction",
+        reflexive: false,
+        nodeName: "SelectGreenAlertAction",
+        NodeType: "Action"
+}, {
+        id: "IgnoreHazards",
+        reflexive: false,
+        nodeName: "IgnoreHazards",
+        NodeType: "Action"
+}, {
+        id: "SkipTurnifGreenAlert",
+        reflexive: false,
+        nodeName: "SkipTurnifGreenAlert",
+        NodeType: "Sequence",
+        Child0: "IsGreenAlert",
+        Child1: "SkipMove"
+}, {
+        id: "DoCower",
+        reflexive: false,
+        nodeName: "DoCower",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-HunkerDown",
+        Child1: "SelectAbility-HunkerDown"
+}, {
+        id: "MoveBackWithLOSIfFlanked",
+        reflexive: false,
+        nodeName: "MoveBackWithLOSIfFlanked",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "IsFlanked",
+        Child2: "IsAbilityAvailable-StandardMove",
+        Child3: "FindDestinationWithLoS-Defensive",
+        Child4: "SelectAbility-StandardMove" // 
+}, {
+        id: "MoveBackWithLOSIfFlankedFirstAction",
+        reflexive: false,
+        nodeName: "MoveBackWithLOSIfFlankedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "IsFlanked",
+        Child2: "IsAbilityAvailable-StandardMove",
+        Child3: "FindDestinationWithLoS-Defensive",
+        Child4: "SelectAbility-StandardMove" // 
+}, {
+        id: "MoveForwardWithLOSIfFlanked",
+        reflexive: false,
+        nodeName: "MoveForwardWithLOSIfFlanked",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "IsFlanked",
+        Child2: "IsAbilityAvailable-StandardMove",
+        Child3: "FindDestinationWithLoS-AdvanceCover",
+        Child4: "SelectAbility-StandardMove" // 
+}, {
+        id: "MoveForwardWithLOSIfFlankedFirstAction",
+        reflexive: false,
+        nodeName: "MoveForwardWithLOSIfFlankedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "IsFlanked",
+        Child2: "IsAbilityAvailable-StandardMove",
+        Child3: "FindDestinationWithLoS-AdvanceCover",
+        Child4: "SelectAbility-StandardMove" // 
+}, {
+        id: "DoIfFlankedMove",
+        reflexive: false,
+        nodeName: "DoIfFlankedMove",
+        NodeType: "Sequence",
+        Child0: "CheckIfNeedToMove",
+        Child1: "FlankedMoveSelector"
+}, {
+        id: "CheckIfNeedToMove",
+        reflexive: false,
+        nodeName: "CheckIfNeedToMove",
+        NodeType: "Selector",
+        Child0: "IsFlanked",
+        Child1: "IsInDangerousArea"
+}, {
+        id: "CheckIfInDanger",
+        reflexive: false,
+        nodeName: "CheckIfInDanger",
+        NodeType: "Selector",
+        Child0: "IsFlanked",
+        Child1: "HasMoreThanOneOverwatcher",
+        Child2: "IsInDangerousArea"
+}, {
+        id: "CheckNotInDanger",
+        reflexive: false,
+        nodeName: "CheckNotInDanger",
+        NodeType: "Inverter",
+        Child0: "CheckIfInDanger"
+}, {
+        id: "FlankedMoveSelector",
+        reflexive: false,
+        nodeName: "FlankedMoveSelector",
+        NodeType: "Selector",
+        Child0: "MoveAdvanceToCoverUnsafe",
+        Child1: "FallBack"
+}, {
+        id: "DoIfOnDangerousGround",
+        reflexive: false,
+        nodeName: "DoIfOnDangerousGround",
+        NodeType: "Sequence",
+        Child0: "IsInDangerousArea",
+        Child1: "FlankedMoveSelector"
+}, {
+        id: "LastActionAndFlanked",
+        reflexive: false,
+        nodeName: "LastActionAndFlanked",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "IsFlanked",
+        Child2: "ShootIfIdeal_OtherwiseMove"
+}, {
+        id: "DoNoiseAlert",
+        reflexive: false,
+        nodeName: "DoNoiseAlert",
+        NodeType: "Action"
+}, {
+        id: "NeedsReload",
+        reflexive: false,
+        nodeName: "NeedsReload",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-Reload",
+        Child1: "OutOfAmmo",
+        Child2: "SelectAbility-Reload"
+}, {
+        id: "TryShootOrReload",
+        reflexive: false,
+        nodeName: "TryShootOrReload",
+        NodeType: "Selector",
+        Child0: "ShootIfAvailable",
+        Child1: "NeedsReload"
+}, {
+        id: "TryShootOrReloadOrOverwatch",
+        reflexive: false,
+        nodeName: "TryShootOrReloadOrOverwatch",
+        NodeType: "Selector",
+        Child0: "ConsiderTakingOverwatch",
+        Child1: "ShootIfAvailable",
+        Child2: "NeedsReload"
+}, {
+        id: "ConsiderTakingOverwatch",
+        reflexive: false,
+        nodeName: "ConsiderTakingOverwatch",
+        NodeType: "Selector",
+        Child0: "TryTwoTurnAttackSupport",
+        Child1: "ConsiderTakingOverwatchAllUnits",
+        Child2: "ConsiderTakingOverwatchVIP",
+        Child3: "ConsiderTakingOverwatchEvac"
+}, {
+        id: "ConsiderTakingOverwatchAllUnits",
+        reflexive: false,
+        nodeName: "ConsiderTakingOverwatchAllUnits",
+        NodeType: "Sequence",
+        Child0: "AllShotPercentagesBelow50",
+        Child1: "NoOverwatchingTeammates",
+        Child2: "RandFilter25Overwatch"
+}, {
+        id: "AllShotPercentagesBelow50",
+        reflexive: false,
+        nodeName: "AllShotPercentagesBelow50",
+        NodeType: "StatCondition",
+        Param0: "TopHitChance",
+        Param1: "<",
+        Param2: "50"
+}, {
+        id: "AllShotPercentagesAtOrBelow50",
+        reflexive: false,
+        nodeName: "AllShotPercentagesAtOrBelow50",
+        NodeType: "StatCondition",
+        Param0: "TopHitChance",
+        Param1: "<:",
+        Param2: "50"
+}, {
+        id: "RandFilter25Overwatch",
+        reflexive: false,
+        nodeName: "RandFilter25Overwatch",
+        NodeType: "RandFilter",
+        Child0: "TryOverwatch",
+        Param0: "25"
+}, {
+        id: "ConsiderTakingOverwatchVIP",
+        reflexive: false,
+        nodeName: "ConsiderTakingOverwatchVIP",
+        NodeType: "Sequence",
+        Child0: "VIPVisible",
+        Child1: "RandOverwatch75_15"
+}, {
+        id: "ConsiderTakingOverwatchEvac",
+        reflexive: false,
+        nodeName: "ConsiderTakingOverwatchEvac",
+        NodeType: "Sequence",
+        Child0: "EvacInRangeAndEnemyVisible",
+        Child1: "RandOverwatch100_75"
+}, {
+        id: "VIPVisible",
+        reflexive: false,
+        nodeName: "VIPVisible",
+        NodeType: "Sequence",
+        Child0: "HasEnemyVIP",
+        Child1: "CanSeeLivingVIPOrCarriedVIP"
+}, {
+        id: "CanSeeLivingVIPOrCarriedVIP",
+        reflexive: false,
+        nodeName: "CanSeeLivingVIPOrCarriedVIP",
+        NodeType: "Condition"
+}, {
+        id: "EvacInRangeAndEnemyVisible",
+        reflexive: false,
+        nodeName: "EvacInRangeAndEnemyVisible",
+        NodeType: "Sequence",
+        Child0: "EvacWithinVisRange",
+        Child1: "AnyLivingEnemyVisible"
+}, {
+        id: "NoVisibleEnemies",
+        reflexive: false,
+        nodeName: "NoVisibleEnemies",
+        NodeType: "StatCondition",
+        Param0: "VisibleEnemyCount",
+        Param1: "::",
+        Param2: "0"
+}, {
+        id: "AnyLivingEnemyVisible",
+        reflexive: false,
+        nodeName: "AnyLivingEnemyVisible",
+        NodeType: "StatCondition",
+        Param0: "VisibleEnemyCount",
+        Param1: ">",
+        Param2: "0"
+}, {
+        id: "MultipleEnemiesVisible",
+        reflexive: false,
+        nodeName: "MultipleEnemiesVisible",
+        NodeType: "StatCondition",
+        Param0: "VisibleEnemyCount",
+        Param1: ">",
+        Param2: "1"
+}, {
+        id: "AnyAlliesVisible",
+        reflexive: false,
+        nodeName: "AnyAlliesVisible",
+        NodeType: "StatCondition",
+        Param0: "VisibleAllyCount",
+        Param1: ">",
+        Param2: "0"
+}, {
+        id: "EvacWithinVisRange",
+        reflexive: false,
+        nodeName: "EvacWithinVisRange",
+        NodeType: "Condition"
+}, {
+        id: "RandOverwatch100_75",
+        reflexive: false,
+        nodeName: "RandOverwatch100_75",
+        NodeType: "Selector",
+        Child0: "FirstOverwatch100",
+        Child1: "RandSecondOverwatch75"
+}, {
+        id: "RandOverwatch75_15",
+        reflexive: false,
+        nodeName: "RandOverwatch75_15",
+        NodeType: "Selector",
+        Child0: "RandFirstOverwatch75",
+        Child1: "RandSecondOverwatch15"
+}, {
+        id: "RandOverwatch75",
+        reflexive: false,
+        nodeName: "RandOverwatch75",
+        NodeType: "RandFilter",
+        Child0: "TryOverwatch",
+        Param0: "75"
+}, {
+        id: "RandOverwatch15",
+        reflexive: false,
+        nodeName: "RandOverwatch15",
+        NodeType: "RandFilter",
+        Child0: "TryOverwatch",
+        Param0: "15"
+}, {
+        id: "RandOverwatch50",
+        reflexive: false,
+        nodeName: "RandOverwatch50",
+        NodeType: "RandFilter",
+        Child0: "TryOverwatch",
+        Param0: "50"
+}, {
+        id: "RandOverwatch100_50",
+        reflexive: false,
+        nodeName: "RandOverwatch100_50",
+        NodeType: "Selector",
+        Child0: "FirstOverwatch100",
+        Child1: "RandOverwatch50"
+}, {
+        id: "FirstOverwatch100",
+        reflexive: false,
+        nodeName: "FirstOverwatch100",
+        NodeType: "Sequence",
+        Child0: "NoOverwatchingTeammates",
+        Child1: "TryOverwatch"
+}, {
+        id: "RandFirstOverwatch75",
+        reflexive: false,
+        nodeName: "RandFirstOverwatch75",
+        NodeType: "Sequence",
+        Child0: "NoOverwatchingTeammates",
+        Child1: "RandOverwatch75"
+}, {
+        id: "RandSecondOverwatch75",
+        reflexive: false,
+        nodeName: "RandSecondOverwatch75",
+        NodeType: "Sequence",
+        Child0: "OneOverwatchingTeammate",
+        Child1: "RandOverwatch75"
+}, {
+        id: "RandSecondOverwatch15",
+        reflexive: false,
+        nodeName: "RandSecondOverwatch15",
+        NodeType: "Sequence",
+        Child0: "OneOverwatchingTeammate",
+        Child1: "RandOverwatch15"
+}, {
+        id: "TryTwoTurnAttackSupportIfSafe",
+        reflexive: false,
+        nodeName: "TryTwoTurnAttackSupportIfSafe",
+        NodeType: "Sequence",
+        Child0: "NotInDangerousArea",
+        Child1: "TryTwoTurnAttackSupport"
+}, {
+        id: "TryTwoTurnAttackSupport",
+        reflexive: false,
+        nodeName: "TryTwoTurnAttackSupport",
+        NodeType: "Sequence",
+        Child0: "HasTwoTurnAttackTargets",
+        Child1: "TryOverwatchTwoTurnTarget"
+}, {
+        id: "HasTwoTurnAttackTargets",
+        reflexive: false,
+        nodeName: "HasTwoTurnAttackTargets",
+        NodeType: "Condition"
+}, {
+        id: "IsTargetInTwoTurnAttackArea",
+        reflexive: false,
+        nodeName: "IsTargetInTwoTurnAttackArea",
+        NodeType: "Condition"
+}, {
+        id: "TryOverwatchTwoTurnTarget",
+        reflexive: false,
+        nodeName: "TryOverwatchTwoTurnTarget",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-Overwatch",
+        Child1: "RandOverwatch100_50"
+}, {
+        id: "TryMeleeOrShoot",
+        reflexive: false,
+        nodeName: "TryMeleeOrShoot",
+        NodeType: "Selector",
+        Child0: "ShootIfAvailable",
+        Child1: "StandardMeleeAttack"
+}, {
+        id: "ShootIfAvailable",
+        reflexive: false,
+        nodeName: "ShootIfAvailable",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardShot",
+        Child1: "SelectTargetForStandardShot",
+        Child2: "SelectAbility-StandardShot"
+}, {
+        id: "ShootIfIdeal",
+        reflexive: false,
+        nodeName: "ShootIfIdeal",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardShot",
+        Child1: "SelectTargetForStandardShot_Ideal",
+        Child2: "SelectAbility-StandardShot"
+}, {
+        id: "ShootIfIdeal_OtherwiseMove",
+        reflexive: false,
+        nodeName: "ShootIfIdeal_OtherwiseMove",
+        NodeType: "Selector",
+        Child0: "ShootIfIdeal",
+        Child1: "MoveDefensiveWithLoS",
+        Child2: "MoveStandard"
+}, {
+        id: "AttackIfFavorable",
+        reflexive: false,
+        nodeName: "AttackIfFavorable",
+        NodeType: "Selector",
+        Child0: "TryGrenade",
+        Child1: "ShootIfAvailable_Favorable"
+}, {
+        id: "ShootIfAvailable_Favorable",
+        reflexive: false,
+        nodeName: "ShootIfAvailable_Favorable",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardShot",
+        Child1: "SelectTargetForStandardShot_Favorable",
+        Child2: "SelectAbility-StandardShot"
+}, {
+        id: "AttackIfIdeal",
+        reflexive: false,
+        nodeName: "AttackIfIdeal",
+        NodeType: "Selector",
+        Child0: "TryMoveThenGrenade",
+        Child1: "ShootIfAvailable_Opportunist"
+}, {
+        id: "ShootIfAvailable_Opportunist",
+        reflexive: false,
+        nodeName: "ShootIfAvailable_Opportunist",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardShot",
+        Child1: "SelectTargetForStandardShot_Ideal",
+        Child2: "SelectAbility-StandardShot"
+}, {
+        id: "TryOverwatch",
+        reflexive: false,
+        nodeName: "TryOverwatch",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-Overwatch",
+        Child1: "SelectAbility-Overwatch"
+}, {
+        id: "OverwatchIfTargetAvailable",
+        reflexive: false,
+        nodeName: "OverwatchIfTargetAvailable",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-Overwatch",
+        Child1: "IsOverwatchTargetAvailable",
+        Child2: "SelectAbility-Overwatch"
+}, {
+        id: "IsOverwatchTargetAvailable",
+        reflexive: false,
+        nodeName: "IsOverwatchTargetAvailable",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-StandardShot",
+        Child1: "SelectOverwatchTarget",
+        Child2: "HasValidTarget-StandardShot"
+}, {
+        id: "SelectOverwatchTarget",
+        reflexive: false,
+        nodeName: "SelectOverwatchTarget",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluateOverwatchTarget"
+}, {
+        id: "EvaluateOverwatchTarget",
+        reflexive: false,
+        nodeName: "EvaluateOverwatchTarget",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "TargetScoreHitChance",
+        Child2: "ApplyDifficultyModifiers",
+        Child3: "TargetScoreInvalidateCivilians",
+        Child4: "UpdateBestTarget"
+}, {
+        id: "TryOverwatchIfLastAction",
+        reflexive: false,
+        nodeName: "TryOverwatchIfLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "ConsiderTakingOverwatch"
+},
+    {
+        id: "HasValidTarget-StandardShot",
+        reflexive: false,
+        nodeName: "HasValidTarget-StandardShot",
+        NodeType: "Condition"
+},
+    {
+        id: "SetTargetStack-StandardShot",
+        reflexive: false,
+        nodeName: "SetTargetStack-StandardShot",
+        NodeType: "Action"
+}, {
+        id: "SelectTargetForStandardShot",
+        reflexive: false,
+        nodeName: "SelectTargetForStandardShot",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-StandardShot",
+        Child1: "GenericSelectBestTarget",
+        Child2: "HasValidTarget-StandardShot"
+}, {
+        id: "SelectTargetForStandardShot_Ideal",
+        reflexive: false,
+        nodeName: "SelectTargetForStandardShot_Ideal",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-StandardShot",
+        Child1: "SelectTarget_Opportunist",
+        Child2: "HasValidTarget-StandardShot"
+}, {
+        id: "SelectTargetForStandardShot_Favorable",
+        reflexive: false,
+        nodeName: "SelectTargetForStandardShot_Favorable",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-StandardShot",
+        Child1: "SelectTarget_Favorable",
+        Child2: "HasValidTarget-StandardShot"
+}, {
+        id: "TryShootPriorityTarget",
+        reflexive: false,
+        nodeName: "TryShootPriorityTarget",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardShot",
+        Child1: "SelectPriorityTargetForStandardShot",
+        Child2: "SelectAbility-StandardShot"
+}, {
+        id: "SelectPriorityTargetForStandardShot",
+        reflexive: false,
+        nodeName: "SelectPriorityTargetForStandardShot",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-StandardShot",
+        Child1: "SelectPriorityTarget",
+        Child2: "HasValidTarget-StandardShot"
+}, {
+        id: "TryAttackPriorityTarget",
+        reflexive: false,
+        nodeName: "TryAttackPriorityTarget",
+        NodeType: "Sequence",
+        Child0: "HasPriorityTarget",
+        Child1: "AttackPriorityTarget"
+}, {
+        id: "AttackPriorityTarget",
+        reflexive: false,
+        nodeName: "AttackPriorityTarget",
+        NodeType: "Selector",
+        Child0: "TryShootPriorityTarget",
+        Child1: "TryMeleeAttackPriorityTarget",
+        Child2: "NeedsReload"
+},
+    {
+        id: "HasValidTarget-Suppression",
+        reflexive: false,
+        nodeName: "HasValidTarget-Suppression",
+        NodeType: "Condition"
+},
+    {
+        id: "SetTargetStack-Suppression",
+        reflexive: false,
+        nodeName: "SetTargetStack-Suppression",
+        NodeType: "Action"
+}, {
+        id: "SuppressIfAvailable",
+        reflexive: false,
+        nodeName: "SuppressIfAvailable",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-Suppression",
+        Child1: "SelectTargetForSuppressionByAim",
+        Child2: "SelectAbility-Suppression"
+}, {
+        id: "SelectTargetForSuppressionByAim",
+        reflexive: false,
+        nodeName: "SelectTargetForSuppressionByAim",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-Suppression",
+        Child1: "SelectBestSuppressionTargetByAim",
+        Child2: "HasValidTarget-Suppression"
+}, {
+        id: "SelectBestSuppressionTargetByAim",
+        reflexive: false,
+        nodeName: "SelectBestSuppressionTargetByAim",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluateSuppressionTargetByAim"
+}, {
+        id: "EvaluateSuppressionTargetByAim",
+        reflexive: false,
+        nodeName: "EvaluateSuppressionTargetByAim",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "SSScoreUnsuppressedByHitChanceValue",
+        Child2: "TargetScoreInvalidateCivilians",
+        Child3: "UpdateBestTarget"
+}, {
+        id: "SSScoreUnsuppressedByHitChanceValue",
+        reflexive: false,
+        nodeName: "SSScoreUnsuppressedByHitChanceValue",
+        NodeType: "Successor",
+        Child0: "ScoreUnsuppressedByHitChanceValue"
+}, {
+        id: "ScoreUnsuppressedByHitChanceValue",
+        reflexive: false,
+        nodeName: "ScoreUnsuppressedByHitChanceValue",
+        NodeType: "Sequence",
+        Child0: "TargetIsNotSuppressed",
+        Child1: "AvoidBoundAndPanickedTargets",
+        Child2: "TargetScoreByHitChanceValue-1"
+},
+    {
+        id: "HasValidTarget-StandardMelee",
+        reflexive: false,
+        nodeName: "HasValidTarget-StandardMelee",
+        NodeType: "Condition"
+},
+    {
+        id: "HasValidTarget-Potential",
+        reflexive: false,
+        nodeName: "HasValidTarget-Potential",
+        NodeType: "Condition"
+},
+    {
+        id: "SetTargetStack-StandardMelee",
+        reflexive: false,
+        nodeName: "SetTargetStack-StandardMelee",
+        NodeType: "Action"
+}, {
+        id: "SetPotentialTargetStack",
+        reflexive: false,
+        nodeName: "SetPotentialTargetStack",
+        NodeType: "Action"
+}, {
+        id: "SetVisiblePotentialTargetStack",
+        reflexive: false,
+        nodeName: "SetVisiblePotentialTargetStack",
+        NodeType: "Action"
+}, {
+        id: "SetPotentialAllyTargetStack",
+        reflexive: false,
+        nodeName: "SetPotentialAllyTargetStack",
+        NodeType: "Action"
+},
+    {
+        id: "IsTargetInMovementRange-StandardMelee",
+        reflexive: false,
+        nodeName: "IsTargetInMovementRange-StandardMelee",
+        NodeType: "Condition"
+},
+    {
+        id: "IsTargetInMovementRange-EnergyShield",
+        reflexive: false,
+        nodeName: "IsTargetInMovementRange-EnergyShield",
+        NodeType: "Condition"
+}, {
+        id: "TargetNotInMovementRange",
+        reflexive: false,
+        nodeName: "TargetNotInMovementRange",
+        NodeType: "Inverter",
+        Child0: "IsTargetInMovementRange-StandardMelee"
+},
+    {
+        id: "IsTargetInAttackRange-StandardMelee",
+        reflexive: false,
+        nodeName: "IsTargetInAttackRange-StandardMelee",
+        NodeType: "Condition"
+}, {
+        id: "TryStandardMelee",
+        reflexive: false,
+        nodeName: "TryStandardMelee",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-StandardMelee",
+        Child1: "StandardMeleeStepSelector"
+}, {
+        id: "TryStandardMeleeUnsafe",
+        reflexive: false,
+        nodeName: "TryStandardMeleeUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-StandardMelee",
+        Child1: "StandardMeleeStepSelectorUnsafe"
+}, {
+        id: "StandardMeleeStepSelector",
+        reflexive: false,
+        nodeName: "StandardMeleeStepSelector",
+        NodeType: "Selector",
+        Child0: "StandardMeleeAttack",
+        Child1: "MoveMeleeIfFirstAbility"
+}, {
+        id: "StandardMeleeStepSelectorUnsafe",
+        reflexive: false,
+        nodeName: "StandardMeleeStepSelectorUnsafe",
+        NodeType: "Selector",
+        Child0: "StandardMeleeAttack",
+        Child1: "MoveMeleeIfFirstAbilityUnsafe"
+}, {
+        id: "StandardMeleeAttack",
+        reflexive: false,
+        nodeName: "StandardMeleeAttack",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMelee",
+        Child1: "SelectTargetForStandardMelee",
+        Child2: "SelectAbility-StandardMelee"
+}, {
+        id: "TryStandardMeleeFANATIC",
+        reflexive: false,
+        nodeName: "TryStandardMeleeFANATIC",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-StandardMelee",
+        Child1: "StandardMeleeStepSelectorFANATIC"
+}, {
+        id: "TryStandardMeleeFANATICUnsafe",
+        reflexive: false,
+        nodeName: "TryStandardMeleeFANATICUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-StandardMelee",
+        Child1: "StandardMeleeStepSelectorFANATICUnsafe"
+}, {
+        id: "StandardMeleeStepSelectorFANATIC",
+        reflexive: false,
+        nodeName: "StandardMeleeStepSelectorFANATIC",
+        NodeType: "Selector",
+        Child0: "StandardMeleeAttack",
+        Child1: "MoveMeleeIfFirstAbilityFANATIC"
+}, {
+        id: "StandardMeleeStepSelectorFANATICUnsafe",
+        reflexive: false,
+        nodeName: "StandardMeleeStepSelectorFANATICUnsafe",
+        NodeType: "Selector",
+        Child0: "StandardMeleeAttack",
+        Child1: "MoveMeleeIfFirstAbilityFANATICUnsafe"
+}, {
+        id: "TryStandardMeleeDash",
+        reflexive: false,
+        nodeName: "TryStandardMeleeDash",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-StandardMelee",
+        Child1: "StandardMeleeDashStepSelector"
+}, {
+        id: "TryStandardMeleeDashUnsafe",
+        reflexive: false,
+        nodeName: "TryStandardMeleeDashUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-StandardMelee",
+        Child1: "StandardMeleeDashStepSelectorUnsafe"
+}, {
+        id: "StandardMeleeDashStepSelector",
+        reflexive: false,
+        nodeName: "StandardMeleeDashStepSelector",
+        NodeType: "Selector",
+        Child0: "StandardMeleeAttack",
+        Child1: "MoveMeleeDash"
+}, {
+        id: "StandardMeleeDashStepSelectorUnsafe",
+        reflexive: false,
+        nodeName: "StandardMeleeDashStepSelectorUnsafe",
+        NodeType: "Selector",
+        Child0: "StandardMeleeAttack",
+        Child1: "MoveMeleeDashUnsafe"
+}, {
+        id: "TryStandardMeleeDashFANATIC",
+        reflexive: false,
+        nodeName: "TryStandardMeleeDashFANATIC",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-StandardMelee",
+        Child1: "StandardMeleeDashFANATICStepSelector"
+}, {
+        id: "TryStandardMeleeDashFANATICUnsafe",
+        reflexive: false,
+        nodeName: "TryStandardMeleeDashFANATICUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-StandardMelee",
+        Child1: "StandardMeleeDashFANATICStepSelectorUnsafe"
+}, {
+        id: "StandardMeleeDashFANATICStepSelector",
+        reflexive: false,
+        nodeName: "StandardMeleeDashFANATICStepSelector",
+        NodeType: "Selector",
+        Child0: "StandardMeleeAttack",
+        Child1: "MoveMeleeDashFANATIC"
+}, {
+        id: "StandardMeleeDashFANATICStepSelectorUnsafe",
+        reflexive: false,
+        nodeName: "StandardMeleeDashFANATICStepSelectorUnsafe",
+        NodeType: "Selector",
+        Child0: "StandardMeleeAttack",
+        Child1: "MoveMeleeDashFANATICUnsafe"
+}, {
+        id: "SelectTargetForStandardMelee",
+        reflexive: false,
+        nodeName: "SelectTargetForStandardMelee",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-StandardMelee",
+        Child1: "SelectBestTargetForStandardMelee",
+        Child2: "HasValidTarget-StandardMelee"
+}, {
+        id: "SelectBestTargetForStandardMelee",
+        reflexive: false,
+        nodeName: "SelectBestTargetForStandardMelee",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluatePotentialMeleeTarget"
+}, {
+        id: "TryMeleeAttackPriorityTarget",
+        reflexive: false,
+        nodeName: "TryMeleeAttackPriorityTarget",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-StandardMelee",
+        Child1: "MeleeAttackPriorityTargetStepSelector"
+}, {
+        id: "MeleeAttackPriorityTargetStepSelector",
+        reflexive: false,
+        nodeName: "MeleeAttackPriorityTargetStepSelector",
+        NodeType: "Selector",
+        Child0: "MeleeAttackPriorityTarget",
+        Child1: "MoveMeleePriorityTargetUnsafe"
+}, {
+        id: "MeleeAttackPriorityTarget",
+        reflexive: false,
+        nodeName: "MeleeAttackPriorityTarget",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMelee",
+        Child1: "SetTargetStack-StandardMelee",
+        Child2: "SelectPriorityTarget",
+        Child3: "HasValidTarget-StandardMelee",
+        Child4: "SelectAbility-StandardMelee"
+}, {
+        id: "SelectPotentialMeleeTarget",
+        reflexive: false,
+        nodeName: "SelectPotentialMeleeTarget",
+        NodeType: "Sequence",
+        Child0: "SetPotentialTargetStack",
+        Child1: "SelectBestPotentialTargetForMelee",
+        Child2: "HasValidTarget-Potential"
+}, {
+        id: "SelectBestPotentialTargetForMelee",
+        reflexive: false,
+        nodeName: "SelectBestPotentialTargetForMelee",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluatePotentialMeleeTarget"
+}, {
+        id: "EvaluatePotentialMeleeTarget",
+        reflexive: false,
+        nodeName: "EvaluatePotentialMeleeTarget",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "TargetScoreClosestIfInRange",
+        Child2: "AvoidBoundAndPanickedTargets",
+        Child3: "TargetScoreCivilian",
+        Child4: "SSCustomMeleeTargetScore",
+        Child5: "UpdateBestTarget"
+}, {
+        id: "SSCustomMeleeTargetScore",
+        reflexive: false,
+        nodeName: "SSCustomMeleeTargetScore",
+        NodeType: "Successor",
+        Child0: "::CustomMeleeTargetScore"
+},
+    {
+        id: "::CustomMeleeTargetScore",
+        reflexive: false,
+        nodeName: "::CustomMeleeTargetScore",
+        NodeType: "Sequence",
+        Child0: "AddToTargetScore_0" // Overwrite option for melee abilities that are restricted.
+}, {
+        id: "SelectPotentialMeleePriorityTarget",
+        reflexive: false,
+        nodeName: "SelectPotentialMeleePriorityTarget",
+        NodeType: "Sequence",
+        Child0: "SetPotentialTargetStack",
+        Child1: "SelectPotentialPriorityTargetForMelee",
+        Child2: "HasValidTarget-Potential"
+}, {
+        id: "SelectPotentialPriorityTargetForMelee",
+        reflexive: false,
+        nodeName: "SelectPotentialPriorityTargetForMelee",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluatePotentialPriorityTarget"
+}, {
+        id: "EvaluatePotentialPriorityTarget",
+        reflexive: false,
+        nodeName: "EvaluatePotentialPriorityTarget",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "TargetScoreReachableForMelee",
+        Child2: "TargetScorePriority",
+        Child3: "AvoidBoundAndPanickedTargets",
+        Child4: "TargetScoreCivilian",
+        Child5: "UpdateBestTarget"
+}, {
+        id: "DoesGrenadeCauseDamage",
+        reflexive: false,
+        nodeName: "DoesGrenadeCauseDamage",
+        NodeType: "Condition" // Added to prevent Mind Controlled units from throwing smoke grenades.
+}, {
+        id: "TryMoveThenGrenade",
+        reflexive: false,
+        nodeName: "TryMoveThenGrenade",
+        NodeType: "Selector",
+        Child0: "TryMoveForGrenade",
+        Child1: "TryGrenade"
+}, {
+        id: "TryMoveForGrenade",
+        reflexive: false,
+        nodeName: "TryMoveForGrenade",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "IsAbilityReady-ThrowGrenade",
+        Child2: "FindPotentialAoETargets-GrenadeProfile",
+        Child3: "MoveStandardIfFirstAbility-Grenade"
+}, {
+        id: "TryGrenade",
+        reflexive: false,
+        nodeName: "TryGrenade",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-ThrowGrenade",
+        Child1: "FindPotentialAoETargets-GrenadeProfile",
+        Child2: "SelectAoETarget-GrenadeProfile",
+        Child3: "SelectAbility-ThrowGrenade"
+}, {
+        id: "TryPanickedGrenadeToss",
+        reflexive: false,
+        nodeName: "TryPanickedGrenadeToss",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-ThrowGrenade",
+        Child1: "FindPotentialAoETargets-GrenadePanickedProfile",
+        Child2: "SelectAoETarget-GrenadePanickedProfile",
+        Child3: "SelectAbility-ThrowGrenade"
+},
+    {
+        id: "IsAbilityAvailable-MarkTarget",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-MarkTarget",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-TriggerRage",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-TriggerRage",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-PsiReanimation",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-PsiReanimation",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-MindSpin",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-MindSpin",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-GetOverHere",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-GetOverHere",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-PoisonSpit",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-PoisonSpit",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-EnergyShield",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-EnergyShield",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-AcidBlob",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-AcidBlob",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-DelayedExecute",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-DelayedExecute",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-MicroMissiles",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-MicroMissiles",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-PsiWitchConfuse",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-PsiWitchConfuse",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-PsiMindControl",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-PsiMindControl",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-TriggerDamagedTeleport",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-TriggerDamagedTeleport",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-PsiDimensionalRiftStage1",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-PsiDimensionalRiftStage1",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-NullLance",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-NullLance",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-ChryssalidBurrow",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-ChryssalidBurrow",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-ChryssalidUnburrow",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-ChryssalidUnburrow",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-BurrowedAttack",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-BurrowedAttack",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-FrenzyTrigger",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-FrenzyTrigger",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-BlazingPinionsStage1",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-BlazingPinionsStage1",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-AnimaInversion",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-AnimaInversion",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-MindProbe",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-MindProbe",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-AnimaGate",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-AnimaGate",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-AnimaConsume",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-AnimaConsume",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-GatekeeperOpen",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-GatekeeperOpen",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-GatekeeperClose",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-GatekeeperClose",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-Retract",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-Retract",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-PsiBombStage1",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-PsiBombStage1",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-Teleport",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-Teleport",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-TriggerSuperposition",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-TriggerSuperposition",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-WrathCannon",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-WrathCannon",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-WrathCannonStage1",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-WrathCannonStage1",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-SpawnChryssalid",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-SpawnChryssalid",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-ScythingClaws",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-ScythingClaws",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-Bayonet",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-Bayonet",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityAvailable-Bind",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-Bind",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityReady-StunLance",
+        reflexive: false,
+        nodeName: "IsAbilityReady-StunLance",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityReady-Bind",
+        reflexive: false,
+        nodeName: "IsAbilityReady-Bind",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityReady-DevastatingPunch",
+        reflexive: false,
+        nodeName: "IsAbilityReady-DevastatingPunch",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityReady-AnimaConsume",
+        reflexive: false,
+        nodeName: "IsAbilityReady-AnimaConsume",
+        NodeType: "Condition",
+        Param0: "AA_ValueCheckFailed",
+        Param1: "AA_GatekeeperClosed" //  Added ValueCheckFailed as a valid "ready" failure", for not being in Open state.
+},
+    {
+        id: "IsAbilityReady-AnimaInversion",
+        reflexive: false,
+        nodeName: "IsAbilityReady-AnimaInversion",
+        NodeType: "Condition",
+        Param0: "AA_ValueCheckFailed",
+        Param1: "AA_GatekeeperClosed" //  Added ValueCheckFailed as a valid "ready" failure", for not being in Open state.
+},
+    {
+        id: "IsAbilityReady-ScythingClaws",
+        reflexive: false,
+        nodeName: "IsAbilityReady-ScythingClaws",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityReady-Bayonet",
+        reflexive: false,
+        nodeName: "IsAbilityReady-Bayonet",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityReady-PsiBombStage1",
+        reflexive: false,
+        nodeName: "IsAbilityReady-PsiBombStage1",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityReady-ThrowGrenade",
+        reflexive: false,
+        nodeName: "IsAbilityReady-ThrowGrenade",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityReady-PoisonSpit",
+        reflexive: false,
+        nodeName: "IsAbilityReady-PoisonSpit",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityReady-AcidBlob",
+        reflexive: false,
+        nodeName: "IsAbilityReady-AcidBlob",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityReady-MicroMissiles",
+        reflexive: false,
+        nodeName: "IsAbilityReady-MicroMissiles",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityReady-BlazingPinionsStage1",
+        reflexive: false,
+        nodeName: "IsAbilityReady-BlazingPinionsStage1",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityReady-PsiDimensionalRiftStage1",
+        reflexive: false,
+        nodeName: "IsAbilityReady-PsiDimensionalRiftStage1",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityReady-NullLance",
+        reflexive: false,
+        nodeName: "IsAbilityReady-NullLance",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityReady-EnergyShield",
+        reflexive: false,
+        nodeName: "IsAbilityReady-EnergyShield",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityReady-Suppression",
+        reflexive: false,
+        nodeName: "IsAbilityReady-Suppression",
+        NodeType: "Condition"
+},
+    {
+        id: "SelectAbility-MarkTarget",
+        reflexive: false,
+        nodeName: "SelectAbility-MarkTarget",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-StunLance",
+        reflexive: false,
+        nodeName: "SelectAbility-StunLance",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-TriggerRage",
+        reflexive: false,
+        nodeName: "SelectAbility-TriggerRage",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-PsiReanimation",
+        reflexive: false,
+        nodeName: "SelectAbility-PsiReanimation",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-MindSpin",
+        reflexive: false,
+        nodeName: "SelectAbility-MindSpin",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-GetOverHere",
+        reflexive: false,
+        nodeName: "SelectAbility-GetOverHere",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-Bind",
+        reflexive: false,
+        nodeName: "SelectAbility-Bind",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-PoisonSpit",
+        reflexive: false,
+        nodeName: "SelectAbility-PoisonSpit",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-AcidBlob",
+        reflexive: false,
+        nodeName: "SelectAbility-AcidBlob",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-EnergyShield",
+        reflexive: false,
+        nodeName: "SelectAbility-EnergyShield",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-DevastatingPunch",
+        reflexive: false,
+        nodeName: "SelectAbility-DevastatingPunch",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-DelayedExecute",
+        reflexive: false,
+        nodeName: "SelectAbility-DelayedExecute",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-Bayonet",
+        reflexive: false,
+        nodeName: "SelectAbility-Bayonet",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-MicroMissiles",
+        reflexive: false,
+        nodeName: "SelectAbility-MicroMissiles",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-PsiMindControl",
+        reflexive: false,
+        nodeName: "SelectAbility-PsiMindControl",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-TriggerDamagedTeleport",
+        reflexive: false,
+        nodeName: "SelectAbility-TriggerDamagedTeleport",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-PsiDimensionalRiftStage1",
+        reflexive: false,
+        nodeName: "SelectAbility-PsiDimensionalRiftStage1",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-ChryssalidBurrow",
+        reflexive: false,
+        nodeName: "SelectAbility-ChryssalidBurrow",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-ChryssalidUnburrow",
+        reflexive: false,
+        nodeName: "SelectAbility-ChryssalidUnburrow",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-BurrowedAttack",
+        reflexive: false,
+        nodeName: "SelectAbility-BurrowedAttack",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-FrenzyTrigger",
+        reflexive: false,
+        nodeName: "SelectAbility-FrenzyTrigger",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-BlazingPinionsStage1",
+        reflexive: false,
+        nodeName: "SelectAbility-BlazingPinionsStage1",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-AnimaInversion",
+        reflexive: false,
+        nodeName: "SelectAbility-AnimaInversion",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-AnimaConsume",
+        reflexive: false,
+        nodeName: "SelectAbility-AnimaConsume",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-AnimaGate",
+        reflexive: false,
+        nodeName: "SelectAbility-AnimaGate",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-MindProbe",
+        reflexive: false,
+        nodeName: "SelectAbility-MindProbe",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-GatekeeperOpen",
+        reflexive: false,
+        nodeName: "SelectAbility-GatekeeperOpen",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-GatekeeperClose",
+        reflexive: false,
+        nodeName: "SelectAbility-GatekeeperClose",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-Retract",
+        reflexive: false,
+        nodeName: "SelectAbility-Retract",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-PsiBombStage1",
+        reflexive: false,
+        nodeName: "SelectAbility-PsiBombStage1",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-Teleport",
+        reflexive: false,
+        nodeName: "SelectAbility-Teleport",
+        NodeType: "Action",
+        Param0: "UseDestination"
+},
+    {
+        id: "SelectAbility-TriggerSuperposition",
+        reflexive: false,
+        nodeName: "SelectAbility-TriggerSuperposition",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-ScythingClaws",
+        reflexive: false,
+        nodeName: "SelectAbility-ScythingClaws",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-WrathCannon",
+        reflexive: false,
+        nodeName: "SelectAbility-WrathCannon",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-WrathCannonStage1",
+        reflexive: false,
+        nodeName: "SelectAbility-WrathCannonStage1",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-SpawnChryssalid",
+        reflexive: false,
+        nodeName: "SelectAbility-SpawnChryssalid",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAbility-NullLance",
+        reflexive: false,
+        nodeName: "SelectAbility-NullLance",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-GrenadeProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-GrenadeProfile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-GrenadeAggressiveProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-GrenadeAggressiveProfile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-GrenadePanickedProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-GrenadePanickedProfile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-GrenadeMindControlledProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-GrenadeMindControlledProfile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-BlazingPinionsBasicProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-BlazingPinionsBasicProfile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-AcidBlobProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-AcidBlobProfile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-PoisonSpitProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-PoisonSpitProfile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-PoisonSpitSingleProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-PoisonSpitSingleProfile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-MicroMissilesProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-MicroMissilesProfile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-MicroMissilesProfileMk2",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-MicroMissilesProfileMk2",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-PsiRiftProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-PsiRiftProfile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-AnimaInversionCorpseProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-AnimaInversionCorpseProfile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-AnimaInversionMixedProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-AnimaInversionMixedProfile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-PsiBombProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-PsiBombProfile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-TeleportProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-TeleportProfile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-ScythingClawsProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-ScythingClawsProfile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-ScythingClawsPrefTargetProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-ScythingClawsPrefTargetProfile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-WrathCannonProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-WrathCannonProfile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-WrathCannonS1Profile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-WrathCannonS1Profile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-NullLanceProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-NullLanceProfile",
+        NodeType: "Action"
+},
+    {
+        id: "FindPotentialAoETargets-NullLanceValidateProfile",
+        reflexive: false,
+        nodeName: "FindPotentialAoETargets-NullLanceValidateProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-GrenadeProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-GrenadeProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-GrenadeAggressiveProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-GrenadeAggressiveProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-GrenadePanickedProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-GrenadePanickedProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-GrenadeMindControlledProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-GrenadeMindControlledProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-BlazingPinionsBasicProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-BlazingPinionsBasicProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-AcidBlobProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-AcidBlobProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-PoisonSpitProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-PoisonSpitProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-PoisonSpitSingleProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-PoisonSpitSingleProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-MicroMissilesProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-MicroMissilesProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-MicroMissilesProfileMk2",
+        reflexive: false,
+        nodeName: "SelectAoETarget-MicroMissilesProfileMk2",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-PsiRiftProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-PsiRiftProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-AnimaInversionCorpseProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-AnimaInversionCorpseProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-AnimaInversionMixedProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-AnimaInversionMixedProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-PsiBombProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-PsiBombProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-TeleportProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-TeleportProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-ScythingClawsProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-ScythingClawsProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-ScythingClawsPrefTargetProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-ScythingClawsPrefTargetProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-WrathCannonProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-WrathCannonProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-WrathCannonS1Profile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-WrathCannonS1Profile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-NullLanceProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-NullLanceProfile",
+        NodeType: "Action"
+},
+    {
+        id: "SelectAoETarget-NullLanceValidateProfile",
+        reflexive: false,
+        nodeName: "SelectAoETarget-NullLanceValidateProfile",
+        NodeType: "Action"
+},
+    {
+        id: "MoveStandardIfFirstAbility-Grenade",
+        reflexive: false,
+        nodeName: "MoveStandardIfFirstAbility-Grenade",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "NotLastActionPoint",
+        Child2: "FindGrenadeDestination",
+        Child3: "SelectAbility-StandardMove"
+},
+    {
+        id: "MoveStandardIfFirstAbility-PoisonSpit",
+        reflexive: false,
+        nodeName: "MoveStandardIfFirstAbility-PoisonSpit",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "NotLastActionPoint",
+        Child2: "FindPoisonSpitDestination",
+        Child3: "SelectAbility-StandardMove"
+},
+    {
+        id: "MoveStandardIfFirstAbility-AcidBlob",
+        reflexive: false,
+        nodeName: "MoveStandardIfFirstAbility-AcidBlob",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "NotLastActionPoint",
+        Child2: "FindAcidBlobDestination",
+        Child3: "SelectAbility-StandardMove"
+},
+    {
+        id: "MoveStandardIfFirstAbility-MicroMissiles",
+        reflexive: false,
+        nodeName: "MoveStandardIfFirstAbility-MicroMissiles",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "NotLastActionPoint",
+        Child2: "FindMicroMissilesDestination",
+        Child3: "SelectAbility-StandardMove"
+},
+    {
+        id: "MoveStandardIfFirstAbility-BlazingPinions",
+        reflexive: false,
+        nodeName: "MoveStandardIfFirstAbility-BlazingPinions",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "NotLastActionPoint",
+        Child2: "FindBlazingPinionsDestination",
+        Child3: "SelectAbility-StandardMove"
+},
+    {
+        id: "MoveStandardIfFirstAbility-PsiDimensionalRiftStage1",
+        reflexive: false,
+        nodeName: "MoveStandardIfFirstAbility-PsiDimensionalRiftStage1",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "NotLastActionPoint",
+        Child2: "FindDimensionalRiftDestination",
+        Child3: "SelectAbility-StandardMove"
+},
+    {
+        id: "MoveStandardIfFirstAbility-EnergyShield",
+        reflexive: false,
+        nodeName: "MoveStandardIfFirstAbility-EnergyShield",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "NotLastActionPoint",
+        Child2: "FindShieldDestinationDefensive",
+        Child3: "SelectAbility-StandardMove"
+},
+    {
+        id: "MoveStandardIfFirstAbility-PsiMindControl",
+        reflexive: false,
+        nodeName: "MoveStandardIfFirstAbility-PsiMindControl",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "NotLastActionPoint",
+        Child2: "FindMindControlDestinationDefensive",
+        Child3: "SelectAbility-StandardMove"
+},
+    {
+        id: "MoveStandardIfFirstAbility-AnimaInversion",
+        reflexive: false,
+        nodeName: "MoveStandardIfFirstAbility-AnimaInversion",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "NotLastActionPoint",
+        Child2: "FindAnimaInversionDestination",
+        Child3: "SelectAbility-StandardMove"
+},
+    {
+        id: "MoveStandardIfFirstAbility-PsiBombStage1",
+        reflexive: false,
+        nodeName: "MoveStandardIfFirstAbility-PsiBombStage1",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "NotLastActionPoint",
+        Child2: "FindPsiBombDestination",
+        Child3: "SelectAbility-StandardMove"
+},
+    {
+        id: "MoveStandardIfFirstAbility-NullLance",
+        reflexive: false,
+        nodeName: "MoveStandardIfFirstAbility-NullLance",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "NotLastActionPoint",
+        Child2: "FindNullLanceDestination",
+        Child3: "SelectAbility-StandardMove"
+},
+    {
+        id: "MoveStandardIfFirstAbility-Suppression",
+        reflexive: false,
+        nodeName: "MoveStandardIfFirstAbility-Suppression",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "NotLastActionPoint",
+        Child2: "FindSuppressionDestination",
+        Child3: "SelectAbility-StandardMove"
+}, {
+        id: "TeleportForPsiBombTarget",
+        reflexive: false,
+        nodeName: "TeleportForPsiBombTarget",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-Teleport",
+        Child1: "FindPsiBombTeleportDestination",
+        Child2: "SelectAbility-Teleport"
+}, {
+        id: "TeleportForPsiMindControl",
+        reflexive: false,
+        nodeName: "TeleportForPsiMindControl",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-Teleport",
+        Child1: "FindPsiMindControlTeleportDestination",
+        Child2: "SelectAbility-Teleport"
+}, {
+        id: "TeleportForPsiDimensionalRiftTarget",
+        reflexive: false,
+        nodeName: "TeleportForPsiDimensionalRiftTarget",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-Teleport",
+        Child1: "FindPsiDimensionalRiftTeleportDestination",
+        Child2: "SelectAbility-Teleport"
+}, {
+        id: "TeleportForNullLanceTarget",
+        reflexive: false,
+        nodeName: "TeleportForNullLanceTarget",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-Teleport",
+        Child1: "FindNullLanceTeleportDestination",
+        Child2: "SelectAbility-Teleport"
+},
+    {
+        id: "HasValidTarget-StunLance",
+        reflexive: false,
+        nodeName: "HasValidTarget-StunLance",
+        NodeType: "Condition"
+},
+    {
+        id: "SetTargetStack-StunLance",
+        reflexive: false,
+        nodeName: "SetTargetStack-StunLance",
+        NodeType: "Action"
+}, {
+        id: "TryStunLance",
+        reflexive: false,
+        nodeName: "TryStunLance",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-StunLance",
+        Child1: "StunLanceStepSelector"
+}, {
+        id: "StunLanceStepSelector",
+        reflexive: false,
+        nodeName: "StunLanceStepSelector",
+        NodeType: "Selector",
+        Child0: "StunLanceAttack",
+        Child1: "MoveMeleeIfFirstAbilityFANATIC"
+}, {
+        id: "StunLanceAttack",
+        reflexive: false,
+        nodeName: "StunLanceAttack",
+        NodeType: "Sequence",
+        Child0: "SelectTargetForStunLance",
+        Child1: "SelectAbility-StunLance"
+}, {
+        id: "SelectTargetForStunLance",
+        reflexive: false,
+        nodeName: "SelectTargetForStunLance",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-StunLance",
+        Child1: "SelectBestTargetForStunLance",
+        Child2: "HasValidTarget-StunLance"
+}, {
+        id: "SelectBestTargetForStunLance",
+        reflexive: false,
+        nodeName: "SelectBestTargetForStunLance",
+        NodeType: "RepeatUntilFail",
+        Child0: "TargetSelectIterationForStunLance"
+}, {
+        id: "TargetSelectIterationForStunLance",
+        reflexive: false,
+        nodeName: "TargetSelectIterationForStunLance",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "EvaluateTargetForStunLance",
+        Child2: "UpdateBestTarget"
+}, {
+        id: "EvaluateTargetForStunLance",
+        reflexive: false,
+        nodeName: "EvaluateTargetForStunLance",
+        NodeType: "Sequence",
+        Child0: "TargetScoreHitChance",
+        Child1: "TargetScoreHealth_HighFirst",
+        Child2: "TargetScoreMarked",
+        Child3: "AvoidBoundAndPanickedTargets",
+        Child4: "TargetScoreCivilian",
+}, {
+        id: "TryMarkTargetOption",
+        reflexive: false,
+        nodeName: "TryMarkTargetOption",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-MarkTarget",
+        Child1: "AnyAlliesVisible",
+        Child2: "MultipleEnemiesVisible",
+        Child3: "NoUnitsMarked",
+        Child4: "SelectTargetForMarkTarget",
+        Child5: "SelectAbility-MarkTarget",
+        Intent: "Marking a target: GETTIM!"
+}, {
+        id: "SelectTargetForMarkTarget",
+        reflexive: false,
+        nodeName: "SelectTargetForMarkTarget",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-MarkTarget",
+        Child1: "ScoreAllTargets_MarkTarget",
+        Child2: "HasValidTarget-MarkTarget"
+}, {
+        id: "ScoreAllTargets_MarkTarget",
+        reflexive: false,
+        nodeName: "ScoreAllTargets_MarkTarget",
+        NodeType: "RepeatUntilFail",
+        Child0: "ScoreTarget_MarkTargetLoop"
+}, {
+        id: "ScoreTarget_MarkTargetLoop",
+        reflexive: false,
+        nodeName: "ScoreTarget_MarkTargetLoop",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "ScoreTarget_MarkTargetScoring",
+        Child2: "UpdateBestTarget"
+}, {
+        id: "ScoreTarget_MarkTargetScoring",
+        reflexive: false,
+        nodeName: "ScoreTarget_MarkTargetScoring",
+        NodeType: "Successor",
+        Child0: "ScoreMarkTargetOption"
+}, {
+        id: "ScoreMarkTargetOption",
+        reflexive: false,
+        nodeName: "ScoreMarkTargetOption",
+        NodeType: "Sequence",
+        Child0: "TargetIsEnemy",
+        Child1: "TargetIsNotCivilian",
+        Child2: "ScoreByHP",
+        Child3: "TargetScoreHealth_HighFirst",
+        Child4: "TargetScoreHighestSoldierRank",
+        Child5: "TargetScoreTeamVisibility",
+        Child6: "SometimesRandomizeTarget",
+        Child7: "AvoidBoundAndPanickedTargets"
+},
+    {
+        id: "SetTargetStack-MarkTarget",
+        reflexive: false,
+        nodeName: "SetTargetStack-MarkTarget",
+        NodeType: "Action"
+},
+    {
+        id: "HasValidTarget-MarkTarget",
+        reflexive: false,
+        nodeName: "HasValidTarget-MarkTarget",
+        NodeType: "Condition"
+}, {
+        id: "NoUnitsMarked",
+        reflexive: false,
+        nodeName: "NoUnitsMarked",
+        NodeType: "Inverter",
+        Child0: "HaveAnyMarkedTargets"
+}, {
+        id: "HaveAnyMarkedTargets",
+        reflexive: false,
+        nodeName: "HaveAnyMarkedTargets",
+        NodeType: "Sequence",
+        Child0: "SetPotentialTargetStack",
+        Child1: "FindAnyMarkedTarget",
+        Child2: "HasValidTarget-Potential"
+}, {
+        id: "FindAnyMarkedTarget",
+        reflexive: false,
+        nodeName: "FindAnyMarkedTarget",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluateTargetIsMarked"
+}, {
+        id: "EvaluateTargetIsMarked",
+        reflexive: false,
+        nodeName: "EvaluateTargetIsMarked",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "SSScoreIfMarked",
+        Child2: "UpdateBestTarget",
+        Child3: "BreakOnAnyValidTarget-Potential"
+}, {
+        id: "SSScoreIfMarked",
+        reflexive: false,
+        nodeName: "SSScoreIfMarked",
+        NodeType: "Successor",
+        Child0: "ScoreTargetIfMarked"
+},
+    {
+        id: "BreakOnAnyValidTarget-Potential",
+        reflexive: false,
+        nodeName: "BreakOnAnyValidTarget-Potential",
+        NodeType: "Inverter",
+        Child0: "HasValidTarget-Potential"
+}, {
+        id: "TryEnergyShieldOnMultipleTargets",
+        reflexive: false,
+        nodeName: "TryEnergyShieldOnMultipleTargets",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-EnergyShield",
+        Child1: "HasMultipleEnergyShieldTargets",
+        Child2: "SelectAbility-EnergyShield"
+}, {
+        id: "TryEnergyShieldOnAnyTarget",
+        reflexive: false,
+        nodeName: "TryEnergyShieldOnAnyTarget",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-EnergyShield",
+        Child1: "HasAnyEnergyShieldTargets",
+        Child2: "SelectAbility-EnergyShield"
+}, {
+        id: "SelectPotentialTargetForEnergyShield",
+        reflexive: false,
+        nodeName: "SelectPotentialTargetForEnergyShield",
+        NodeType: "Sequence",
+        Child0: "SetPotentialAllyTargetStack",
+        Child1: "SelectBestAllyTargetForEnergyShield",
+        Child2: "HasValidTarget-Potential"
+}, {
+        id: "SelectBestAllyTargetForEnergyShield",
+        reflexive: false,
+        nodeName: "SelectBestAllyTargetForEnergyShield",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluatePotentialEnergyShieldTarget"
+}, {
+        id: "EvaluatePotentialEnergyShieldTarget",
+        reflexive: false,
+        nodeName: "EvaluatePotentialEnergyShieldTarget",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "ScoreBestTargetForEnergyShield",
+        Child2: "UpdateBestTarget"
+}, {
+        id: "ScoreBestTargetForEnergyShield",
+        reflexive: false,
+        nodeName: "ScoreBestTargetForEnergyShield",
+        NodeType: "Successor",
+        Child0: "TargetScoreReachableForEnergyShield"
+}, {
+        id: "TargetScoreReachableForEnergyShield",
+        reflexive: false,
+        nodeName: "TargetScoreReachableForEnergyShield",
+        NodeType: "Sequence",
+        Child0: "IsTargetInMovementRange-EnergyShield",
+        Child1: "AvoidBoundAndPanickedTargets",
+        Child2: "ScoreByHP"
+}, {
+        id: "ScoreByHP",
+        reflexive: false,
+        nodeName: "ScoreByHP",
+        NodeType: "Sequence",
+        Child0: "TargetScoreByScaledMaxStat-eStat_HP",
+        Child1: "TargetScoreByScaledCurrStat-eStat_HP"
+},
+    {
+        id: "TargetScoreByScaledMaxStat-eStat_HP",
+        reflexive: false,
+        nodeName: "TargetScoreByScaledMaxStat-eStat_HP",
+        NodeType: "Action",
+        Param0: "10"
+},
+    {
+        id: "TargetScoreByScaledCurrStat-eStat_HP",
+        reflexive: false,
+        nodeName: "TargetScoreByScaledCurrStat-eStat_HP",
+        NodeType: "Action",
+        Param0: "1"
+}, {
+        id: "TryMoveThenMicroMissiles",
+        reflexive: false,
+        nodeName: "TryMoveThenMicroMissiles",
+        NodeType: "Selector",
+        Child0: "TryMoveForMicroMissiles",
+        Child1: "TryMicroMissiles"
+}, {
+        id: "TryMoveForMicroMissiles",
+        reflexive: false,
+        nodeName: "TryMoveForMicroMissiles",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "IsAbilityReady-MicroMissiles",
+        Child2: "FindPotentialAoETargets-MicroMissilesProfile",
+        Child3: "MoveStandardIfFirstAbility-MicroMissiles"
+}, {
+        id: "TryMicroMissiles",
+        reflexive: false,
+        nodeName: "TryMicroMissiles",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-MicroMissiles",
+        Child1: "FindPotentialAoETargets-MicroMissilesProfile",
+        Child2: "SelectAoETarget-MicroMissilesProfile",
+        Child3: "SelectAbility-MicroMissiles"
+}, {
+        id: "TryMoveThenMicroMissilesMk2",
+        reflexive: false,
+        nodeName: "TryMoveThenMicroMissilesMk2",
+        NodeType: "Selector",
+        Child0: "TryMoveForMicroMissilesMk2",
+        Child1: "TryMicroMissilesMk2"
+}, {
+        id: "TryMoveForMicroMissilesMk2",
+        reflexive: false,
+        nodeName: "TryMoveForMicroMissilesMk2",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "IsAbilityReady-MicroMissiles",
+        Child2: "FindPotentialAoETargets-MicroMissilesProfileMk2",
+        Child3: "MoveStandardIfFirstAbility-MicroMissiles"
+}, {
+        id: "TryMicroMissilesMk2",
+        reflexive: false,
+        nodeName: "TryMicroMissilesMk2",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-MicroMissiles",
+        Child1: "FindPotentialAoETargets-MicroMissilesProfileMk2",
+        Child2: "SelectAoETarget-MicroMissilesProfileMk2",
+        Child3: "SelectAbility-MicroMissiles"
+}, {
+        id: "TryMoveThenAcidBlob",
+        reflexive: false,
+        nodeName: "TryMoveThenAcidBlob",
+        NodeType: "Selector",
+        Child0: "TryMoveForAcidBlob",
+        Child1: "TryAcidBlob"
+}, {
+        id: "TryMoveForAcidBlob",
+        reflexive: false,
+        nodeName: "TryMoveForAcidBlob",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "IsAbilityReady-AcidBlob",
+        Child2: "FindPotentialAoETargets-AcidBlobProfile",
+        Child3: "MoveStandardIfFirstAbility-AcidBlob"
+}, {
+        id: "TryAcidBlob",
+        reflexive: false,
+        nodeName: "TryAcidBlob",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-AcidBlob",
+        Child1: "FindPotentialAoETargets-AcidBlobProfile",
+        Child2: "SelectAoETarget-AcidBlobProfile",
+        Child3: "SelectAbility-AcidBlob"
+},
+    {
+        id: "HasValidTarget-Bayonet",
+        reflexive: false,
+        nodeName: "HasValidTarget-Bayonet",
+        NodeType: "Condition"
+},
+    {
+        id: "SetTargetStack-Bayonet",
+        reflexive: false,
+        nodeName: "SetTargetStack-Bayonet",
+        NodeType: "Action"
+}, {
+        id: "TryBayonet",
+        reflexive: false,
+        nodeName: "TryBayonet",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-Bayonet",
+        Child1: "BayonetStepSelector"
+}, {
+        id: "BayonetStepSelector",
+        reflexive: false,
+        nodeName: "BayonetStepSelector",
+        NodeType: "Selector",
+        Child0: "BayonetAttack",
+        Child1: "MoveMeleeDefensiveIfFirstAbility"
+}, {
+        id: "BayonetAttack",
+        reflexive: false,
+        nodeName: "BayonetAttack",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-Bayonet",
+        Child1: "SelectTargetForBayonet",
+        Child2: "SelectAbility-Bayonet"
+}, {
+        id: "SelectTargetForBayonet",
+        reflexive: false,
+        nodeName: "SelectTargetForBayonet",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-Bayonet",
+        Child1: "SelectBestTargetForStandardMelee",
+        Child2: "HasValidTarget-Bayonet"
+}, {
+        id: "SelectBestTargetForBayonet",
+        reflexive: false,
+        nodeName: "SelectBestTargetForBayonet",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluatePotentialMeleeTarget"
+},
+    {
+        id: "HasValidTarget-DevastatingPunch",
+        reflexive: false,
+        nodeName: "HasValidTarget-DevastatingPunch",
+        NodeType: "Condition"
+},
+    {
+        id: "SetTargetStack-DevastatingPunch",
+        reflexive: false,
+        nodeName: "SetTargetStack-DevastatingPunch",
+        NodeType: "Action"
+}, {
+        id: "TryBerserkerMelee",
+        reflexive: false,
+        nodeName: "TryBerserkerMelee",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-DevastatingPunch",
+        Child1: "MoveMeleeOrDevastatingPunchAttack"
+}, {
+        id: "MoveMeleeOrDevastatingPunchAttack",
+        reflexive: false,
+        nodeName: "MoveMeleeOrDevastatingPunchAttack",
+        NodeType: "Selector",
+        Child0: "TryDevastatingPunchAttack",
+        Child1: "MoveToDevastatingPunchTargetIfFirstAbility"
+}, {
+        id: "TryDevastatingPunchAttack",
+        reflexive: false,
+        nodeName: "TryDevastatingPunchAttack",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMelee",
+        Child1: "SelectTargetForDevastatingPunch",
+        Child2: "SelectAbility-StandardMelee"
+}, {
+        id: "MoveToDevastatingPunchTargetIfFirstAbility",
+        reflexive: false,
+        nodeName: "MoveToDevastatingPunchTargetIfFirstAbility",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "NotLastActionPoint",
+        Child2: "ResetDestinationSearch",
+        Child3: "IncludeCiviliansIfTerrorist",
+        Child4: "FindBerserkerMeleeDestination",
+        Child5: "SelectAbility-StandardMove"
+}, {
+        id: "FindBerserkerMeleeDestination",
+        reflexive: false,
+        nodeName: "FindBerserkerMeleeDestination",
+        NodeType: "Sequence",
+        Child0: "SelectPotentialTargetForDevastatingPunch",
+        Child1: "RestrictToPotentialTargetRange-StandardMelee",
+        Child2: "FindRestrictedDestination-Melee"
+}, {
+        id: "SelectTargetForDevastatingPunch",
+        reflexive: false,
+        nodeName: "SelectTargetForDevastatingPunch",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-DevastatingPunch",
+        Child1: "SelectBestTargetForDevastatingPunch",
+        Child2: "HasValidTarget-DevastatingPunch"
+}, {
+        id: "SelectPotentialTargetForDevastatingPunch",
+        reflexive: false,
+        nodeName: "SelectPotentialTargetForDevastatingPunch",
+        NodeType: "Sequence",
+        Child0: "SetPotentialTargetStack",
+        Child1: "SelectBestTargetForDevastatingPunch",
+        Child2: "HasValidTarget-Potential"
+}, {
+        id: "SelectBestTargetForDevastatingPunch",
+        reflexive: false,
+        nodeName: "SelectBestTargetForDevastatingPunch",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluatePotentialDevastatingPunchTarget"
+}, {
+        id: "EvaluatePotentialDevastatingPunchTarget",
+        reflexive: false,
+        nodeName: "EvaluatePotentialDevastatingPunchTarget",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "TargetScoreClosestVisibleAllyIfEnraged",
+        Child2: "TargetScoreClosestEnemyIfInRange",
+        Child3: "TargetScoreInvalidateCivilians",
+        Child4: "UpdateBestTarget"
+}, {
+        id: "TargetScoreClosestVisibleAllyIfEnraged",
+        reflexive: false,
+        nodeName: "TargetScoreClosestVisibleAllyIfEnraged",
+        NodeType: "Successor",
+        Child0: "ScoreClosestVisibleAllyIfEnraged"
+}, {
+        id: "ScoreClosestVisibleAllyIfEnraged",
+        reflexive: false,
+        nodeName: "ScoreClosestVisibleAllyIfEnraged",
+        NodeType: "Sequence",
+        Child0: "AffectedByEffect-RageTriggered",
+        Child1: "IsVisibleToPlayer",
+        Child2: "TargetIsAlly",
+        Child3: "TargetIsAdvent",
+        Child4: "TargetIsVisibleToPlayer",
+        Child5: "IsTargetInMovementRange-StandardMelee",
+        Child6: "TargetScoreByScaledDistance-1",
+        Child7: "AddToTargetScore_100"
+}, {
+        id: "TargetScoreClosestEnemyIfInRange",
+        reflexive: false,
+        nodeName: "TargetScoreClosestEnemyIfInRange",
+        NodeType: "Successor",
+        Child0: "ScoreClosestEnemyIfInRange"
+}, {
+        id: "ScoreClosestEnemyIfInRange",
+        reflexive: false,
+        nodeName: "ScoreClosestEnemyIfInRange",
+        NodeType: "Sequence",
+        Child0: "TargetIsEnemy",
+        Child1: "TargetIsNotAlien",
+        Child2: "IsTargetInMovementRange-StandardMelee",
+        Child3: "TargetScoreByScaledDistance-1",
+        Child4: "AddToTargetScore_100",
+        Child5: "AvoidBoundAndPanickedTargets"
+}, {
+        id: "TryTriggerRage",
+        reflexive: false,
+        nodeName: "TryTriggerRage",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-TriggerRage",
+        Child1: "SelectAbility-TriggerRage"
+},
+    {
+        id: "HasValidTarget-MindSpin",
+        reflexive: false,
+        nodeName: "HasValidTarget-MindSpin",
+        NodeType: "Condition"
+},
+    {
+        id: "SetTargetStack-MindSpin",
+        reflexive: false,
+        nodeName: "SetTargetStack-MindSpin",
+        NodeType: "Action"
+}, {
+        id: "SelectTargetForMindSpin",
+        reflexive: false,
+        nodeName: "SelectTargetForMindSpin",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-MindSpin",
+        Child1: "SelectBestTargetForMindSpin",
+        Child2: "HasValidTarget-MindSpin"
+}, {
+        id: "SelectBestTargetForMindSpin",
+        reflexive: false,
+        nodeName: "SelectBestTargetForMindSpin",
+        NodeType: "RepeatUntilFail",
+        Child0: "PsiEvaluateTargetsGeneric"
+},
+    {
+        id: "HasValidTarget-PsiReanimation",
+        reflexive: false,
+        nodeName: "HasValidTarget-PsiReanimation",
+        NodeType: "Condition"
+}, {
+        id: "TryPsiReanimation",
+        reflexive: false,
+        nodeName: "TryPsiReanimation",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-PsiReanimation",
+        Child1: "SelectTargetForPsiReanimation",
+        Child2: "SelectAbility-PsiReanimation"
+}, {
+        id: "SelectTargetForPsiReanimation",
+        reflexive: false,
+        nodeName: "SelectTargetForPsiReanimation",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-PsiReanimation",
+        Child1: "GenericSelectTargetSomewhatRandomly",
+        Child2: "HasValidTarget-PsiReanimation"
+},
+    {
+        id: "SetTargetStack-PsiReanimation",
+        reflexive: false,
+        nodeName: "SetTargetStack-PsiReanimation",
+        NodeType: "Action"
+},
+    {
+        id: "HasValidTarget-GetOverHere",
+        reflexive: false,
+        nodeName: "HasValidTarget-GetOverHere",
+        NodeType: "Condition"
+},
+    {
+        id: "SetTargetStack-GetOverHere",
+        reflexive: false,
+        nodeName: "SetTargetStack-GetOverHere",
+        NodeType: "Action"
+}, {
+        id: "TryGetOverHere",
+        reflexive: false,
+        nodeName: "TryGetOverHere",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-GetOverHere",
+        Child1: "SelectTargetForGetOverHere",
+        Child2: "SelectAbility-GetOverHere"
+}, {
+        id: "SelectTargetForGetOverHere",
+        reflexive: false,
+        nodeName: "SelectTargetForGetOverHere",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-GetOverHere",
+        Child1: "SelectBestTargetForGetOverHere",
+        Child2: "HasValidTarget-GetOverHere"
+}, {
+        id: "SelectBestTargetForGetOverHere",
+        reflexive: false,
+        nodeName: "SelectBestTargetForGetOverHere",
+        NodeType: "RepeatUntilFail",
+        Child0: "TargetSelectIterationForGetOverHere"
+}, {
+        id: "TargetSelectIterationForGetOverHere",
+        reflexive: false,
+        nodeName: "TargetSelectIterationForGetOverHere",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "GenericTargetEvaluations",
+        Child2: "TargetScoreInvalidateCivilians",
+        Child3: "SSTargetScoreInvalidTonguePullTargets",
+        Child4: "UpdateBestTarget"
+}, {
+        id: "SSTargetScoreInvalidTonguePullTargets",
+        reflexive: false,
+        nodeName: "SSTargetScoreInvalidTonguePullTargets",
+        NodeType: "Successor",
+        Child0: "TargetScoreInvalidTonguePullTargets"
+}, {
+        id: "TargetScoreInvalidTonguePullTargets",
+        reflexive: false,
+        nodeName: "TargetScoreInvalidTonguePullTargets",
+        NodeType: "Sequence",
+        Child0: "IsInvalidTonguePullTarget",
+        Child1: "AddToTargetScore_-1000"
+}, {
+        id: "IsInvalidTonguePullTarget",
+        reflexive: false,
+        nodeName: "IsInvalidTonguePullTarget",
+        NodeType: "Selector",
+        Child0: "TargetAffectedByEffect-Suppression",
+        Child1: "TargetIsApplyingEffect-Suppression" // 
+}, {
+        id: "IsValidTonguePullTarget",
+        reflexive: false,
+        nodeName: "IsValidTonguePullTarget",
+        NodeType: "Inverter",
+        Child0: "IsInvalidTonguePullTarget"
+}, {
+        id: "TryMoveThenPoisonSpit",
+        reflexive: false,
+        nodeName: "TryMoveThenPoisonSpit",
+        NodeType: "Selector",
+        Child0: "TryMoveForPoisonSpit",
+        Child1: "TryPoisonSpit"
+}, {
+        id: "TryMoveForPoisonSpit",
+        reflexive: false,
+        nodeName: "TryMoveForPoisonSpit",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "IsAbilityReady-PoisonSpit",
+        Child2: "FindPotentialAoETargets-PoisonSpitProfile",
+        Child3: "MoveStandardIfFirstAbility-PoisonSpit"
+}, {
+        id: "TryPoisonSpit",
+        reflexive: false,
+        nodeName: "TryPoisonSpit",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-PoisonSpit",
+        Child1: "FindPotentialAoETargets-PoisonSpitProfile",
+        Child2: "SelectAoETarget-PoisonSpitProfile",
+        Child3: "SelectAbility-PoisonSpit"
+}, {
+        id: "TryMoveThenPoisonSpitSingle",
+        reflexive: false,
+        nodeName: "TryMoveThenPoisonSpitSingle",
+        NodeType: "Selector",
+        Child0: "TryMoveForPoisonSpitSingle",
+        Child1: "TryPoisonSpitSingle"
+}, {
+        id: "TryMoveForPoisonSpitSingle",
+        reflexive: false,
+        nodeName: "TryMoveForPoisonSpitSingle",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "IsAbilityReady-PoisonSpit",
+        Child2: "FindPotentialAoETargets-PoisonSpitSingleProfile",
+        Child3: "MoveStandardIfFirstAbility-PoisonSpit"
+}, {
+        id: "TryPoisonSpitSingle",
+        reflexive: false,
+        nodeName: "TryPoisonSpitSingle",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-PoisonSpit",
+        Child1: "FindPotentialAoETargets-PoisonSpitSingleProfile",
+        Child2: "SelectAoETarget-PoisonSpitSingleProfile",
+        Child3: "SelectAbility-PoisonSpit"
+},
+    {
+        id: "HasValidTarget-Bind",
+        reflexive: false,
+        nodeName: "HasValidTarget-Bind",
+        NodeType: "Condition"
+},
+    {
+        id: "SetTargetStack-Bind",
+        reflexive: false,
+        nodeName: "SetTargetStack-Bind",
+        NodeType: "Action"
+}, {
+        id: "TryBind",
+        reflexive: false,
+        nodeName: "TryBind",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-Bind",
+        Child1: "MoveMeleeOrBindAttack"
+}, {
+        id: "MoveMeleeOrBindAttack",
+        reflexive: false,
+        nodeName: "MoveMeleeOrBindAttack",
+        NodeType: "Selector",
+        Child0: "BindAttack",
+        Child1: "MoveForBindIfFirstAbility"
+}, {
+        id: "BindAttack",
+        reflexive: false,
+        nodeName: "BindAttack",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-Bind",
+        Child1: "SelectTargetForBind",
+        Child2: "SelectAbility-Bind"
+}, {
+        id: "MoveForBindIfFirstAbility",
+        reflexive: false,
+        nodeName: "MoveForBindIfFirstAbility",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "MoveForBindIfFirstAbilityUnsafe"
+}, {
+        id: "MoveForBindIfFirstAbilityUnsafe",
+        reflexive: false,
+        nodeName: "MoveForBindIfFirstAbilityUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "NotLastActionPoint",
+        Child2: "ResetDestinationSearch",
+        Child3: "IncludeCiviliansIfTerrorist",
+        Child4: "FindViperMeleeDestination",
+        Child5: "SelectAbility-StandardMove"
+}, {
+        id: "FindViperMeleeDestination",
+        reflexive: false,
+        nodeName: "FindViperMeleeDestination",
+        NodeType: "Sequence",
+        Child0: "SelectPotentialTargetForBind",
+        Child1: "RestrictToPotentialTargetRange-StandardMelee",
+        Child2: "FindRestrictedDestination-Melee"
+}, {
+        id: "SelectTargetForBind",
+        reflexive: false,
+        nodeName: "SelectTargetForBind",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-Bind",
+        Child1: "SelectBestTargetForBind",
+        Child2: "HasValidTarget-Bind"
+}, {
+        id: "SelectPotentialTargetForBind",
+        reflexive: false,
+        nodeName: "SelectPotentialTargetForBind",
+        NodeType: "Sequence",
+        Child0: "SetPotentialTargetStack",
+        Child1: "SelectBestTargetForBind",
+        Child2: "HasValidTarget-Potential"
+}, {
+        id: "SelectBestTargetForBind",
+        reflexive: false,
+        nodeName: "SelectBestTargetForBind",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluatePotentialMeleeTarget"
+},
+    {
+        id: "HasValidTarget-PsiMindControl",
+        reflexive: false,
+        nodeName: "HasValidTarget-PsiMindControl",
+        NodeType: "Condition"
+},
+    {
+        id: "SetTargetStack-PsiMindControl",
+        reflexive: false,
+        nodeName: "SetTargetStack-PsiMindControl",
+        NodeType: "Action"
+}, {
+        id: "TryPsiMindControl",
+        reflexive: false,
+        nodeName: "TryPsiMindControl",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-PsiMindControl",
+        Child1: "SelectTargetForPsiMindControl",
+        Child2: "SelectAbility-PsiMindControl"
+}, {
+        id: "SelectTargetForPsiMindControl",
+        reflexive: false,
+        nodeName: "SelectTargetForPsiMindControl",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-PsiMindControl",
+        Child1: "SelectBestTargetForPsiMindControl",
+        Child2: "HasValidTarget-PsiMindControl"
+}, {
+        id: "SelectBestTargetForPsiMindControl",
+        reflexive: false,
+        nodeName: "SelectBestTargetForPsiMindControl",
+        NodeType: "RepeatUntilFail",
+        Child0: "PsiEvaluateTargetsMindControl"
+}, {
+        id: "TryMoveForPsiMindControl",
+        reflexive: false,
+        nodeName: "TryMoveForPsiMindControl",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "IsAbilityAvailable-PsiMindControl",
+        Child2: "SelectTargetForPsiMindControl",
+        Child3: "MoveStandardIfFirstAbility-PsiMindControl"
+}, {
+        id: "TryMoveThenPsiMindControl",
+        reflexive: false,
+        nodeName: "TryMoveThenPsiMindControl",
+        NodeType: "Selector",
+        Child0: "TryMoveForPsiMindControl",
+        Child1: "TryPsiMindControl"
+}, {
+        id: "TryDimensionalRift",
+        reflexive: false,
+        nodeName: "TryDimensionalRift",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-PsiDimensionalRiftStage1",
+        Child1: "FindPotentialAoETargets-PsiRiftProfile",
+        Child2: "SelectAoETarget-PsiRiftProfile",
+        Child3: "SelectAbility-PsiDimensionalRiftStage1"
+}, {
+        id: "TryMoveThenDimensionalRift",
+        reflexive: false,
+        nodeName: "TryMoveThenDimensionalRift",
+        NodeType: "Selector",
+        Child0: "TryMoveForDimensionalRift",
+        Child1: "TryDimensionalRift"
+}, {
+        id: "TryMoveForDimensionalRift",
+        reflexive: false,
+        nodeName: "TryMoveForDimensionalRift",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "IsAbilityReady-PsiDimensionalRiftStage1",
+        Child2: "FindPotentialAoETargets-PsiRiftProfile",
+        Child3: "MoveStandardIfFirstAbility-PsiDimensionalRiftStage1"
+}, {
+        id: "TryNullLance",
+        reflexive: false,
+        nodeName: "TryNullLance",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-NullLance",
+        Child1: "FindPotentialAoETargets-NullLanceValidateProfile",
+        Child2: "SelectAoETarget-NullLanceValidateProfile",
+        Child3: "SelectAbility-NullLance"
+}, {
+        id: "TryMoveThenNullLance",
+        reflexive: false,
+        nodeName: "TryMoveThenNullLance",
+        NodeType: "Selector",
+        Child0: "TryMoveForNullLance",
+        Child1: "TryNullLance"
+}, {
+        id: "TryMoveForNullLance",
+        reflexive: false,
+        nodeName: "TryMoveForNullLance",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "IsAbilityReady-NullLance",
+        Child2: "NotLastActionPoint",
+        Child3: "SelectPotentialMeleeTarget",
+        Child4: "FindPotentialAoETargets-NullLanceProfile",
+        Child5: "MoveStandardIfFirstAbility-NullLance"
+}, {
+        id: "TryTriggerDamagedTeleport",
+        reflexive: false,
+        nodeName: "TryTriggerDamagedTeleport",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-TriggerDamagedTeleport",
+        Child1: "SelectAbility-TriggerDamagedTeleport"
+}, {
+        id: "TryBurrowIfNotOnJob",
+        reflexive: false,
+        nodeName: "TryBurrowIfNotOnJob",
+        NodeType: "Sequence",
+        Child0: "DoNotHaveAlwaysOnJob",
+        Child1: "BurrowIfOutOfView"
+}, {
+        id: "TryBurrow",
+        reflexive: false,
+        nodeName: "TryBurrow",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-ChryssalidBurrow",
+        Child1: "SelectAbility-ChryssalidBurrow",
+        Child2: "SetUnitValue-MeleeChance"
+}, {
+        id: "TryUnBurrow",
+        reflexive: false,
+        nodeName: "TryUnBurrow",
+        NodeType: "Sequence",
+        Child0: "AffectedByEffect-Burrowed",
+        Child1: "IsAbilityAvailable-ChryssalidUnburrow",
+        Child2: "SelectAbility-ChryssalidUnburrow"
+}, {
+        id: "TryUnBurrowSuccessor",
+        reflexive: false,
+        nodeName: "TryUnBurrowSuccessor",
+        NodeType: "Successor",
+        Child0: "TryUnBurrow"
+}, {
+        id: "ChryssalidBurrowedAttack",
+        reflexive: false,
+        nodeName: "ChryssalidBurrowedAttack",
+        NodeType: "Selector",
+        Child0: "TryUnBurrow",
+        Child1: "TryMeleeAttackPriorityTarget"
+}, {
+        id: "TrySpawnChryssalid",
+        reflexive: false,
+        nodeName: "TrySpawnChryssalid",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-SpawnChryssalid",
+        Child1: "SelectAbility-SpawnChryssalid"
+}, {
+        id: "TryFrenzyTrigger",
+        reflexive: false,
+        nodeName: "TryFrenzyTrigger",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-FrenzyTrigger",
+        Child1: "SelectAbility-FrenzyTrigger"
+}, {
+        id: "TryBlazingPinions",
+        reflexive: false,
+        nodeName: "TryBlazingPinions",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-BlazingPinionsStage1",
+        Child1: "FindPotentialAoETargets-BlazingPinionsBasicProfile",
+        Child2: "SelectAoETarget-BlazingPinionsBasicProfile",
+        Child3: "SelectAbility-BlazingPinionsStage1"
+}, {
+        id: "TryAnimaInversionCorpses",
+        reflexive: false,
+        nodeName: "TryAnimaInversionCorpses",
+        NodeType: "Selector",
+        Child0: "TryAnimaInversionCorpseActivate",
+        Child1: "TryGatekeeperOpenIfAnimaInversionCorpseReady"
+}, {
+        id: "TryAnimaInversionCorpseActivate",
+        reflexive: false,
+        nodeName: "TryAnimaInversionCorpseActivate",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-AnimaInversion",
+        Child1: "FindPotentialAoETargets-AnimaInversionCorpseProfile",
+        Child2: "SelectAoETarget-AnimaInversionCorpseProfile",
+        Child3: "SelectAbility-AnimaInversion"
+}, {
+        id: "TryGatekeeperOpenIfAnimaInversionCorpseReady",
+        reflexive: false,
+        nodeName: "TryGatekeeperOpenIfAnimaInversionCorpseReady",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-AnimaInversion",
+        Child1: "FindPotentialAoETargets-AnimaInversionCorpseProfile",
+        Child2: "SelectAoETarget-AnimaInversionCorpseProfile",
+        Child3: "TryGatekeeperOpen"
+}, {
+        id: "TryMoveThenAnimaInversionCorpse",
+        reflexive: false,
+        nodeName: "TryMoveThenAnimaInversionCorpse",
+        NodeType: "Selector",
+        Child0: "TryMoveForAnimaInversionCorpse",
+        Child1: "TryAnimaInversionCorpses"
+}, {
+        id: "TryMoveForAnimaInversionCorpse",
+        reflexive: false,
+        nodeName: "TryMoveForAnimaInversionCorpse",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "IsAbilityReady-AnimaInversion",
+        Child2: "FindPotentialAoETargets-AnimaInversionCorpseProfile",
+        Child3: "MoveStandardIfFirstAbility-AnimaInversion"
+}, {
+        id: "TryAnimaInversionMixed",
+        reflexive: false,
+        nodeName: "TryAnimaInversionMixed",
+        NodeType: "Selector",
+        Child0: "TryAnimaInversionMixedActivate",
+        Child1: "TryGatekeeperOpenIfAnimaInversionMixedReady"
+}, {
+        id: "TryAnimaInversionMixedActivate",
+        reflexive: false,
+        nodeName: "TryAnimaInversionMixedActivate",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-AnimaInversion",
+        Child1: "FindPotentialAoETargets-AnimaInversionMixedProfile",
+        Child2: "SelectAoETarget-AnimaInversionMixedProfile",
+        Child3: "SelectAbility-AnimaInversion"
+}, {
+        id: "TryGatekeeperOpenIfAnimaInversionMixedReady",
+        reflexive: false,
+        nodeName: "TryGatekeeperOpenIfAnimaInversionMixedReady",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-AnimaInversion",
+        Child1: "FindPotentialAoETargets-AnimaInversionMixedProfile",
+        Child2: "SelectAoETarget-AnimaInversionMixedProfile",
+        Child3: "TryGatekeeperOpen"
+}, {
+        id: "TryMoveThenAnimaInversionMixed",
+        reflexive: false,
+        nodeName: "TryMoveThenAnimaInversionMixed",
+        NodeType: "Selector",
+        Child0: "TryMoveForAnimaInversionMixed",
+        Child1: "TryAnimaInversionMixed"
+}, {
+        id: "TryMoveForAnimaInversionMixed",
+        reflexive: false,
+        nodeName: "TryMoveForAnimaInversionMixed",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "IsAbilityReady-AnimaInversion",
+        Child2: "FindPotentialAoETargets-AnimaInversionMixedProfile",
+        Child3: "MoveStandardIfFirstAbility-AnimaInversion"
+},
+    {
+        id: "HasValidTarget-AnimaConsume",
+        reflexive: false,
+        nodeName: "HasValidTarget-AnimaConsume",
+        NodeType: "Condition"
+},
+    {
+        id: "SetTargetStack-AnimaConsume",
+        reflexive: false,
+        nodeName: "SetTargetStack-AnimaConsume",
+        NodeType: "Action"
+}, {
+        id: "TryAnimaConsumeOnEnemy",
+        reflexive: false,
+        nodeName: "TryAnimaConsumeOnEnemy",
+        NodeType: "Sequence",
+        Child0: "HasWounds",
+        Child1: "IsAbilityReady-AnimaConsume",
+        Child2: "AnimaConsumeStepSelectorEnemy"
+}, {
+        id: "AnimaConsumeStepSelectorEnemy",
+        reflexive: false,
+        nodeName: "AnimaConsumeStepSelectorEnemy",
+        NodeType: "Selector",
+        Child0: "AnimaConsumeAttackEnemy",
+        Child1: "AnimaConsumeAttackEnemyUnopened",
+        Child2: "MoveMeleeIfFirstAbilityFANATIC"
+}, {
+        id: "TryAnimaConsumeOnAlly",
+        reflexive: false,
+        nodeName: "TryAnimaConsumeOnAlly",
+        NodeType: "Sequence",
+        Child0: "IsBloodied",
+        Child1: "IsVisibleToPlayer",
+        Child2: "IsAbilityReady-AnimaConsume",
+        Child3: "AnimaConsumeStepSelectorAlly"
+}, {
+        id: "AnimaConsumeStepSelectorAlly",
+        reflexive: false,
+        nodeName: "AnimaConsumeStepSelectorAlly",
+        NodeType: "Selector",
+        Child0: "AnimaConsumeAttackAlly",
+        Child1: "AnimaConsumeAttackAllyUnopened",
+        Child2: "MoveToPotentialMeleeIfFirstAbilityFANATIC"
+}, {
+        id: "AnimaConsumeNotAvailable",
+        reflexive: false,
+        nodeName: "AnimaConsumeNotAvailable",
+        NodeType: "Inverter",
+        Child0: "IsAbilityAvailable-AnimaConsume"
+}, {
+        id: "IncludeAlliesAsMeleeTargets",
+        reflexive: false,
+        nodeName: "IncludeAlliesAsMeleeTargets",
+        NodeType: "Action"
+}, {
+        id: "AnimaConsumeAttackEnemy",
+        reflexive: false,
+        nodeName: "AnimaConsumeAttackEnemy",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-AnimaConsume",
+        Child1: "SelectEnemyTargetForAnimaConsume",
+        Child2: "SelectAbility-AnimaConsume"
+}, {
+        id: "AnimaConsumeAttackEnemyUnopened",
+        reflexive: false,
+        nodeName: "AnimaConsumeAttackEnemyUnopened",
+        NodeType: "Sequence",
+        Child0: "AnimaConsumeNotAvailable",
+        Child1: "SelectPotentialTargetForEnemyAnimaConsume",
+        Child2: "IsTargetInAttackRange-StandardMelee",
+        Child3: "TryGatekeeperOpen"
+}, {
+        id: "SelectPotentialTargetForEnemyAnimaConsume",
+        reflexive: false,
+        nodeName: "SelectPotentialTargetForEnemyAnimaConsume",
+        NodeType: "Sequence",
+        Child0: "SetPotentialTargetStack",
+        Child1: "SelectBestEnemyTargetForAnimaConsume",
+        Child2: "HasValidTarget-Potential"
+}, {
+        id: "SelectEnemyTargetForAnimaConsume",
+        reflexive: false,
+        nodeName: "SelectEnemyTargetForAnimaConsume",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-AnimaConsume",
+        Child1: "SelectBestEnemyTargetForAnimaConsume",
+        Child2: "HasValidTarget-AnimaConsume"
+}, {
+        id: "SelectBestEnemyTargetForAnimaConsume",
+        reflexive: false,
+        nodeName: "SelectBestEnemyTargetForAnimaConsume",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluatePotentialMeleeTarget"
+}, {
+        id: "AnimaConsumeAttackAlly",
+        reflexive: false,
+        nodeName: "AnimaConsumeAttackAlly",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-AnimaConsume",
+        Child1: "SelectAllyTargetForAnimaConsume",
+        Child2: "SelectAbility-AnimaConsume"
+}, {
+        id: "AnimaConsumeAttackAllyUnopened",
+        reflexive: false,
+        nodeName: "AnimaConsumeAttackAllyUnopened",
+        NodeType: "Sequence",
+        Child0: "AnimaConsumeNotAvailable",
+        Child1: "SelectPotentialTargetForAllyAnimaConsume",
+        Child2: "IsTargetInAttackRange-StandardMelee",
+        Child3: "TryGatekeeperOpen"
+}, {
+        id: "SelectPotentialTargetForAllyAnimaConsume",
+        reflexive: false,
+        nodeName: "SelectPotentialTargetForAllyAnimaConsume",
+        NodeType: "Sequence",
+        Child0: "SetPotentialAllyTargetStack",
+        Child1: "SelectBestAllyTargetForAnimaConsume",
+        Child2: "HasValidTarget-Potential"
+}, {
+        id: "SelectAllyTargetForAnimaConsume",
+        reflexive: false,
+        nodeName: "SelectAllyTargetForAnimaConsume",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-AnimaConsume",
+        Child1: "SelectBestAllyTargetForAnimaConsume",
+        Child2: "HasValidTarget-AnimaConsume"
+}, {
+        id: "SelectBestAllyTargetForAnimaConsume",
+        reflexive: false,
+        nodeName: "SelectBestAllyTargetForAnimaConsume",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluateAllyTargetForAnimaConsume"
+}, {
+        id: "EvaluateAllyTargetForAnimaConsume",
+        reflexive: false,
+        nodeName: "EvaluateAllyTargetForAnimaConsume",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "TargetScoreIfAllyWithinRangeAnimaConsume",
+        Child2: "UpdateBestTarget" // 
+}, {
+        id: "TargetScoreIfAllyWithinRangeAnimaConsume",
+        reflexive: false,
+        nodeName: "TargetScoreIfAllyWithinRangeAnimaConsume",
+        NodeType: "Successor",
+        Child0: "TargetScoreReachableAllyAnimaConsume"
+},
+    {
+        id: "HasValidTarget-AnimaGate",
+        reflexive: false,
+        nodeName: "HasValidTarget-AnimaGate",
+        NodeType: "Condition"
+},
+    {
+        id: "SetTargetStack-AnimaGate",
+        reflexive: false,
+        nodeName: "SetTargetStack-AnimaGate",
+        NodeType: "Action"
+}, {
+        id: "GateKeeperShootIfAvailable",
+        reflexive: false,
+        nodeName: "GateKeeperShootIfAvailable",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-AnimaGate",
+        Child1: "SetTargetStack-AnimaGate",
+        Child2: "SelectTargetForStandardShot",
+        Child3: "GatekeeperTryShootOrOpen"
+}, {
+        id: "GatekeeperTryShootOrOpen",
+        reflexive: false,
+        nodeName: "GatekeeperTryShootOrOpen",
+        NodeType: "Selector",
+        Child0: "GatekeeperShootIfTarget",
+        Child1: "TryGatekeeperOpen"
+}, {
+        id: "GatekeeperShootIfTarget",
+        reflexive: false,
+        nodeName: "GatekeeperShootIfTarget",
+        NodeType: "Sequence",
+        Child0: "HasValidTarget-AnimaGate",
+        Child1: "SelectAbility-AnimaGate"
+}, {
+        id: "TryGatekeeperOpen",
+        reflexive: false,
+        nodeName: "TryGatekeeperOpen",
+        NodeType: "Sequence",
+        Child0: "AffectedByEffect-GatekeeperClosedEffect",
+        Child1: "IsAbilityAvailable-GatekeeperOpen",
+        Child2: "SelectAbility-GatekeeperOpen"
+}, {
+        id: "TryGatekeeperClose",
+        reflexive: false,
+        nodeName: "TryGatekeeperClose",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-GatekeeperClose",
+        Child1: "SelectAbility-GatekeeperClose"
+}, {
+        id: "IsOrCanOpen",
+        reflexive: false,
+        nodeName: "IsOrCanOpen",
+        NodeType: "Selector",
+        Child0: "IsAbilityAvailable-GatekeeperOpen",
+        Child1: "AffectedByEffect-GatekeeperClosedEffect"
+}, {
+        id: "TryRetract",
+        reflexive: false,
+        nodeName: "TryRetract",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-Retract",
+        Child1: "SelectAbility-Retract"
+}, {
+        id: "TryPsiBomb",
+        reflexive: false,
+        nodeName: "TryPsiBomb",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-PsiBombStage1",
+        Child1: "FindPotentialAoETargets-PsiBombProfile",
+        Child2: "SelectAoETarget-PsiBombProfile",
+        Child3: "SelectAbility-PsiBombStage1"
+}, {
+        id: "TryTeleportDefensive",
+        reflexive: false,
+        nodeName: "TryTeleportDefensive",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-Teleport",
+        Child1: "ResetDestinationSearch",
+        Child2: "UseDashMovement",
+        Child3: "FindDestinationWithLoS-IsoTeleport",
+        Child4: "SelectAbility-Teleport"
+}, {
+        id: "TryTeleportOffensive",
+        reflexive: false,
+        nodeName: "TryTeleportOffensive",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-Teleport",
+        Child1: "ResetDestinationSearch",
+        Child2: "RestrictToFlanking",
+        Child3: "UseDashMovement",
+        Child4: "FindDestinationWithLoS-Teleport",
+        Child5: "SelectAbility-Teleport"
+}, {
+        id: "TryTriggerSuperposition",
+        reflexive: false,
+        nodeName: "TryTriggerSuperposition",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-TriggerSuperposition",
+        Child1: "SelectAbility-TriggerSuperposition"
+},
+    {
+        id: "SetTargetStack-ScythingClaws",
+        reflexive: false,
+        nodeName: "SetTargetStack-ScythingClaws",
+        NodeType: "Action"
+},
+    {
+        id: "HasValidTarget-ScythingClaws",
+        reflexive: false,
+        nodeName: "HasValidTarget-ScythingClaws",
+        NodeType: "Condition"
+}, {
+        id: "TryScythingClaws",
+        reflexive: false,
+        nodeName: "TryScythingClaws",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-ScythingClaws",
+        Child1: "SelectTargetForScythingClaws",
+        Child2: "SelectAbility-ScythingClaws"
+}, {
+        id: "SelectTargetForScythingClaws",
+        reflexive: false,
+        nodeName: "SelectTargetForScythingClaws",
+        NodeType: "Selector",
+        Child0: "ScythingClaws_HitIdealTarget",
+        Child1: "ScythingClaws_AnyTargetWillDo"
+}, {
+        id: "ScythingClaws_HitIdealTarget",
+        reflexive: false,
+        nodeName: "ScythingClaws_HitIdealTarget",
+        NodeType: "Sequence",
+        Child0: "SelectPotentialMeleeTarget",
+        Child1: "FindPotentialAoETargets-ScythingClawsPrefTargetProfile",
+        Child2: "SelectAoETarget-ScythingClawsPrefTargetProfile"
+}, {
+        id: "ScythingClaws_AnyTargetWillDo",
+        reflexive: false,
+        nodeName: "ScythingClaws_AnyTargetWillDo",
+        NodeType: "Sequence",
+        Child0: "FindPotentialAoETargets-ScythingClawsProfile",
+        Child1: "SelectAoETarget-ScythingClawsProfile"
+}, {
+        id: "TryWrathCannon",
+        reflexive: false,
+        nodeName: "TryWrathCannon",
+        NodeType: "Failer",
+        Child0: "IsAbilityAvailable-WrathCannon"
+}, {
+        id: "TryWrathCannon_TEMPDISABLED",
+        reflexive: false,
+        nodeName: "TryWrathCannon_TEMPDISABLED",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-WrathCannon",
+        Child1: "FindPotentialAoETargets-WrathCannonProfile",
+        Child2: "SelectAoETarget-WrathCannonProfile",
+        Child3: "SelectAbility-WrathCannon"
+}, {
+        id: "TryWrathCannonS1",
+        reflexive: false,
+        nodeName: "TryWrathCannonS1",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-WrathCannonStage1",
+        Child1: "CannonNotCharging",
+        Child2: "FindPotentialAoETargets-WrathCannonS1Profile",
+        Child3: "SelectAoETarget-WrathCannonS1Profile",
+        Child4: "SelectAbility-WrathCannonStage1"
+}, {
+        id: "CannonNotCharging",
+        reflexive: false,
+        nodeName: "CannonNotCharging",
+        NodeType: "Inverter",
+        Child0: "AffectedByEffect-WrathCannonStage1Effect"
+}, {
+        id: "MimicBeaconBehavior",
+        reflexive: false,
+        nodeName: "MimicBeaconBehavior",
+        NodeType: "Sequence",
+        Child0: "IsUnitTypeVisible-MimicBeacon",
+        Child1: "MoveOrAttackMimicBeacon"
+},
+    {
+        id: "IsUnitTypeVisible-MimicBeacon",
+        reflexive: false,
+        nodeName: "IsUnitTypeVisible-MimicBeacon",
+        NodeType: "Condition" //  currently this checks LoS to any Mimic Beacons.
+}, {
+        id: "MoveOrAttackMimicBeacon",
+        reflexive: false,
+        nodeName: "MoveOrAttackMimicBeacon",
+        NodeType: "Selector",
+        Child0: "MoveTowardMimicBeaconIfFirstAction",
+        Child1: "::AttackMimicBeacon",
+        Child2: "::MoveTowardMimicBeacon" //  If attack fails", just try moving closer.
+}, {
+        id: "MoveTowardMimicBeaconIfFirstAction",
+        reflexive: false,
+        nodeName: "MoveTowardMimicBeaconIfFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "::MoveTowardMimicBeacon"
+},
+    {
+        id: "::MoveTowardMimicBeacon",
+        reflexive: false,
+        nodeName: "::MoveTowardMimicBeacon",
+        NodeType: "Selector",
+        Child0: "TryMeleeMoveTowardMimicBeacon",
+        Child1: "TryStandardMoveTowardMimicBeacon"
+}, {
+        id: "TryStandardMoveTowardMimicBeacon",
+        reflexive: false,
+        nodeName: "TryStandardMoveTowardMimicBeacon",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "FindDestinationTowardMimicBeacon",
+        Child2: "SelectAbility-StandardMove"
+}, {
+        id: "FindDestinationTowardMimicBeacon",
+        reflexive: false,
+        nodeName: "FindDestinationTowardMimicBeacon",
+        NodeType: "Selector",
+        Child0: "FindMimicBeaconDestWithStandardShot",
+        Child1: "FindPotentialMimicBeaconDest" //  Not all units have a standard shot ability.
+}, {
+        id: "FindMimicBeaconDestWithStandardShot",
+        reflexive: false,
+        nodeName: "FindMimicBeaconDestWithStandardShot",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardShot",
+        Child1: "SelectMimicBeaconTargetForStandardShot",
+        Child2: "SetTargetAsPriority-StandardShot",
+        Child3: "RestrictToAbilityRange-StandardShot",
+        Child4: "FindRestrictedDestination-MimicBeacon"
+}, {
+        id: "FindPotentialMimicBeaconDest",
+        reflexive: false,
+        nodeName: "FindPotentialMimicBeaconDest",
+        NodeType: "Sequence",
+        Child0: "SelectPotentialMimicBeaconTarget",
+        Child1: "SetTargetAsPriority-Potential",
+        Child2: "SelectFindMimicBeaconMeleeOrStandardShot"
+}, {
+        id: "SelectFindMimicBeaconMeleeOrStandardShot",
+        reflexive: false,
+        nodeName: "SelectFindMimicBeaconMeleeOrStandardShot",
+        NodeType: "Selector",
+        Child0: "IfMeleeFindClosestPointToTarget",
+        Child1: "FindRestrictedDestination-MimicBeacon"
+}, {
+        id: "IfMeleeFindClosestPointToTarget",
+        reflexive: false,
+        nodeName: "IfMeleeFindClosestPointToTarget",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-StandardMelee",
+        Child1: "FindClosestPointToTarget-Potential"
+}, {
+        id: "TryMeleeMoveTowardMimicBeacon",
+        reflexive: false,
+        nodeName: "TryMeleeMoveTowardMimicBeacon",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-StandardMelee",
+        Child1: "SelectPotentialMimicBeaconTarget",
+        Child2: "RestrictToPotentialTargetRange-StandardMelee",
+        Child3: "FindRestrictedDestination-MeleeFanatic",
+        Child4: "SelectAbility-StandardMove"
+},
+    {
+        id: "::AttackMimicBeacon",
+        reflexive: false,
+        nodeName: "::AttackMimicBeacon",
+        NodeType: "Selector",
+        Child0: "TryStandardMeleeOnMimicBeacon",
+        Child1: "TryStandardShotOnMimicBeacon"
+},
+    {
+        id: "FindClosestPointToTarget-Potential",
+        reflexive: false,
+        nodeName: "FindClosestPointToTarget-Potential",
+        NodeType: "Action"
+},
+    {
+        id: "SetTargetAsPriority-StandardShot",
+        reflexive: false,
+        nodeName: "SetTargetAsPriority-StandardShot",
+        NodeType: "Action"
+},
+    {
+        id: "SetTargetAsPriority-Potential",
+        reflexive: false,
+        nodeName: "SetTargetAsPriority-Potential",
+        NodeType: "Action"
+}, {
+        id: "TryStandardShotOnMimicBeacon",
+        reflexive: false,
+        nodeName: "TryStandardShotOnMimicBeacon",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardShot",
+        Child1: "SelectMimicBeaconTargetForStandardShot",
+        Child2: "SelectAbility-StandardShot"
+}, {
+        id: "SelectMimicBeaconTargetForStandardShot",
+        reflexive: false,
+        nodeName: "SelectMimicBeaconTargetForStandardShot",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-StandardShot",
+        Child1: "SelectMimicBeaconTarget",
+        Child2: "HasValidTarget-StandardShot"
+}, {
+        id: "SelectMimicBeaconTarget",
+        reflexive: false,
+        nodeName: "SelectMimicBeaconTarget",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluateMimicBeaconTarget"
+}, {
+        id: "EvaluateMimicBeaconTarget",
+        reflexive: false,
+        nodeName: "EvaluateMimicBeaconTarget",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "SSTargetScoreMimicBeacon",
+        Child2: "UpdateBestTarget"
+}, {
+        id: "SSTargetScoreMimicBeacon",
+        reflexive: false,
+        nodeName: "SSTargetScoreMimicBeacon",
+        NodeType: "Successor",
+        Child0: "TargetScoreMimicBeacon"
+}, {
+        id: "TargetScoreMimicBeacon",
+        reflexive: false,
+        nodeName: "TargetScoreMimicBeacon",
+        NodeType: "Sequence",
+        Child0: "TargetTemplateNameIs-MimicBeacon",
+        Child1: "AddToTargetScore_100",
+        Child2: "MultipleUnitsVisibleOfType-MimicBeacon",
+        Child3: "IsTargetClosestOfType-MimicBeacon",
+        Child4: "AddToTargetScore_10"
+},
+    {
+        id: "TargetTemplateNameIs-MimicBeacon",
+        reflexive: false,
+        nodeName: "TargetTemplateNameIs-MimicBeacon",
+        NodeType: "Condition"
+},
+    {
+        id: "MultipleUnitsVisibleOfType-MimicBeacon",
+        reflexive: false,
+        nodeName: "MultipleUnitsVisibleOfType-MimicBeacon",
+        NodeType: "Condition"
+},
+    {
+        id: "IsTargetClosestOfType-MimicBeacon",
+        reflexive: false,
+        nodeName: "IsTargetClosestOfType-MimicBeacon",
+        NodeType: "Condition"
+}, {
+        id: "SelectPotentialMimicBeaconTarget",
+        reflexive: false,
+        nodeName: "SelectPotentialMimicBeaconTarget",
+        NodeType: "Sequence",
+        Child0: "SetVisiblePotentialTargetStack",
+        Child1: "SelectMimicBeaconTarget",
+        Child2: "HasValidTarget-Potential"
+}, {
+        id: "TryStandardMeleeOnMimicBeacon",
+        reflexive: false,
+        nodeName: "TryStandardMeleeOnMimicBeacon",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMelee",
+        Child1: "SelectMimicBeaconTargetForStandardMelee",
+        Child2: "SelectAbility-StandardMelee"
+}, {
+        id: "SelectMimicBeaconTargetForStandardMelee",
+        reflexive: false,
+        nodeName: "SelectMimicBeaconTargetForStandardMelee",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-StandardMelee",
+        Child1: "SelectMimicBeaconTarget",
+        Child2: "HasValidTarget-StandardMelee"
+}, {
+        id: "CivRoot",
+        reflexive: false,
+        nodeName: "CivRoot",
+        NodeType: "Selector",
+        Child0: "CivCheckTerror",
+        Child1: "CivNormal"
+}, {
+        id: "CivCheckTerror",
+        reflexive: false,
+        nodeName: "CivCheckTerror",
+        NodeType: "Sequence",
+        Child0: "IsMissionOfType-Terror",
+        Child1: "CivTerror"
+}, {
+        id: "CivTerror",
+        reflexive: false,
+        nodeName: "CivTerror",
+        NodeType: "Selector",
+        Child0: "CivTerrorAI",
+        Child1: "SkipMove"
+}, {
+        id: "CivTerrorAI",
+        reflexive: false,
+        nodeName: "CivTerrorAI",
+        NodeType: "Sequence",
+        Child0: "IsAIInCivilianRadius",
+        Child1: "FindDestination-CivilianRed",
+        Child2: "SelectAbility-StandardMove"
+}, {
+        id: "CivNormal",
+        reflexive: false,
+        nodeName: "CivNormal",
+        NodeType: "Selector",
+        Child0: "CivHighSupportMove",
+        Child1: " CivLowSupportMove",
+        Child2: "SkipMove"
+}, {
+        id: "CivHighSupportMove",
+        reflexive: false,
+        nodeName: "CivHighSupportMove",
+        NodeType: "Sequence",
+        Child0: "HighPopularSupport",
+        Child1: "FindDestination-CivilianRed",
+        Child2: "SelectAbility-StandardMove"
+}, {
+        id: "CivLowSupportMove",
+        reflexive: false,
+        nodeName: "CivLowSupportMove",
+        NodeType: "Sequence",
+        Child0: "LowPopularSupport",
+        Child1: "FindDestination-CivilianRed",
+        Child2: "DoNoiseAlert",
+        Child3: "SelectAbility-StandardMove"
+}, {
+        id: "HostileCivRoot",
+        reflexive: false,
+        nodeName: "HostileCivRoot",
+        NodeType: "Sequence",
+        Child0: "DoNoiseAlert",
+        Child1: "FindDestination-CivilianRed",
+        Child2: "SelectAbility-StandardMove"
+}, {
+        id: "FacelessCivRoot",
+        reflexive: false,
+        nodeName: "FacelessCivRoot",
+        NodeType: "Selector",
+        Child0: "FacelessCivCheckTerror"
+}, {
+        id: "FacelessCivCheckTerror",
+        reflexive: false,
+        nodeName: "FacelessCivCheckTerror",
+        NodeType: "Sequence",
+        Child0: "IsMissionOfType-Terror",
+        Child1: "FacelessCivTerror"
+}, {
+        id: "FacelessCivTerror",
+        reflexive: false,
+        nodeName: "FacelessCivTerror",
+        NodeType: "Selector",
+        Child0: "CivTerrorAI",
+        Child1: "SkipMove"
+}, {
+        id: "VIPCowardRoot",
+        reflexive: false,
+        nodeName: "VIPCowardRoot",
+        NodeType: "Selector",
+        Child0: "TryJob",
+        Child1: "SkipTurnifGreenAlert",
+        Child2: "VIPCowardRedAlert",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "VIPCowardRedAlert",
+        reflexive: false,
+        nodeName: "VIPCowardRedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "VIPPickMovement"
+}, {
+        id: "VIPPickMovement",
+        reflexive: false,
+        nodeName: "VIPPickMovement",
+        NodeType: "Selector",
+        Child0: "IfWounded",
+        Child1: "MoveBackWithLOSIfFlanked",
+        Child2: "GenericRedAbilitySelector"
+}, {
+        id: "IfWounded",
+        reflexive: false,
+        nodeName: "IfWounded",
+        NodeType: "Sequence",
+        Child0: "HasWounds",
+        Child1: "FallBack"
+}, {
+        id: "GenericCowardRoot",
+        reflexive: false,
+        nodeName: "GenericCowardRoot",
+        NodeType: "Selector",
+        Child0: "GenericGreenMovement",
+        Child1: "CowardlyIfEnemySpotted",
+        Child2: "CowardlyIfEnemyNear"
+}, {
+        id: "CowardlyIfEnemySpotted",
+        reflexive: false,
+        nodeName: "CowardlyIfEnemySpotted",
+        NodeType: "Sequence",
+        Child0: "IsEnemySpotted",
+        Child1: "TryCowardlyEnemySpottedAction"
+}, {
+        id: "TryCowardlyEnemySpottedAction",
+        reflexive: false,
+        nodeName: "TryCowardlyEnemySpottedAction",
+        NodeType: "Selector",
+        Child0: "FallBackWithLoSIfFirstAbility",
+        Child1: "DoCower"
+}, {
+        id: "CowardlyIfEnemyNear",
+        reflexive: false,
+        nodeName: "CowardlyIfEnemyNear",
+        NodeType: "Sequence",
+        Child0: "IsYellowAlert",
+        Child1: "TryCowardYellowAction"
+}, {
+        id: "TryCowardYellowAction",
+        reflexive: false,
+        nodeName: "TryCowardYellowAction",
+        NodeType: "Selector",
+        Child0: "MoveDefensiveIfFirstAbility",
+        Child1: "DoCower"
+},
+    {
+        id: "::CharacterRoot",
+        reflexive: false,
+        nodeName: "::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "DoRedScreenFailure-BTFailure",
+        Child1: "TryJob",
+        Child2: "GenericGreenMovement",
+        Child3: "GenericRedAlert",
+        Child4: "GenericAlertHandler"
+},
+    {
+        id: "DoRedScreenFailure-BTFailure",
+        reflexive: false,
+        nodeName: "DoRedScreenFailure-BTFailure",
+        NodeType: "Action",
+        Param0: "RedScreen-Error On Behavior Tree! ::CharacterRoot not overridden! @acheng"
+}, {
+        id: "GenericRedAlert",
+        reflexive: false,
+        nodeName: "GenericRedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "GenericRedAbilitySelector"
+}, {
+        id: "GenericRedAbilitySelector",
+        reflexive: false,
+        nodeName: "GenericRedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "GenericRedFirstAction",
+        Child1: "GenericRedLastAction"
+}, {
+        id: "GenericRedFirstAction",
+        reflexive: false,
+        nodeName: "GenericRedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "GenericRedFirstActionSelector"
+}, {
+        id: "GenericRedFirstActionSelector",
+        reflexive: false,
+        nodeName: "GenericRedFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "DoIfFlankedMove",
+        Child1: "SelectMoveStandard",
+        Child2: "TryShootOrReloadOrOverwatch",
+        Child3: "HuntEnemyWithCover"
+}, {
+        id: "GenericRedLastAction",
+        reflexive: false,
+        nodeName: "GenericRedLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "GenericRedLastActionSelector"
+}, {
+        id: "GenericRedLastActionSelector",
+        reflexive: false,
+        nodeName: "GenericRedLastActionSelector",
+        NodeType: "Selector",
+        Child0: "TryGrenade",
+        Child1: "TryShootOrReloadOrOverwatch",
+        Child2: "TryStandardMelee",
+        Child3: "HuntEnemyWithCover",
+        Child4: "SelectMoveStandard"
+}, {
+        id: "GenericEnemyRootAGGRESSIVE",
+        reflexive: false,
+        nodeName: "GenericEnemyRootAGGRESSIVE",
+        NodeType: "Selector",
+        Child0: "TryJob",
+        Child1: "GenericGreenMovement",
+        Child2: "GenericRedAlertAGGRESSIVE",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "GenericRedAlertAGGRESSIVE",
+        reflexive: false,
+        nodeName: "GenericRedAlertAGGRESSIVE",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "AggressiveRedAbilitySelector"
+}, {
+        id: "AggressiveRedAbilitySelector",
+        reflexive: false,
+        nodeName: "AggressiveRedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "AggressiveRedFirstAction",
+        Child1: "AggressiveRedLastAction"
+}, {
+        id: "AggressiveRedFirstAction",
+        reflexive: false,
+        nodeName: "AggressiveRedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "AggressiveRedFirstActionSelector"
+}, {
+        id: "AggressiveRedFirstActionSelector",
+        reflexive: false,
+        nodeName: "AggressiveRedFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "AttackIfIdeal",
+        Child1: "DoIfFlankedMove",
+        Child2: "SelectMove_JobOrAggressive",
+        Child3: "TryShootOrReloadOrOverwatch",
+        Child4: "HuntEnemy"
+}, {
+        id: "AggressiveRedLastAction",
+        reflexive: false,
+        nodeName: "AggressiveRedLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "AggressiveRedLastActionSelector"
+}, {
+        id: "AggressiveRedLastActionSelector",
+        reflexive: false,
+        nodeName: "AggressiveRedLastActionSelector",
+        NodeType: "Selector",
+        Child0: "AttackIfFavorable",
+        Child1: "TryShootOrReloadOrOverwatch",
+        Child2: "HuntEnemy",
+        Child3: "SelectMove_JobOrAggressive"
+}, {
+        id: "GenericEnemyNoCover",
+        reflexive: false,
+        nodeName: "GenericEnemyNoCover",
+        NodeType: "Selector",
+        Child0: "TryJob",
+        Child1: "GenericGreenMovement",
+        Child2: "GenericNoCoverRedAlert",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "GenericNoCoverRedAlert",
+        reflexive: false,
+        nodeName: "GenericNoCoverRedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "GenericNoCoverRedAbilitySelector"
+}, {
+        id: "GenericNoCoverRedAbilitySelector",
+        reflexive: false,
+        nodeName: "GenericNoCoverRedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "GenericNoCoverRedFirstAction",
+        Child1: "GenericNoCoverRedLastAction"
+}, {
+        id: "GenericNoCoverRedFirstAction",
+        reflexive: false,
+        nodeName: "GenericNoCoverRedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "GenericNoCoverFirstActionSelector"
+}, {
+        id: "GenericNoCoverFirstActionSelector",
+        reflexive: false,
+        nodeName: "GenericNoCoverFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "SelectNCMove_JobOrFanatic",
+        Child1: "TryShootOrReloadOrOverwatch",
+        Child2: "HuntEnemy"
+}, {
+        id: "GenericNoCoverRedLastAction",
+        reflexive: false,
+        nodeName: "GenericNoCoverRedLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "GenericNoCoverRedLastActionSelector"
+}, {
+        id: "GenericNoCoverRedLastActionSelector",
+        reflexive: false,
+        nodeName: "GenericNoCoverRedLastActionSelector",
+        NodeType: "Selector",
+        Child0: "TryGrenade",
+        Child1: "TryShootOrReloadOrOverwatch",
+        Child2: "HuntEnemy",
+        Child3: "SelectNCMove_JobOrFanatic"
+}, {
+        id: "GenericEnemyMeleeRoot",
+        reflexive: false,
+        nodeName: "GenericEnemyMeleeRoot",
+        NodeType: "Selector",
+        Child0: "TryJobUnsafe",
+        Child1: "GenericGreenMovement",
+        Child2: "GenericMeleeRedAlert",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "GenericMeleeRedAlert",
+        reflexive: false,
+        nodeName: "GenericMeleeRedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "GenericMeleeRedAbilitySelector"
+}, {
+        id: "GenericMeleeRedAbilitySelector",
+        reflexive: false,
+        nodeName: "GenericMeleeRedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MeleeRedFirstAction",
+        Child1: "MeleeRedLastAction"
+}, {
+        id: "MeleeRedFirstAction",
+        reflexive: false,
+        nodeName: "MeleeRedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MeleeRedFirstActionSelector"
+}, {
+        id: "MeleeRedFirstActionSelector",
+        reflexive: false,
+        nodeName: "MeleeRedFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "TryStandardMeleeUnsafe",
+        Child1: "DoIfFlankedMove",
+        Child2: "SelectUnsafeMove_JobOrMelee",
+        Child3: "TryMoveThenGrenade",
+        Child4: "TryShootOrReloadOrOverwatch",
+        Child5: "HuntEnemyUnsafe"
+}, {
+        id: "MeleeRedLastAction",
+        reflexive: false,
+        nodeName: "MeleeRedLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "MeleeRedLastActionSelector"
+}, {
+        id: "MeleeRedLastActionSelector",
+        reflexive: false,
+        nodeName: "MeleeRedLastActionSelector",
+        NodeType: "Selector",
+        Child0: "TryStandardMeleeUnsafe",
+        Child1: "TryGrenade",
+        Child2: "TryShootOrReloadOrOverwatch",
+        Child3: "HuntEnemyUnsafe",
+        Child4: "SelectUnsafeMove_JobOrMelee"
+}, {
+        id: "GenericEnemyMeleeRootFANATIC",
+        reflexive: false,
+        nodeName: "GenericEnemyMeleeRootFANATIC",
+        NodeType: "Selector",
+        Child0: "TryJobUnsafe",
+        Child1: "GenericGreenMovement",
+        Child2: "GenericMeleeRedAlertFANATIC",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "GenericMeleeRedAlertFANATIC",
+        reflexive: false,
+        nodeName: "GenericMeleeRedAlertFANATIC",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "GenericMeleeFANATICRedAbilitySelector"
+}, {
+        id: "GenericMeleeFANATICRedAbilitySelector",
+        reflexive: false,
+        nodeName: "GenericMeleeFANATICRedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "TryStandardMeleeUnsafe",
+        Child1: "MoveMeleeFANATICUnsafe",
+        Child2: "TryShootOrReloadOrOverwatch",
+        Child3: "HuntEnemyUnsafe"
+}, {
+        id: "MindControlledRoot",
+        reflexive: false,
+        nodeName: "MindControlledRoot",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "MindControlledMove",
+        Child2: "MCTryGrenadeOption",
+        Child3: "TryStandardMeleeUnsafe",
+        Child4: "ShootIfAvailable",
+        Child5: "NeedsReload",
+        Child6: "TryOverwatch",
+        Child7: "SkipMove"
+}, {
+        id: "MindControlledMove",
+        reflexive: false,
+        nodeName: "MindControlledMove",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "NotLastActionPoint",
+        Child2: "ResetDestinationSearch",
+        Child3: "IgnoreHazards",
+        Child4: "MoveNoCover",
+        Child5: "FindDestination-Fanatic",
+        Child6: "SelectAbility-StandardMove"
+}, {
+        id: "MCTryGrenadeOption",
+        reflexive: false,
+        nodeName: "MCTryGrenadeOption",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-ThrowGrenade",
+        Child1: "DoesGrenadeCauseDamage",
+        Child2: "FindPotentialAoETargets-GrenadeMindControlledProfile",
+        Child3: "MCSetUpAndSelectGrenade"
+}, {
+        id: "MCSetUpAndSelectGrenade",
+        reflexive: false,
+        nodeName: "MCSetUpAndSelectGrenade",
+        NodeType: "Sequence",
+        Child0: "SelectAoETarget-GrenadeMindControlledProfile",
+        Child1: "SelectAbility-ThrowGrenade"
+}, {
+        id: "PanickedRoot",
+        reflexive: false,
+        nodeName: "PanickedRoot",
+        NodeType: "Selector",
+        Child0: "Panicked_FirstAction",
+        Child1: "Panicked_LastAction",
+        Child2: "SkipMove"
+}, {
+        id: "Panicked_FirstAction",
+        reflexive: false,
+        nodeName: "Panicked_FirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "Panicked_FirstAction_Selector" // 
+}, {
+        id: "Panicked_FirstAction_Selector",
+        reflexive: false,
+        nodeName: "Panicked_FirstAction_Selector",
+        NodeType: "Selector",
+        Child0: "PanickedMove",
+        Child1: "PanickedAction",
+        Child2: "SkipMove"
+}, {
+        id: "Panicked_LastAction",
+        reflexive: false,
+        nodeName: "Panicked_LastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "Panicked_LastAction_Selector"
+}, {
+        id: "Panicked_LastAction_Selector",
+        reflexive: false,
+        nodeName: "Panicked_LastAction_Selector",
+        NodeType: "Selector",
+        Child0: "PanickedAction",
+        Child1: "PanickedMove",
+        Child2: "SkipMove"
+}, {
+        id: "PanickedMove",
+        reflexive: false,
+        nodeName: "PanickedMove",
+        NodeType: "Selector",
+        Child0: "PanickedFallBackUnsafe",
+        Child1: "MoveDefensiveWithLoSUnsafe",
+        Child2: "MoveDefensiveUnsafe"
+}, {
+        id: "PanickedAction",
+        reflexive: false,
+        nodeName: "PanickedAction",
+        NodeType: "RandSelector",
+        Child0: "ShootRandomTargetForPanic",
+        Param0: "5",
+        Child1: "TryPanickedGrenadeToss",
+        Param1: "1",
+        Child2: "DoCower",
+        Param2: "2"
+}, {
+        id: "ShootRandomTargetForPanic",
+        reflexive: false,
+        nodeName: "ShootRandomTargetForPanic",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardShot",
+        Child1: "SelectRandomTargetForPanic",
+        Child2: "SelectAbility-StandardShot"
+}, {
+        id: "SelectRandomTargetForPanic",
+        reflexive: false,
+        nodeName: "SelectRandomTargetForPanic",
+        NodeType: "Selector",
+        Child0: "IfTeamXComSelectAnyRandomTarget",
+        Child1: "IfNotTeamXComSelectRandomTeammateTarget"
+}, {
+        id: "IfTeamXComSelectAnyRandomTarget",
+        reflexive: false,
+        nodeName: "IfTeamXComSelectAnyRandomTarget",
+        NodeType: "Sequence",
+        Child0: "IsTeam-eTeam_XCom",
+        Child1: "SelectRandomEnemyTarget" // Child1: "SelectAnyRandomTarget"
+}, {
+        id: "IfNotTeamXComSelectRandomTeammateTarget",
+        reflexive: false,
+        nodeName: "IfNotTeamXComSelectRandomTeammateTarget",
+        NodeType: "Sequence",
+        Child0: "NotTeamXCom",
+        Child1: "SelectRandomTeammateTarget"
+},
+    {
+        id: "IsTeam-eTeam_XCom",
+        reflexive: false,
+        nodeName: "IsTeam-eTeam_XCom",
+        NodeType: "Condition"
+}, {
+        id: "NotTeamXCom",
+        reflexive: false,
+        nodeName: "NotTeamXCom",
+        NodeType: "Inverter",
+        Child0: "IsTeam-eTeam_XCom"
+}, {
+        id: "SelectRandomEnemyTarget",
+        reflexive: false,
+        nodeName: "SelectRandomEnemyTarget",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-StandardShot",
+        Child1: "SelectEnemyTargetRandomly",
+        Child2: "HasValidTarget-StandardShot"
+}, {
+        id: "SelectEnemyTargetRandomly",
+        reflexive: false,
+        nodeName: "SelectEnemyTargetRandomly",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluateEnemyTargetRandomly"
+}, {
+        id: "EvaluateEnemyTargetRandomly",
+        reflexive: false,
+        nodeName: "EvaluateEnemyTargetRandomly",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "SSScoreEnemyTargetRandomly",
+        Child2: "UpdateBestTarget"
+}, {
+        id: "SSScoreEnemyTargetRandomly",
+        reflexive: false,
+        nodeName: "SSScoreEnemyTargetRandomly",
+        NodeType: "Successor",
+        Child0: "ScoreEnemyTargetRandomly"
+}, {
+        id: "ScoreEnemyTargetRandomly",
+        reflexive: false,
+        nodeName: "ScoreEnemyTargetRandomly",
+        NodeType: "Sequence",
+        Child0: "TargetIsEnemy",
+        Child1: "GenericScoreTargetRandomlySequence"
+}, {
+        id: "SelectRandomTeammateTarget",
+        reflexive: false,
+        nodeName: "SelectRandomTeammateTarget",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-StandardShot",
+        Child1: "SelectTeammateTargetRandomly",
+        Child2: "HasValidTarget-StandardShot"
+}, {
+        id: "SelectTeammateTargetRandomly",
+        reflexive: false,
+        nodeName: "SelectTeammateTargetRandomly",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluateTeammateTargetRandomly"
+}, {
+        id: "EvaluateTeammateTargetRandomly",
+        reflexive: false,
+        nodeName: "EvaluateTeammateTargetRandomly",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "SSScoreTeammateTargetRandomly",
+        Child2: "UpdateBestTarget"
+}, {
+        id: "SSScoreTeammateTargetRandomly",
+        reflexive: false,
+        nodeName: "SSScoreTeammateTargetRandomly",
+        NodeType: "Successor",
+        Child0: "ScoreTeammateTargetRandomly"
+}, {
+        id: "ScoreTeammateTargetRandomly",
+        reflexive: false,
+        nodeName: "ScoreTeammateTargetRandomly",
+        NodeType: "Sequence",
+        Child0: "TargetIsAlly",
+        Child1: "GenericScoreTargetRandomlySequence"
+}, {
+        id: "PanickedFallBackUnsafe",
+        reflexive: false,
+        nodeName: "PanickedFallBackUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "FindFriendlyFallbackDestination",
+        Child2: "SelectAbility-StandardMove"
+}, {
+        id: "GenericScamperRoot",
+        reflexive: false,
+        nodeName: "GenericScamperRoot",
+        NodeType: "Selector",
+        Child0: "CounterBeaglerushManeuver",
+        Child1: "MoveStandardWithLoSUnsafe",
+        Child2: "MoveStandardUnsafe",
+        Child3: "SkipMove"
+}, {
+        id: "ScamperRoot_Soldier",
+        reflexive: false,
+        nodeName: "ScamperRoot_Soldier",
+        NodeType: "Selector",
+        Child0: "CounterBeaglerushManeuver",
+        Child1: "MoveDefensiveWithLoSUnsafe",
+        Child2: "MoveStandardUnsafe",
+        Child3: "SkipMove"
+}, {
+        id: "ScamperRoot_Flanker",
+        reflexive: false,
+        nodeName: "ScamperRoot_Flanker",
+        NodeType: "Selector",
+        Child0: "CounterBeaglerushManeuver",
+        Child1: "MoveFlankingUnsafe",
+        Child2: "MoveStandardWithLoSUnsafe",
+        Child3: "MoveStandardUnsafe",
+        Child4: "SkipMove"
+}, {
+        id: "ScamperRoot_NoCover",
+        reflexive: false,
+        nodeName: "ScamperRoot_NoCover",
+        NodeType: "Selector",
+        Child0: "CounterBeaglerushManeuver",
+        Child1: "MoveNoCoverUnsafe",
+        Child2: "SkipMove"
+}, {
+        id: "ScamperRoot_Overwatch",
+        reflexive: false,
+        nodeName: "ScamperRoot_Overwatch",
+        NodeType: "Selector",
+        Child0: "CounterBeaglerushManeuver",
+        Child1: "OverwatchIfTargetAvailable",
+        Child2: "MoveNoCoverUnsafe",
+        Child3: "SkipMove"
+}, {
+        id: "ScamperRoot_MeleeNoCover",
+        reflexive: false,
+        nodeName: "ScamperRoot_MeleeNoCover",
+        NodeType: "Selector",
+        Child0: "CounterBeaglerushManeuver",
+        Child1: "MoveMeleeFANATICUnsafe",
+        Child2: "MoveNoCoverUnsafe",
+        Child3: "SkipMove"
+}, {
+        id: "CounterBeaglerushManeuver",
+        reflexive: false,
+        nodeName: "CounterBeaglerushManeuver",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardShot",
+        Child1: "SelectFlankedEnemyTarget",
+        Child2: "ShootTargetChanceOnScamper"
+}, {
+        id: "SelectFlankedEnemyTarget",
+        reflexive: false,
+        nodeName: "SelectFlankedEnemyTarget",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-StandardShot",
+        Child1: "EvaluateFlankedEnemyTargets",
+        Child2: "HasValidTarget-StandardShot"
+}, {
+        id: "EvaluateFlankedEnemyTargets",
+        reflexive: false,
+        nodeName: "EvaluateFlankedEnemyTargets",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluateFlankedEnemies"
+}, {
+        id: "EvaluateFlankedEnemies",
+        reflexive: false,
+        nodeName: "EvaluateFlankedEnemies",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "SSScoreFlankedEnemy",
+        Child2: "UpdateBestTarget"
+}, {
+        id: "SSScoreFlankedEnemy",
+        reflexive: false,
+        nodeName: "SSScoreFlankedEnemy",
+        NodeType: "Successor",
+        Child0: "ScoreFlankedEnemy"
+},
+    {
+        id: "IsActiveTeam-eTeam_XCom",
+        reflexive: false,
+        nodeName: "IsActiveTeam-eTeam_XCom",
+        NodeType: "Condition"
+}, {
+        id: "NotActiveTeamXCom",
+        reflexive: false,
+        nodeName: "NotActiveTeamXCom",
+        NodeType: "Inverter",
+        Child0: "IsActiveTeam-eTeam_XCom"
+}, {
+        id: "ScoreFlankedEnemy",
+        reflexive: false,
+        nodeName: "ScoreFlankedEnemy",
+        NodeType: "Sequence",
+        Child0: "IsTargetScamperInstigator",
+        Child1: "WasTargetPreviouslyConcealed",
+        Child2: "NotActiveTeamXCom",
+        Child3: "IsFlankingTarget",
+        Child4: "TargetIsEnemy",
+        Child5: "TargetNotMindControlled",
+        Child6: "TargetNotBoundOrPanicked",
+        Child7: "GenericTargetEvaluations"
+}, {
+        id: "TargetNotMindControlled",
+        reflexive: false,
+        nodeName: "TargetNotMindControlled",
+        NodeType: "Inverter",
+        Child0: "TargetAffectedByEffect-MindControl"
+}, {
+        id: "TargetNotBoundOrPanicked",
+        reflexive: false,
+        nodeName: "TargetNotBoundOrPanicked",
+        NodeType: "Inverter",
+        Child0: "IsLastResortTarget"
+},
+    {
+        id: "TargetAffectedByEffect-MindControl",
+        reflexive: false,
+        nodeName: "TargetAffectedByEffect-MindControl",
+        NodeType: "Condition"
+}, {
+        id: "IsTargetScamperInstigator",
+        reflexive: false,
+        nodeName: "IsTargetScamperInstigator",
+        NodeType: "Condition"
+}, {
+        id: "WasTargetPreviouslyConcealed",
+        reflexive: false,
+        nodeName: "WasTargetPreviouslyConcealed",
+        NodeType: "Condition"
+}, {
+        id: "ShootTargetChanceOnScamper",
+        reflexive: false,
+        nodeName: "ShootTargetChanceOnScamper",
+        NodeType: "RandFilter",
+        Child0: "SelectAbility-StandardShot",
+        Param0: "50"
+},
+    {
+        id: "AdventTrooper::CharacterRoot",
+        reflexive: false,
+        nodeName: "AdventTrooper::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "TryJob",
+        Child1: "GenericGreenMovement",
+        Child2: "AdvTrooper_RedAlert",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "AdvTrooper_RedAlert",
+        reflexive: false,
+        nodeName: "AdvTrooper_RedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "AdvTrooper_RedAbilitySelector"
+}, {
+        id: "AdvTrooper_RedAbilitySelector",
+        reflexive: false,
+        nodeName: "AdvTrooper_RedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "AdventRedFirstAction",
+        Child2: "AdventRedLastAction"
+}, {
+        id: "AdventRedFirstAction",
+        reflexive: false,
+        nodeName: "AdventRedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "AdventRedFirstActionSelector"
+}, {
+        id: "AdventRedFirstActionSelector",
+        reflexive: false,
+        nodeName: "AdventRedFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "DoIfFlankedMove",
+        Child1: "SelectMove_JobOrAggressive",
+        Child2: "TryMoveThenGrenade",
+        Child3: "TryShootOrReloadOrOverwatch",
+        Child4: "HuntEnemyWithCover"
+}, {
+        id: "AdventRedLastAction",
+        reflexive: false,
+        nodeName: "AdventRedLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "AdventRedLastActionSelector"
+}, {
+        id: "AdventRedLastActionSelector",
+        reflexive: false,
+        nodeName: "AdventRedLastActionSelector",
+        NodeType: "Selector",
+        Child0: "TryGrenade",
+        Child1: "TryShootOrReloadOrOverwatch",
+        Child2: "HuntEnemyWithCover",
+        Child3: "SelectMove_JobOrAggressive"
+},
+    {
+        id: "AdventCaptain::CharacterRoot",
+        reflexive: false,
+        nodeName: "AdventCaptain::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "TryJob",
+        Child1: "GenericGreenMovement",
+        Child2: "AdvCaptain_RedAlert",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "AdvCaptain_RedAlert",
+        reflexive: false,
+        nodeName: "AdvCaptain_RedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "AdvCaptain_RedAbilitySelector"
+}, {
+        id: "AdvCaptain_RedAbilitySelector",
+        reflexive: false,
+        nodeName: "AdvCaptain_RedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "AdvCaptain_RedFirstAction",
+        Child2: "AdvCaptain_RedLastAction"
+}, {
+        id: "AdvCaptain_RedFirstAction",
+        reflexive: false,
+        nodeName: "AdvCaptain_RedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "AdvCaptain_RedFirstActionSelector"
+}, {
+        id: "AdvCaptain_RedFirstActionSelector",
+        reflexive: false,
+        nodeName: "AdvCaptain_RedFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "DoIfFlankedMove",
+        Child1: "TryMarkTargetOption",
+        Child2: "SelectMove_JobOrDefensive",
+        Child3: "AdvCaptainTryMoveThenGrenade",
+        Child4: "TryShootOrReloadOrOverwatch",
+        Child5: "HuntEnemyWithCover"
+}, {
+        id: "AdvCaptain_RedLastAction",
+        reflexive: false,
+        nodeName: "AdvCaptain_RedLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "AdvCaptain_RedLastActionSelector"
+}, {
+        id: "AdvCaptain_RedLastActionSelector",
+        reflexive: false,
+        nodeName: "AdvCaptain_RedLastActionSelector",
+        NodeType: "Selector",
+        Child0: "TryMarkTargetOption",
+        Child1: "AdvCaptainTryGrenade",
+        Child2: "TryShootOrReloadOrOverwatch",
+        Child3: "HuntEnemyWithCover",
+        Child4: "SelectMove_JobOrDefensive"
+}, {
+        id: "AdvCaptainTryMoveThenGrenade",
+        reflexive: false,
+        nodeName: "AdvCaptainTryMoveThenGrenade",
+        NodeType: "Sequence",
+        Child0: "IsAdvCaptainQualifiedForGrenade",
+        Child1: "TryMoveThenGrenade"
+}, {
+        id: "AdvCaptainTryGrenade",
+        reflexive: false,
+        nodeName: "AdvCaptainTryGrenade",
+        NodeType: "Sequence",
+        Child0: "IsAdvCaptainQualifiedForGrenade",
+        Child1: "TryGrenade"
+}, {
+        id: "IsAdvCaptainQualifiedForGrenade",
+        reflexive: false,
+        nodeName: "IsAdvCaptainQualifiedForGrenade",
+        NodeType: "Selector",
+        Child0: "NotAdvCaptainM1",
+        Child1: "IsDifficultyAboveNormal"
+}, {
+        id: "NotAdvCaptainM1",
+        reflexive: false,
+        nodeName: "NotAdvCaptainM1",
+        NodeType: "Inverter",
+        Child0: "TemplateNameIs-AdvCaptainM1"
+},
+    {
+        id: "TemplateNameIs-AdvCaptainM1",
+        reflexive: false,
+        nodeName: "TemplateNameIs-AdvCaptainM1",
+        NodeType: "Condition"
+},
+    {
+        id: "AdventStunLancer::CharacterRoot",
+        reflexive: false,
+        nodeName: "AdventStunLancer::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "TryJob",
+        Child1: "GenericGreenMovement",
+        Child2: "AdventSL_RedAlert",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "AdventSL_RedAlert",
+        reflexive: false,
+        nodeName: "AdventSL_RedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "AdventSL_RedAbilitySelector"
+}, {
+        id: "AdventSL_RedAbilitySelector",
+        reflexive: false,
+        nodeName: "AdventSL_RedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "AdventSLFirstAction",
+        Child2: "AdventSLLastAction"
+}, {
+        id: "AdventSLFirstAction",
+        reflexive: false,
+        nodeName: "AdventSLFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "AdventSLFirstActionSelector"
+}, {
+        id: "AdventSLFirstActionSelector",
+        reflexive: false,
+        nodeName: "AdventSLFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "TryStunLance",
+        Child1: "DoIfFlankedMove",
+        Child2: "SelectMove_JobOrMelee",
+        Child3: "TryMoveThenGrenade",
+        Child4: "TryShootOrReloadOrOverwatch",
+        Child5: "HuntEnemyWithCover"
+}, {
+        id: "AdventSLLastAction",
+        reflexive: false,
+        nodeName: "AdventSLLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "AdventSLLastActionSelector"
+}, {
+        id: "AdventSLLastActionSelector",
+        reflexive: false,
+        nodeName: "AdventSLLastActionSelector",
+        NodeType: "Selector",
+        Child0: "TryStunLance",
+        Child1: "TryGrenade",
+        Child2: "TryShootOrReloadOrOverwatch",
+        Child3: "HuntEnemyWithCover",
+        Child4: "SelectMove_JobOrMelee"
+},
+    {
+        id: "AdventShieldBearer::CharacterRoot",
+        reflexive: false,
+        nodeName: "AdventShieldBearer::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "TryJob",
+        Child1: "GenericGreenMovement",
+        Child2: "AdvShieldBearer_RedAlert",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "AdvShieldBearer_RedAlert",
+        reflexive: false,
+        nodeName: "AdvShieldBearer_RedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "AdvShieldBearer_RedAbilitySelector"
+}, {
+        id: "AdvShieldBearer_RedAbilitySelector",
+        reflexive: false,
+        nodeName: "AdvShieldBearer_RedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "ShieldBearerFirstAction",
+        Child2: "ShieldBearerLastAction"
+}, {
+        id: "ShieldBearerFirstAction",
+        reflexive: false,
+        nodeName: "ShieldBearerFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "ShieldBearerFirstActionSelector"
+}, {
+        id: "ShieldBearerFirstActionSelector",
+        reflexive: false,
+        nodeName: "ShieldBearerFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "TryMoveForEnergyShield",
+        Child1: "TryEnergyShieldOnMultipleTargets",
+        Child2: "DoIfFlankedMove",
+        Child3: "SelectMove_JobOrDefensive",
+        Child4: "HuntEnemyWithCover",
+        Child5: "TryShootOrReloadOrOverwatch"
+}, {
+        id: "TryMoveForEnergyShield",
+        reflexive: false,
+        nodeName: "TryMoveForEnergyShield",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "IsAbilityReady-EnergyShield",
+        Child2: "NotLastActionPoint",
+        Child3: "MoveStandardIfFirstAbility-EnergyShield"
+}, {
+        id: "ShieldBearerLastAction",
+        reflexive: false,
+        nodeName: "ShieldBearerLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "ShieldBearerLastActionSelector"
+}, {
+        id: "ShieldBearerLastActionSelector",
+        reflexive: false,
+        nodeName: "ShieldBearerLastActionSelector",
+        NodeType: "Selector",
+        Child0: "TryEnergyShieldOnAnyTarget",
+        Child1: "TryShootOrReloadOrOverwatch",
+        Child2: "HuntEnemyWithCover",
+        Child3: "SelectMove_JobOrDefensive"
+},
+    {
+        id: "AdventMEC::CharacterRoot",
+        reflexive: false,
+        nodeName: "AdventMEC::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "MecMk1Branch",
+        Child1: "AdvMECMk2_Root"
+}, {
+        id: "MecMk1Branch",
+        reflexive: false,
+        nodeName: "MecMk1Branch",
+        NodeType: "Sequence",
+        Child0: "TemplateNameIs-AdvMEC_M1",
+        Child1: "AdvMEC_Root"
+},
+    {
+        id: "TemplateNameIs-AdvMEC_M1",
+        reflexive: false,
+        nodeName: "TemplateNameIs-AdvMEC_M1",
+        NodeType: "Condition"
+}, {
+        id: "AdvMEC_Root",
+        reflexive: false,
+        nodeName: "AdvMEC_Root",
+        NodeType: "Selector",
+        Child0: "TryJob",
+        Child1: "GenericGreenMovement",
+        Child2: "MECRedAlert",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "MECRedAlert",
+        reflexive: false,
+        nodeName: "MECRedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "MECRedAbilitySelector"
+}, {
+        id: "MECRedAbilitySelector",
+        reflexive: false,
+        nodeName: "MECRedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "MECRedFirstAction",
+        Child2: "MECRedLastAction"
+}, {
+        id: "MECRedFirstAction",
+        reflexive: false,
+        nodeName: "MECRedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MECFirstActionSelector"
+}, {
+        id: "MECFirstActionSelector",
+        reflexive: false,
+        nodeName: "MECFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "TryMoveThenMicroMissiles",
+        Child1: "SelectNCMove_JobOrFanatic",
+        Child2: "HuntEnemy",
+        Child3: "TryShootOrReloadOrOverwatch"
+}, {
+        id: "MECRedLastAction",
+        reflexive: false,
+        nodeName: "MECRedLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "MECRedLastActionSelector"
+}, {
+        id: "MECRedLastActionSelector",
+        reflexive: false,
+        nodeName: "MECRedLastActionSelector",
+        NodeType: "Selector",
+        Child0: "TryMicroMissiles",
+        Child1: "ShootOrSuppressIfNoGoodShot",
+        Child2: "HuntEnemy",
+        Child3: "SelectNCMove_JobOrFanatic",
+        Child4: "TryShootOrReloadOrOverwatch"
+}, {
+        id: "AdvMECMk2_Root",
+        reflexive: false,
+        nodeName: "AdvMECMk2_Root",
+        NodeType: "Selector",
+        Child0: "TryJob",
+        Child1: "GenericGreenMovement",
+        Child2: "MECMk2RedAlert",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "MECMk2RedAlert",
+        reflexive: false,
+        nodeName: "MECMk2RedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "MECMk2RedAbilitySelector"
+}, {
+        id: "MECMk2RedAbilitySelector",
+        reflexive: false,
+        nodeName: "MECMk2RedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "MECMk2RedFirstAction",
+        Child2: "MECMk2RedLastAction"
+}, {
+        id: "MECMk2RedFirstAction",
+        reflexive: false,
+        nodeName: "MECMk2RedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MECMk2FirstActionSelector"
+}, {
+        id: "MECMk2FirstActionSelector",
+        reflexive: false,
+        nodeName: "MECMk2FirstActionSelector",
+        NodeType: "Selector",
+        Child0: "TryMoveThenMicroMissilesMk2",
+        Child1: "SelectNCMove_JobOrFanatic",
+        Child2: "HuntEnemy",
+        Child3: "TryShootOrReloadOrOverwatch"
+}, {
+        id: "MECMk2RedLastAction",
+        reflexive: false,
+        nodeName: "MECMk2RedLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "MECMk2RedLastActionSelector"
+}, {
+        id: "MECMk2RedLastActionSelector",
+        reflexive: false,
+        nodeName: "MECMk2RedLastActionSelector",
+        NodeType: "Selector",
+        Child0: "TryMicroMissilesMk2",
+        Child1: "ShootOrSuppressIfNoGoodShot",
+        Child2: "HuntEnemy",
+        Child3: "SelectNCMove_JobOrFanatic",
+        Child4: "TryShootOrReloadOrOverwatch"
+},
+    {
+        id: "AdventPsiWitch::CharacterRoot",
+        reflexive: false,
+        nodeName: "AdventPsiWitch::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "TryJob",
+        Child1: "GenericGreenMovement",
+        Child2: "PsiWitchRedAlert",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "PsiWitchRedAlert",
+        reflexive: false,
+        nodeName: "PsiWitchRedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "PsiWitchRedAbilitySelector"
+}, {
+        id: "PsiWitchRedAbilitySelector",
+        reflexive: false,
+        nodeName: "PsiWitchRedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "PsiWitchRedFirstAction",
+        Child2: "PsiWitchRedLastAction"
+}, {
+        id: "PsiWitchRedFirstAction",
+        reflexive: false,
+        nodeName: "PsiWitchRedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "PsiWitchRedFirstActionSelector"
+}, {
+        id: "PsiWitchRedFirstActionSelector",
+        reflexive: false,
+        nodeName: "PsiWitchRedFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "TryMoveThenPsiMindControl",
+        Child1: "TryMoveThenDimensionalRift",
+        Child2: "TryMoveThenNullLance",
+        Child3: "DoIfFlankedMove",
+        Child4: "SelectMoveStandard",
+        Child5: "PsiWitchAttackSequencer",
+        Child6: "HuntEnemyWithCover",
+        Child7: "TryShootOrReloadOrOverwatch"
+}, {
+        id: "PsiWitchRedLastAction",
+        reflexive: false,
+        nodeName: "PsiWitchRedLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "PsiWitchRedLastActionSelector"
+}, {
+        id: "PsiWitchRedLastActionSelector",
+        reflexive: false,
+        nodeName: "PsiWitchRedLastActionSelector",
+        NodeType: "Selector",
+        Child0: "PsiWitchAttackSequencer",
+        Child1: "SelectMoveStandard",
+        Child2: "HuntEnemyWithCover"
+}, {
+        id: "PsiWitchAttackSequencer",
+        reflexive: false,
+        nodeName: "PsiWitchAttackSequencer",
+        NodeType: "Selector",
+        Child0: "TryPsiMindControl",
+        Child1: "TryDimensionalRift",
+        Child2: "TryNullLance",
+        Child3: "TryShootOrReloadOrOverwatch"
+},
+    {
+        id: "AdventTurret::CharacterRoot",
+        reflexive: false,
+        nodeName: "AdventTurret::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "Turret_RedAlert",
+        Child1: "SkipMove",
+        Child1: "TryOverwatch"
+}, {
+        id: "Turret_RedAlert",
+        reflexive: false,
+        nodeName: "Turret_RedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "TurretRedAbilitySelector"
+}, {
+        id: "TurretRedAbilitySelector",
+        reflexive: false,
+        nodeName: "TurretRedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "TurretRedFirstActionSelector",
+        Child2: "ConsiderTakingOverwatch"
+}, {
+        id: "TurretRedFirstActionSelector",
+        reflexive: false,
+        nodeName: "TurretRedFirstActionSelector",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "Turret_TryShootOrReload"
+}, {
+        id: "Turret_TryShootOrReload",
+        reflexive: false,
+        nodeName: "Turret_TryShootOrReload",
+        NodeType: "Selector",
+        Child0: "Turret_ShootIfAvailable",
+        Child1: "NeedsReload"
+}, {
+        id: "Turret_ShootIfAvailable",
+        reflexive: false,
+        nodeName: "Turret_ShootIfAvailable",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardShot",
+        Child1: "Turret_SelectTargetForStandardShot",
+        Child2: "SelectAbility-StandardShot"
+}, {
+        id: "Turret_SelectTargetForStandardShot",
+        reflexive: false,
+        nodeName: "Turret_SelectTargetForStandardShot",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-StandardShot",
+        Child1: "TurretSelectBestTarget",
+        Child2: "HasValidTarget-StandardShot"
+}, {
+        id: "TurretSelectBestTarget",
+        reflexive: false,
+        nodeName: "TurretSelectBestTarget",
+        NodeType: "RepeatUntilFail",
+        Child0: "TurretEvaluateTarget"
+}, {
+        id: "TurretEvaluateTarget",
+        reflexive: false,
+        nodeName: "TurretEvaluateTarget",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "TargetScoreHitChance",
+        Child2: "GenericScoreTargetRandomly",
+        Child3: "TargetScoreInvalidateCivilians",
+        Child4: "TargetScoreInvalidatePriorityObject",
+        Child5: "UpdateBestTarget"
+}, {
+        id: "TargetScoreInvalidatePriorityObject",
+        reflexive: false,
+        nodeName: "TargetScoreInvalidatePriorityObject",
+        NodeType: "Successor",
+        Child0: "ScoreTargetOutIfPriorityObject"
+}, {
+        id: "ScoreTargetOutIfPriorityObject",
+        reflexive: false,
+        nodeName: "ScoreTargetOutIfPriorityObject",
+        NodeType: "Sequence",
+        Child0: "TargetIsPriorityObject",
+        Child1: "AddToTargetScore_-1000"
+},
+    {
+        id: "Andromedon::CharacterRoot",
+        reflexive: false,
+        nodeName: "Andromedon::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "AndromedonRobotBranch",
+        Child1: "AndromedonRoot"
+}, {
+        id: "AndromedonRobotBranch",
+        reflexive: false,
+        nodeName: "AndromedonRobotBranch",
+        NodeType: "Sequence",
+        Child0: "TemplateNameIs-AndromedonRobot",
+        Child1: "AndromedonRobotRoot"
+},
+    {
+        id: "TemplateNameIs-AndromedonRobot",
+        reflexive: false,
+        nodeName: "TemplateNameIs-AndromedonRobot",
+        NodeType: "Condition"
+}, {
+        id: "AndromedonRoot",
+        reflexive: false,
+        nodeName: "AndromedonRoot",
+        NodeType: "Selector",
+        Child0: "TryJob",
+        Child1: "GenericGreenMovement",
+        Child2: "AndromedonRedAlert",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "AndromedonRedAlert",
+        reflexive: false,
+        nodeName: "AndromedonRedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "AndromedonRedAbilitySelector"
+}, {
+        id: "AndromedonRedAbilitySelector",
+        reflexive: false,
+        nodeName: "AndromedonRedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "AndromedonRedFirstAction",
+        Child2: "AndromedonRedLastAction"
+}, {
+        id: "AndromedonRedFirstAction",
+        reflexive: false,
+        nodeName: "AndromedonRedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "AndromedonRedFirstActionSelector"
+}, {
+        id: "AndromedonRedFirstActionSelector",
+        reflexive: false,
+        nodeName: "AndromedonRedFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "TryStandardMelee",
+        Child1: "TryMoveThenAcidBlob",
+        Child2: "DoIfFlankedMove",
+        Child3: "SelectMoveStandard",
+        Child4: "TryShootOrReloadOrOverwatch",
+        Child5: "HuntEnemyWithCover"
+}, {
+        id: "AndromedonRedLastAction",
+        reflexive: false,
+        nodeName: "AndromedonRedLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "AndromedonRedLastActionSelector"
+}, {
+        id: "AndromedonRedLastActionSelector",
+        reflexive: false,
+        nodeName: "AndromedonRedLastActionSelector",
+        NodeType: "Selector",
+        Child0: "TryStandardMelee",
+        Child1: "TryAcidBlob",
+        Child2: "TryShootOrReloadOrOverwatch",
+        Child3: "HuntEnemyWithCover",
+        Child4: "SelectMoveStandard"
+},
+    {
+        id: "AndromedonRobot::CharacterRoot",
+        reflexive: false,
+        nodeName: "AndromedonRobot::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "GenericEnemyMeleeRootFANATIC"
+}, {
+        id: "AndromedonRobotRoot",
+        reflexive: false,
+        nodeName: "AndromedonRobotRoot",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "GenericEnemyMeleeRootFANATIC"
+},
+    {
+        id: "Archon::CharacterRoot",
+        reflexive: false,
+        nodeName: "Archon::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "TryJob",
+        Child1: "GenericGreenMovement",
+        Child2: "ArchonRedAlert",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "ArchonRedAlert",
+        reflexive: false,
+        nodeName: "ArchonRedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "ArchonRedAbilitySelector"
+}, {
+        id: "ArchonRedAbilitySelector",
+        reflexive: false,
+        nodeName: "ArchonRedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "ArchonRedFirstAction",
+        Child2: "ArchonRedLastAction"
+}, {
+        id: "ArchonRedFirstAction",
+        reflexive: false,
+        nodeName: "ArchonRedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "ArchonFirstActionSelector"
+}, {
+        id: "ArchonFirstActionSelector",
+        reflexive: false,
+        nodeName: "ArchonFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "TryFrenziedMoveAndAttack",
+        Child1: "TryMoveThenBlazingPinions",
+        Child2: "TryStandardMelee",
+        Child3: "DoIfFlankedMove",
+        Child4: "SelectMoveStandard",
+        Child5: "TryShootOrReloadOrOverwatch",
+        Child6: "HuntEnemyWithCover"
+}, {
+        id: "TryMoveThenBlazingPinions",
+        reflexive: false,
+        nodeName: "TryMoveThenBlazingPinions",
+        NodeType: "Selector",
+        Child0: "TryMoveForBlazingPinions",
+        Child1: "TryBlazingPinions"
+}, {
+        id: "TryMoveForBlazingPinions",
+        reflexive: false,
+        nodeName: "TryMoveForBlazingPinions",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "IsAbilityReady-BlazingPinionsStage1",
+        Child2: "FindPotentialAoETargets-BlazingPinionsBasicProfile",
+        Child3: "MoveStandardIfFirstAbility-BlazingPinions"
+}, {
+        id: "ArchonRedLastAction",
+        reflexive: false,
+        nodeName: "ArchonRedLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "ArchonRedLastActionSelector"
+}, {
+        id: "ArchonRedLastActionSelector",
+        reflexive: false,
+        nodeName: "ArchonRedLastActionSelector",
+        NodeType: "Selector",
+        Child0: "TryFrenziedAttack",
+        Child1: "TryBlazingPinions",
+        Child2: "TryStandardMelee",
+        Child3: "TryShootOrReloadOrOverwatch",
+        Child4: "HuntEnemy",
+        Child5: "SelectMoveStandard"
+}, {
+        id: "TryFrenziedAttack",
+        reflexive: false,
+        nodeName: "TryFrenziedAttack",
+        NodeType: "Sequence",
+        Child0: "AffectedByEffect-FrenzyEffect",
+        Child1: "TryStandardMelee"
+}, {
+        id: "TryFrenziedMoveAndAttack",
+        reflexive: false,
+        nodeName: "TryFrenziedMoveAndAttack",
+        NodeType: "Sequence",
+        Child0: "AffectedByEffect-FrenzyEffect",
+        Child1: "TryAttackOrDashAndAttack"
+}, {
+        id: "TryAttackOrDashAndAttack",
+        reflexive: false,
+        nodeName: "TryAttackOrDashAndAttack",
+        NodeType: "Selector",
+        Child0: "TryStandardMelee",
+        Child1: "TryStandardMeleeDashFANATICUnsafe"
+},
+    {
+        id: "Berserker::CharacterRoot",
+        reflexive: false,
+        nodeName: "Berserker::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "TryJobUnsafe",
+        Child1: "GenericGreenMovement",
+        Child2: "BerserkerMeleeRedAlert",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "BerserkerMeleeRedAlert",
+        reflexive: false,
+        nodeName: "BerserkerMeleeRedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "Berserker_RedAbilitySelector"
+}, {
+        id: "Berserker_RedAbilitySelector",
+        reflexive: false,
+        nodeName: "Berserker_RedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "BerserkerRedFirstAction",
+        Child2: "BerserkerRedLastAction" // 
+}, {
+        id: "BerserkerRedFirstAction",
+        reflexive: false,
+        nodeName: "BerserkerRedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "BerserkerRedFirstActionSelector"
+}, {
+        id: "BerserkerRedFirstActionSelector",
+        reflexive: false,
+        nodeName: "BerserkerRedFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "TryBerserkerMelee",
+        Child1: "MoveMeleeDashFANATICUnsafe",
+        Child2: "HuntEnemyUnsafe"
+}, {
+        id: "BerserkerRedLastAction",
+        reflexive: false,
+        nodeName: "BerserkerRedLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "BerserkerRedLastActionSelector"
+}, {
+        id: "BerserkerRedLastActionSelector",
+        reflexive: false,
+        nodeName: "BerserkerRedLastActionSelector",
+        NodeType: "Selector",
+        Child0: "TryBerserkerMelee",
+        Child1: "MoveMeleeDashFANATICUnsafe",
+        Child2: "HuntEnemyUnsafe"
+},
+    {
+        id: "Chryssalid::CharacterRoot",
+        reflexive: false,
+        nodeName: "Chryssalid::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "ChryssalidCocoonBranch",
+        Child1: "ChryssalidRoot"
+}, {
+        id: "ChryssalidCocoonBranch",
+        reflexive: false,
+        nodeName: "ChryssalidCocoonBranch",
+        NodeType: "Sequence",
+        Child0: "IsChryssalidCocoon",
+        Child1: "CocoonRoot"
+}, {
+        id: "IsChryssalidCocoon",
+        reflexive: false,
+        nodeName: "IsChryssalidCocoon",
+        NodeType: "Selector",
+        Child0: "TemplateNameIs-ChryssalidCocoon",
+        Child1: "TemplateNameIs-ChryssalidCocoonHuman"
+},
+    {
+        id: "TemplateNameIs-ChryssalidCocoon",
+        reflexive: false,
+        nodeName: "TemplateNameIs-ChryssalidCocoon",
+        NodeType: "Condition"
+},
+    {
+        id: "TemplateNameIs-ChryssalidCocoonHuman",
+        reflexive: false,
+        nodeName: "TemplateNameIs-ChryssalidCocoonHuman",
+        NodeType: "Condition"
+}, {
+        id: "ChryssalidRoot",
+        reflexive: false,
+        nodeName: "ChryssalidRoot",
+        NodeType: "Selector",
+        Child0: "ChryssalidHeatSeekProtocol",
+        Child1: "SkipIfBurrowed",
+        Child2: "TryJobTerrorist",
+        Child3: "TryJobChargerUnsafe",
+        Child4: "ChryssalidGreenAlert",
+        Child5: "ChryssalidRedAlert",
+        Child6: "ChryssalidYellowAlert"
+}, {
+        id: "ChryssalidRedAlert",
+        reflexive: false,
+        nodeName: "ChryssalidRedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "ChryssalidRedAbilitySelector"
+}, {
+        id: "ChryssalidRedAbilitySelector",
+        reflexive: false,
+        nodeName: "ChryssalidRedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "TryJobUnsafe",
+        Child1: "MimicBeaconBehavior",
+        Child2: "ChryssalidRedActionSelector"
+}, {
+        id: "ChryssalidRedActionSelector",
+        reflexive: false,
+        nodeName: "ChryssalidRedActionSelector",
+        NodeType: "Selector",
+        Child0: "TryMelee66",
+        Child1: "TryRunAndBurrow33"
+}, {
+        id: "TryMelee66",
+        reflexive: false,
+        nodeName: "TryMelee66",
+        NodeType: "Sequence",
+        Child0: "SSSetMeleeValueIfUnset",
+        Child1: "CheckMeleeUnder67",
+        Child2: "ChryssalidMeleeSelector"
+}, {
+        id: "SSSetMeleeValueIfUnset",
+        reflexive: false,
+        nodeName: "SSSetMeleeValueIfUnset",
+        NodeType: "Successor",
+        Child0: "SetMeleeValueIfUnset"
+}, {
+        id: "SetMeleeValueIfUnset",
+        reflexive: false,
+        nodeName: "SetMeleeValueIfUnset",
+        NodeType: "Sequence",
+        Child0: "MeleeValueUnset",
+        Child1: "SetMeleeValue"
+}, {
+        id: "MeleeValueUnset",
+        reflexive: false,
+        nodeName: "MeleeValueUnset",
+        NodeType: "Inverter",
+        Child0: "HasUnitValue-MeleeChance"
+},
+    {
+        id: "HasUnitValue-MeleeChance",
+        reflexive: false,
+        nodeName: "HasUnitValue-MeleeChance",
+        NodeType: "Condition"
+}, {
+        id: "SetMeleeValue",
+        reflexive: false,
+        nodeName: "SetMeleeValue",
+        NodeType: "Selector",
+        Child0: "DisableBurrowChanceIfIneligible",
+        Child1: "SetRandUnitValue-MeleeChance"
+}, {
+        id: "DisableBurrowChanceIfIneligible",
+        reflexive: false,
+        nodeName: "DisableBurrowChanceIfIneligible",
+        NodeType: "Sequence",
+        Child0: "BurrowOptionNotAvailable",
+        Child1: "SetUnitValue-MeleeChance"
+}, {
+        id: "BurrowOptionNotAvailable",
+        reflexive: false,
+        nodeName: "BurrowOptionNotAvailable",
+        NodeType: "Selector",
+        Child0: "IsAtEndOfAxisOfPlay",
+        Child1: "HasXComUnitsCloserToObjective"
+}, {
+        id: "HasXComUnitsCloserToObjective",
+        reflexive: false,
+        nodeName: "HasXComUnitsCloserToObjective",
+        NodeType: "Condition",
+        Param0: "10" //  True when any XCom unit is more than Param0 meters closer to objective.
+}, {
+        id: "IsAtEndOfAxisOfPlay",
+        reflexive: false,
+        nodeName: "IsAtEndOfAxisOfPlay",
+        NodeType: "StatCondition",
+        Param0: "ObjectiveDistance",
+        Param1: "<:",
+        Param2: "27" // Check if within sight range of objective.  If so", do not bother with burrowing.
+},
+    {
+        id: "SetRandUnitValue-MeleeChance",
+        reflexive: false,
+        nodeName: "SetRandUnitValue-MeleeChance",
+        NodeType: "Action",
+        Param0: "100" //  Random chance to run away and burrow or fight. Param1 DNE = Set once per mission.
+},
+    {
+        id: "SetUnitValue-MeleeChance",
+        reflexive: false,
+        nodeName: "SetUnitValue-MeleeChance",
+        NodeType: "Action",
+        Param0: "1" // Disable chance to burrow again.
+}, {
+        id: "TryRunAndBurrow33",
+        reflexive: false,
+        nodeName: "TryRunAndBurrow33",
+        NodeType: "Sequence",
+        Child0: "CheckMeleeOver67",
+        Child1: "ChryssalidRunAndBurrowSelector"
+}, {
+        id: "CheckMeleeUnder67",
+        reflexive: false,
+        nodeName: "CheckMeleeUnder67",
+        NodeType: "StatCondition",
+        Param0: "UnitValue-MeleeChance",
+        Param1: "<",
+        Param2: "67"
+}, {
+        id: "CheckMeleeOver67",
+        reflexive: false,
+        nodeName: "CheckMeleeOver67",
+        NodeType: "StatCondition",
+        Param0: "UnitValue-MeleeChance",
+        Param1: ">:",
+        Param2: "67"
+}, {
+        id: "ChryssalidRunAndBurrowSelector",
+        reflexive: false,
+        nodeName: "ChryssalidRunAndBurrowSelector",
+        NodeType: "Selector",
+        Child0: "BurrowIfOutOfView",
+        Child1: "TryDashMoveForBurrow"
+}, {
+        id: "BurrowIfOutOfView",
+        reflexive: false,
+        nodeName: "BurrowIfOutOfView",
+        NodeType: "Sequence",
+        Child0: "NoVisibleEnemies",
+        Child1: "TryBurrow"
+}, {
+        id: "ChryssalidMeleeSelector",
+        reflexive: false,
+        nodeName: "ChryssalidMeleeSelector",
+        NodeType: "Selector",
+        Child0: "TryMeleeOnCivilian",
+        Child1: "TryStandardMeleeDashFANATICUnsafe",
+        Child2: "HuntEnemyUnsafe"
+}, {
+        id: "TryMeleeOnCivilian",
+        reflexive: false,
+        nodeName: "TryMeleeOnCivilian",
+        NodeType: "Sequence",
+        Child0: "NumKilledCiviliansIsLessThanTurnCount",
+        Child1: "HasVisibleCivilianInMoveRange",
+        Child2: "Rand50AttackCivilian"
+}, {
+        id: "HasVisibleCivilianInMoveRange",
+        reflexive: false,
+        nodeName: "HasVisibleCivilianInMoveRange",
+        NodeType: "Condition" //  Visible to both players", in move range to unit.
+}, {
+        id: "Rand50AttackCivilian",
+        reflexive: false,
+        nodeName: "Rand50AttackCivilian",
+        NodeType: "RandFilter",
+        Child0: "MeleeAttackNearestCivilian",
+        Param0: "50"
+}, {
+        id: "MeleeAttackNearestCivilian",
+        reflexive: false,
+        nodeName: "MeleeAttackNearestCivilian",
+        NodeType: "Sequence",
+        Child0: "SelectClosestCivilianInRange",
+        Child1: "SelectAbility-StandardMelee"
+}, {
+        id: "SelectClosestCivilianInRange",
+        reflexive: false,
+        nodeName: "SelectClosestCivilianInRange",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-StandardMelee",
+        Child1: "SelectClosestCivilianForStandardMelee",
+        Child2: "HasValidTarget-StandardMelee"
+}, {
+        id: "SelectClosestCivilianForStandardMelee",
+        reflexive: false,
+        nodeName: "SelectClosestCivilianForStandardMelee",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluateMeleeTargetForClosestCivilian"
+}, {
+        id: "EvaluateMeleeTargetForClosestCivilian",
+        reflexive: false,
+        nodeName: "EvaluateMeleeTargetForClosestCivilian",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "TargetScoreClosestCivilianIfInRange",
+        Child2: "UpdateBestTarget"
+}, {
+        id: "TargetScoreClosestCivilianIfInRange",
+        reflexive: false,
+        nodeName: "TargetScoreClosestCivilianIfInRange",
+        NodeType: "Successor",
+        Child0: "ScoreClosestCivilianIfInRange"
+}, {
+        id: "ScoreClosestCivilianIfInRange",
+        reflexive: false,
+        nodeName: "ScoreClosestCivilianIfInRange",
+        NodeType: "Sequence",
+        Child0: "TargetIsCivilian",
+        Child1: "TargetIsNotAlien",
+        Child2: "IsTargetInMovementRange-StandardMelee",
+        Child3: "TargetScoreByScaledDistance-1",
+        Child4: "AddToTargetScore_100"
+}, {
+        id: "ChryssalidYellowAlert",
+        reflexive: false,
+        nodeName: "ChryssalidYellowAlert",
+        NodeType: "Sequence",
+        Child0: "IsYellowAlert",
+        Child1: "ChryssalidYellowAbilitySelector"
+}, {
+        id: "ChryssalidYellowAbilitySelector",
+        reflexive: false,
+        nodeName: "ChryssalidYellowAbilitySelector",
+        NodeType: "Selector",
+        Child0: "ChryssalidHeatSeekProtocol",
+        Child1: "ChryssalidUnburrowedProtocol",
+        Child2: "TryJobUnsafe",
+        Child3: "GenericAlertHandler",
+        Child4: "SkipMove"
+}, {
+        id: "ChryssalidHeatSeekProtocol",
+        reflexive: false,
+        nodeName: "ChryssalidHeatSeekProtocol",
+        NodeType: "Sequence",
+        Child0: "ChryssalidShouldTriggerHeatSeek",
+        Child1: "AlertAndUnburrowOrHeatSeek"
+}, {
+        id: "ChryssalidShouldTriggerHeatSeek",
+        reflexive: false,
+        nodeName: "ChryssalidShouldTriggerHeatSeek",
+        NodeType: "Selector",
+        Child0: "BurrowedAndEncounterBandPassed",
+        Child1: "BurrowedandLastGroupRemaining",
+        Child2: "IsUnitTypeVisible-MimicBeacon"
+}, {
+        id: "HasEncounterBandBeenPassed",
+        reflexive: false,
+        nodeName: "HasEncounterBandBeenPassed",
+        NodeType: "Condition"
+}, {
+        id: "BurrowedAndEncounterBandPassed",
+        reflexive: false,
+        nodeName: "BurrowedAndEncounterBandPassed",
+        NodeType: "Sequence",
+        Child0: "AffectedByEffect-Burrowed",
+        Child1: "HasEncounterBandBeenPassed"
+}, {
+        id: "BurrowedandLastGroupRemaining",
+        reflexive: false,
+        nodeName: "BurrowedandLastGroupRemaining",
+        NodeType: "Sequence",
+        Child0: "AffectedByEffect-Burrowed",
+        Child1: "AreAllRemainingAlliesUnderEffect-Burrowed"
+},
+    {
+        id: "AreAllRemainingAlliesUnderEffect-Burrowed",
+        reflexive: false,
+        nodeName: "AreAllRemainingAlliesUnderEffect-Burrowed",
+        NodeType: "Condition"
+}, {
+        id: "AlertAndUnburrowOrHeatSeek",
+        reflexive: false,
+        nodeName: "AlertAndUnburrowOrHeatSeek",
+        NodeType: "Selector",
+        Child0: "TryAlert",
+        Child1: "TryUnburrow",
+        Child2: "MimicBeaconBehavior",
+        Child3: "SelectHeatSeekMove",
+        Child4: "GenericAlertHandler"
+}, {
+        id: "TryAlert",
+        reflexive: false,
+        nodeName: "TryAlert",
+        NodeType: "Sequence",
+        Child0: "IsGreenAlert",
+        Child1: "DisableGroupMove",
+        Child2: "SelectAnyYellowAlertTarget",
+        Child3: "SelectAbility-YellowAlert"
+}, {
+        id: "SelectAnyYellowAlertTarget",
+        reflexive: false,
+        nodeName: "SelectAnyYellowAlertTarget",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-YellowAlert",
+        Child1: "GenericSelectTargetRandomly",
+        Child2: "HasValidTarget-YellowAlert"
+},
+    {
+        id: "SelectAbility-YellowAlert",
+        reflexive: false,
+        nodeName: "SelectAbility-YellowAlert",
+        NodeType: "Action"
+},
+    {
+        id: "SetTargetStack-YellowAlert",
+        reflexive: false,
+        nodeName: "SetTargetStack-YellowAlert",
+        NodeType: "Action"
+},
+    {
+        id: "HasValidTarget-YellowAlert",
+        reflexive: false,
+        nodeName: "HasValidTarget-YellowAlert",
+        NodeType: "Condition"
+}, {
+        id: "ChryssalidGreenAlert",
+        reflexive: false,
+        nodeName: "ChryssalidGreenAlert",
+        NodeType: "Sequence",
+        Child0: "ShouldPatrol",
+        Child1: "ChryssalidGreenAbilitySelector"
+}, {
+        id: "ChryssalidGreenAbilitySelector",
+        reflexive: false,
+        nodeName: "ChryssalidGreenAbilitySelector",
+        NodeType: "Selector",
+        Child0: "ChryssalidUnburrowedProtocol",
+        Child1: "TryJobUnsafe",
+        Child2: "GenericGreenMovement"
+}, {
+        id: "ChryssalidUnburrowedProtocol",
+        reflexive: false,
+        nodeName: "ChryssalidUnburrowedProtocol",
+        NodeType: "Sequence",
+        Child0: "IsUnburrowed",
+        Child1: "GroupSize1",
+        Child2: "ChryssalidMoveOrBurrow"
+}, {
+        id: "ChryssalidMoveOrBurrow",
+        reflexive: false,
+        nodeName: "ChryssalidMoveOrBurrow",
+        NodeType: "Selector",
+        Child0: "MoveForBurrowIfFirstAction",
+        Child1: "TryBurrowIfNotOnJob",
+        Child2: "TryDashMoveForBurrow"
+}, {
+        id: "MoveForBurrowIfFirstAction",
+        reflexive: false,
+        nodeName: "MoveForBurrowIfFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "TryBurrowMovement"
+}, {
+        id: "TryBurrowMovement",
+        reflexive: false,
+        nodeName: "TryBurrowMovement",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "FindBurrowDestination",
+        Child2: "DisableGroupMove",
+        Child3: "SelectAbility-StandardMove"
+}, {
+        id: "DisableGroupMove",
+        reflexive: false,
+        nodeName: "DisableGroupMove",
+        NodeType: "Action"
+}, {
+        id: "TryDashMoveForBurrow",
+        reflexive: false,
+        nodeName: "TryDashMoveForBurrow",
+        NodeType: "Sequence",
+        Child0: "ResetDestinationSearch",
+        Child1: "UseDashMovement",
+        Child2: "TryBurrowMovement"
+}, {
+        id: "FindBurrowDestination",
+        reflexive: false,
+        nodeName: "FindBurrowDestination",
+        NodeType: "Selector",
+        Child0: "FindLocalBurrowDestination",
+        Child1: "FindClosestPointToAxisGround"
+}, {
+        id: "FindLocalBurrowDestination",
+        reflexive: false,
+        nodeName: "FindLocalBurrowDestination",
+        NodeType: "Sequence",
+        Child0: "SSRestrictToAxisLoSIfInRange",
+        Child1: "RestrictFromAlliesWithEffect-Burrowed",
+        Child2: "SSRestrictFromKnownEnemyLoS",
+        Child3: "SetNoCoverMovement",
+        Child4: "RestrictToGroundTiles",
+        Child5: "FindRestrictedDestination-Burrow"
+}, {
+        id: "SSRestrictToAxisLoSIfInRange",
+        reflexive: false,
+        nodeName: "SSRestrictToAxisLoSIfInRange",
+        NodeType: "Successor",
+        Child0: "RestrictToAxisLoSIfInRange"
+}, {
+        id: "SSRestrictFromKnownEnemyLoS",
+        reflexive: false,
+        nodeName: "SSRestrictFromKnownEnemyLoS",
+        NodeType: "Successor",
+        Child0: "RestrictFromKnownEnemyLoS"
+}, {
+        id: "RestrictToAxisLoSIfInRange",
+        reflexive: false,
+        nodeName: "RestrictToAxisLoSIfInRange",
+        NodeType: "Sequence",
+        Child0: "IsInMovementRangeOfAxisOfPlay",
+        Child1: "RestrictToAxisLoS"
+}, {
+        id: "RestrictToAxisLoS",
+        reflexive: false,
+        nodeName: "RestrictToAxisLoS",
+        NodeType: "Action"
+}, {
+        id: "RestrictFromKnownEnemyLoS",
+        reflexive: false,
+        nodeName: "RestrictFromKnownEnemyLoS",
+        NodeType: "Action"
+}, {
+        id: "RestrictToGroundTiles",
+        reflexive: false,
+        nodeName: "RestrictToGroundTiles",
+        NodeType: "Action"
+}, {
+        id: "FindClosestPointToAxisGround",
+        reflexive: false,
+        nodeName: "FindClosestPointToAxisGround",
+        NodeType: "Action"
+}, {
+        id: "IsInMovementRangeOfAxisOfPlay",
+        reflexive: false,
+        nodeName: "IsInMovementRangeOfAxisOfPlay",
+        NodeType: "Condition"
+},
+    {
+        id: "RestrictFromAlliesWithEffect-Burrowed",
+        reflexive: false,
+        nodeName: "RestrictFromAlliesWithEffect-Burrowed",
+        NodeType: "Action",
+        Param0: "10.0f"
+}, {
+        id: "GroupSize1",
+        reflexive: false,
+        nodeName: "GroupSize1",
+        NodeType: "StatCondition",
+        Param0: "GroupSize",
+        Param1: "<:",
+        Param2: "1"
+}, {
+        id: "ChryssalidScamperRoot",
+        reflexive: false,
+        nodeName: "ChryssalidScamperRoot",
+        NodeType: "Selector",
+        Child0: "SkipIfBurrowed",
+        Child1: "MoveMeleeFANATICUnsafe",
+        Child2: "SelectHeatSeekMove"
+}, {
+        id: "SkipIfBurrowed",
+        reflexive: false,
+        nodeName: "SkipIfBurrowed",
+        NodeType: "Sequence",
+        Child0: "AffectedByEffect-Burrowed",
+        Child1: "SkipMove"
+}, {
+        id: "IsUnburrowed",
+        reflexive: false,
+        nodeName: "IsUnburrowed",
+        NodeType: "Inverter",
+        Child0: "AffectedByEffect-Burrowed"
+}, {
+        id: "CocoonRoot",
+        reflexive: false,
+        nodeName: "CocoonRoot",
+        NodeType: "Selector",
+        Child0: "TrySpawnChryssalid",
+        Child1: "SkipMove"
+}, {
+        id: "TryMoveThenPsiBomb",
+        reflexive: false,
+        nodeName: "TryMoveThenPsiBomb",
+        NodeType: "Selector",
+        Child0: "TryTeleportForPsiBomb",
+        Child1: "TryMoveForPsiBomb",
+        Child2: "TryPsiBomb"
+}, {
+        id: "TryTeleportForPsiBomb",
+        reflexive: false,
+        nodeName: "TryTeleportForPsiBomb",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-PsiBombStage1",
+        Child1: "NotLastActionPoint",
+        Child2: "FindPotentialAoETargets-PsiBombProfile",
+        Child3: "TeleportForPsiBombTarget"
+}, {
+        id: "TryMoveForPsiBomb",
+        reflexive: false,
+        nodeName: "TryMoveForPsiBomb",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "IsAbilityReady-PsiBombStage1",
+        Child2: "NotLastActionPoint",
+        Child3: "FindPotentialAoETargets-PsiBombProfile",
+        Child4: "MoveStandardIfFirstAbility-PsiBombStage1"
+},
+    {
+        id: "Cyberus::CharacterRoot",
+        reflexive: false,
+        nodeName: "Cyberus::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "TryJob",
+        Child1: "GenericGreenMovement",
+        Child2: "CodexRedAlert",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "CodexRedAlert",
+        reflexive: false,
+        nodeName: "CodexRedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "CodexRedAbilitySelector"
+}, {
+        id: "CodexRedAbilitySelector",
+        reflexive: false,
+        nodeName: "CodexRedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "CodexRedFirstAction",
+        Child2: "CodexRedLastAction"
+}, {
+        id: "CodexRedFirstAction",
+        reflexive: false,
+        nodeName: "CodexRedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "CodexRedFirstActionSelector"
+}, {
+        id: "CodexRedFirstActionSelector",
+        reflexive: false,
+        nodeName: "CodexRedFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "TryMoveThenPsiBomb",
+        Child1: "DoIfFlankedMove_Teleport",
+        Child2: "TryTeleportDefensive",
+        Child3: "SelectMove_JobOrFlanking",
+        Child4: "TryShootOrReloadOrOverwatch",
+        Child5: "HuntEnemyWithCover"
+}, {
+        id: "CodexRedLastAction",
+        reflexive: false,
+        nodeName: "CodexRedLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "CodexRedLastActionSelector"
+}, {
+        id: "CodexRedLastActionSelector",
+        reflexive: false,
+        nodeName: "CodexRedLastActionSelector",
+        NodeType: "Selector",
+        Child0: "TryPsiBomb",
+        Child1: "TryShootOrReloadOrOverwatch",
+        Child2: "HuntEnemyWithCover",
+        Child3: "SelectMove_JobOrFlanking"
+}, {
+        id: "CodexSometimesPsiBomb",
+        reflexive: false,
+        nodeName: "CodexSometimesPsiBomb",
+        NodeType: "RandFilter",
+        Child0: "TryPsiBomb",
+        Param0: "33"
+}, {
+        id: "DoIfFlankedMove_Teleport",
+        reflexive: false,
+        nodeName: "DoIfFlankedMove_Teleport",
+        NodeType: "Sequence",
+        Child0: "CheckIfNeedToMove",
+        Child1: "FlankedMoveSelector_Teleport"
+}, {
+        id: "FlankedMoveSelector_Teleport",
+        reflexive: false,
+        nodeName: "FlankedMoveSelector_Teleport",
+        NodeType: "Selector",
+        Child0: "TryTeleportDefensive",
+        Child1: "MoveAdvanceToCoverUnsafe",
+        Child2: "FallBack"
+},
+    {
+        id: "Cyberus::MoveTowardMimicBeacon",
+        reflexive: false,
+        nodeName: "Cyberus::MoveTowardMimicBeacon",
+        NodeType: "Selector",
+        Child0: "TryTeleportTowardMimicBeacon",
+        Child1: "TryStandardMoveTowardMimicBeacon"
+}, {
+        id: "TryTeleportTowardMimicBeacon",
+        reflexive: false,
+        nodeName: "TryTeleportTowardMimicBeacon",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-Teleport",
+        Child1: "UseDashMovement",
+        Child2: "FindDestinationTowardMimicBeacon",
+        Child3: "SelectAbility-Teleport"
+},
+    {
+        id: "Gatekeeper::CharacterRoot",
+        reflexive: false,
+        nodeName: "Gatekeeper::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "TryJob",
+        Child1: "GenericGreenMovement",
+        Child2: "GateKeeperRedAlert",
+        Child3: "GateKeeperNoEnemySightedMove"
+}, {
+        id: "GateKeeperRedAlert",
+        reflexive: false,
+        nodeName: "GateKeeperRedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "GateKeeperRedAbilitySelector"
+}, {
+        id: "GateKeeperRedAbilitySelector",
+        reflexive: false,
+        nodeName: "GateKeeperRedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "GateKeeperRedFirstAction",
+        Child2: "GateKeeperRedLastAction"
+}, {
+        id: "GateKeeperRedFirstAction",
+        reflexive: false,
+        nodeName: "GateKeeperRedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "GateKeeperRedFirstActionSelector"
+}, {
+        id: "GateKeeperRedFirstActionSelector",
+        reflexive: false,
+        nodeName: "GateKeeperRedFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "TryMoveThenAnimaInversionCorpse",
+        Child1: "TryMoveThenAnimaInversionMixed",
+        Child2: "TryAnimaConsumeOnEnemy",
+        Child3: "TryAnimaConsumeOnAlly",
+        Child4: "MoveNoCover",
+        Child5: "ShootIfAvailable",
+        Child6: "HuntEnemy"
+}, {
+        id: "GateKeeperRedLastAction",
+        reflexive: false,
+        nodeName: "GateKeeperRedLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "GateKeeperRedLastActionSelector"
+}, {
+        id: "GateKeeperRedLastActionSelector",
+        reflexive: false,
+        nodeName: "GateKeeperRedLastActionSelector",
+        NodeType: "Selector",
+        Child0: "TryAnimaInversionCorpses",
+        Child1: "TryAnimaInversionMixed",
+        Child2: "TryAnimaConsumeOnEnemy",
+        Child3: "TryAnimaConsumeOnAlly",
+        Child4: "GateKeeperOpenOrClose",
+        Child5: "TryShootOrReloadOrOverwatch",
+        Child6: "MoveNoCover",
+        Child7: "HuntEnemy"
+}, {
+        id: "GateKeeperNoEnemySightedMove",
+        reflexive: false,
+        nodeName: "GateKeeperNoEnemySightedMove",
+        NodeType: "Selector",
+        Child0: "TryAnimaInversionCorpses",
+        Child1: "TryAnimaInversionMixed",
+        Child2: "TryGatekeeperClose",
+        Child3: "GenericAlertHandler",
+        Child4: "GenericGreenMovement"
+}, {
+        id: "GateKeeperOpenOrClose",
+        reflexive: false,
+        nodeName: "GateKeeperOpenOrClose",
+        NodeType: "Selector",
+        Child0: "CloseIfInObviousDanger",
+        Child1: "DoIfFlankedMove",
+        Child2: "GateKeeperCheckOpen"
+}, {
+        id: "CloseIfInObviousDanger",
+        reflexive: false,
+        nodeName: "CloseIfInObviousDanger",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-GatekeeperClose",
+        Child1: "CheckIfInDanger",
+        Child2: "TryGatekeeperClose"
+}, {
+        id: "GateKeeperCheckOpen",
+        reflexive: false,
+        nodeName: "GateKeeperCheckOpen",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-GatekeeperOpen",
+        Child1: "NoTargetsAvailable",
+        Child2: "TryGatekeeperOpen" //  open if at high life
+},
+    {
+        id: "Muton::CharacterRoot",
+        reflexive: false,
+        nodeName: "Muton::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "TryJob",
+        Child1: "GenericGreenMovement",
+        Child2: "MutonRedAlert",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "MutonRedAlert",
+        reflexive: false,
+        nodeName: "MutonRedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "MutonRedAbilitySelector"
+}, {
+        id: "MutonRedAbilitySelector",
+        reflexive: false,
+        nodeName: "MutonRedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "MutonRedFirstAction",
+        Child2: "MutonRedLastAction"
+}, {
+        id: "MutonRedFirstAction",
+        reflexive: false,
+        nodeName: "MutonRedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "MutonRedFirstActionSelector"
+}, {
+        id: "MutonRedFirstActionSelector",
+        reflexive: false,
+        nodeName: "MutonRedFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "TryBayonet",
+        Child1: "TryMoveThenGrenade",
+        Child2: "TryMoveToSuppressClosest",
+        Child3: "TryTwoTurnAttackSupportIfSafe",
+        Child4: "SelectMoveProfileByJob",
+        Child5: "TryShootOrReloadOrOverwatch",
+        Child6: "HuntEnemyWithCover"
+}, {
+        id: "MutonRedLastAction",
+        reflexive: false,
+        nodeName: "MutonRedLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "MutonRedLastActionSelector"
+}, {
+        id: "MutonRedLastActionSelector",
+        reflexive: false,
+        nodeName: "MutonRedLastActionSelector",
+        NodeType: "Selector",
+        Child0: "TryBayonet",
+        Child1: "TryGrenade",
+        Child2: "TrySuppressClosest",
+        Child3: "TryShootOrReloadOrOverwatch",
+        Child4: "HuntEnemyWithCover",
+        Child5: "SelectMove_JobOrAggressive"
+}, {
+        id: "TrySuppressClosest",
+        reflexive: false,
+        nodeName: "TrySuppressClosest",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-Suppression",
+        Child1: "CheckShouldSuppressVar",
+        Child2: "SelectTargetForSuppression",
+        Child3: "SelectAbility-Suppression"
+}, {
+        id: "SelectTargetForSuppression",
+        reflexive: false,
+        nodeName: "SelectTargetForSuppression",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-Suppression",
+        Child1: "SelectBestSuppressionTarget",
+        Child2: "HasValidTarget-Suppression"
+}, {
+        id: "TryMoveToSuppressClosest",
+        reflexive: false,
+        nodeName: "TryMoveToSuppressClosest",
+        NodeType: "Sequence",
+        Child0: "SafeToMove",
+        Child1: "IsAbilityReady-Suppression",
+        Child2: "CheckShouldSuppressVar",
+        Child3: "SelectClosestPotentialSuppressionTarget",
+        Child4: "MoveStandardIfFirstAbility-Suppression"
+}, {
+        id: "CheckShouldSuppressVar",
+        reflexive: false,
+        nodeName: "CheckShouldSuppressVar",
+        NodeType: "Sequence",
+        Child0: "InitSetSuppressVar",
+        Child1: "ShouldSuppress"
+}, {
+        id: "ShouldSuppress",
+        reflexive: false,
+        nodeName: "ShouldSuppress",
+        NodeType: "StatCondition",
+        Param0: "BTVar",
+        Param1: "!:",
+        Param2: "0",
+        Param3: "ShouldSuppress"
+}, {
+        id: "InitSetSuppressVar",
+        reflexive: false,
+        nodeName: "InitSetSuppressVar",
+        NodeType: "Selector",
+        Child0: "HasBTVar-ShouldSuppress",
+        Child1: "UpdateShouldSuppressVar"
+},
+    {
+        id: "HasBTVar-ShouldSuppress",
+        reflexive: false,
+        nodeName: "HasBTVar-ShouldSuppress",
+        NodeType: "Condition"
+}, {
+        id: "UpdateShouldSuppressVar",
+        reflexive: false,
+        nodeName: "UpdateShouldSuppressVar",
+        NodeType: "Selector",
+        Child0: "TrySetShouldSuppressTrue",
+        Child1: "SetShouldSuppressFalse"
+}, {
+        id: "TrySetShouldSuppressTrue",
+        reflexive: false,
+        nodeName: "TrySetShouldSuppressTrue",
+        NodeType: "Sequence",
+        Child0: "AnyAlliesVisible",
+        Child1: "RollForSuppressionPerVisibleAlly",
+        Child2: "SetShouldSuppressTrue"
+}, {
+        id: "SetShouldSuppressTrue",
+        reflexive: false,
+        nodeName: "SetShouldSuppressTrue",
+        NodeType: "Action",
+        Param0: "SetBTVar",
+        Param1: "ShouldSuppress",
+        Param2: "1"
+}, {
+        id: "SetShouldSuppressFalse",
+        reflexive: false,
+        nodeName: "SetShouldSuppressFalse",
+        NodeType: "Action",
+        Param0: "SetBTVar",
+        Param1: "ShouldSuppress",
+        Param2: "0"
+}, {
+        id: "RollForSuppressionPerVisibleAlly",
+        reflexive: false,
+        nodeName: "RollForSuppressionPerVisibleAlly",
+        NodeType: "Condition",
+        Param0: "10" //  Param0: "Percent chance per visible ally to succeed.
+},
+    {
+        id: "PsiZombie::CharacterRoot",
+        reflexive: false,
+        nodeName: "PsiZombie::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "GenericEnemyMeleeRootFANATIC"
+},
+    {
+        id: "Sectoid::CharacterRoot",
+        reflexive: false,
+        nodeName: "Sectoid::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "TryJob",
+        Child1: "GenericGreenMovement",
+        Child2: "SectoidRedAlert",
+        Child3: "SectoidNoEnemySightedMove"
+}, {
+        id: "SectoidRedAlert",
+        reflexive: false,
+        nodeName: "SectoidRedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "SectoidRedAbilitySelector"
+}, {
+        id: "SectoidRedAbilitySelector",
+        reflexive: false,
+        nodeName: "SectoidRedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "SectoidRedFirstAction",
+        Child2: "SectoidRedLastAction"
+}, {
+        id: "SectoidRedFirstAction",
+        reflexive: false,
+        nodeName: "SectoidRedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "SectoidRedFirstActionSelector"
+}, {
+        id: "SectoidRedFirstActionSelector",
+        reflexive: false,
+        nodeName: "SectoidRedFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "DoIfFlankedMove",
+        Child1: "SelectMove_JobOrDefensive",
+        Child2: "TryPsiReanimationOrMindSpinOption",
+        Child3: "TryShootOrReloadOrOverwatch",
+        Child4: "HuntEnemyWithCover"
+}, {
+        id: "SectoidRedLastAction",
+        reflexive: false,
+        nodeName: "SectoidRedLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "SectoidRedLastActionSelector"
+}, {
+        id: "SectoidRedLastActionSelector",
+        reflexive: false,
+        nodeName: "SectoidRedLastActionSelector",
+        NodeType: "Selector",
+        Child0: "DoIfFlankedMove",
+        Child1: "TryPsiReanimationOrMindSpinOption",
+        Child2: "TryShootOrReloadOrOverwatch",
+        Child3: "HuntEnemyWithCover",
+        Child4: "SelectMove_JobOrDefensive"
+}, {
+        id: "TryPsiReanimationOrMindSpinOption",
+        reflexive: false,
+        nodeName: "TryPsiReanimationOrMindSpinOption",
+        NodeType: "RandSelector",
+        Child0: "TryPsiReanimation",
+        Param0: "66",
+        Child1: "TryMindSpinOption",
+        Param1: "34"
+}, {
+        id: "TryMindSpinOption",
+        reflexive: false,
+        nodeName: "TryMindSpinOption",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-MindSpin",
+        Child1: "SelectTargetForMindSpin",
+        Child2: "SelectAbility-MindSpin"
+}, {
+        id: "SectoidNoEnemySightedMove",
+        reflexive: false,
+        nodeName: "SectoidNoEnemySightedMove",
+        NodeType: "Selector",
+        Child0: "GenericOrangeMovement",
+        Child1: "SectoidYellowAlert",
+        Child2: "GenericGreenMovement"
+}, {
+        id: "SectoidYellowAlert",
+        reflexive: false,
+        nodeName: "SectoidYellowAlert",
+        NodeType: "Sequence",
+        Child0: "IsYellowAlert",
+        Child1: "SectoidYellowAbilitySelector"
+}, {
+        id: "SectoidYellowAbilitySelector",
+        reflexive: false,
+        nodeName: "SectoidYellowAbilitySelector",
+        NodeType: "Selector",
+        Child0: "TryPsiReanimation",
+        Child1: "GenericAlertHandler"
+},
+    {
+        id: "Viper::CharacterRoot",
+        reflexive: false,
+        nodeName: "Viper::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "TryJob",
+        Child1: "GenericGreenMovement",
+        Child2: "ViperRedAlert",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "ViperRedAlert",
+        reflexive: false,
+        nodeName: "ViperRedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "ViperRedAbilitySelector"
+}, {
+        id: "ViperRedAbilitySelector",
+        reflexive: false,
+        nodeName: "ViperRedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "ViperRedFirstAction",
+        Child2: "ViperRedLastAction"
+}, {
+        id: "ViperRedFirstAction",
+        reflexive: false,
+        nodeName: "ViperRedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "ViperRedFirstActionSelector"
+}, {
+        id: "ViperRedFirstActionSelector",
+        reflexive: false,
+        nodeName: "ViperRedFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "ConsiderTonguePullPriorityOrMelee",
+        Child1: "TryGetOverHere",
+        Child2: "TryMoveThenPoisonSpit",
+        Child3: "TryMoveThenPoisonSpitSingle",
+        Child4: "SelectMoveStandard",
+        Child5: "TryShootOrReloadOrOverwatch",
+        Child6: "HuntEnemyWithCover"
+}, {
+        id: "ViperRedLastAction",
+        reflexive: false,
+        nodeName: "ViperRedLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "ViperRedLastActionSelector"
+}, {
+        id: "ViperRedLastActionSelector",
+        reflexive: false,
+        nodeName: "ViperRedLastActionSelector",
+        NodeType: "Selector",
+        Child0: "TryStandardMelee",
+        Child1: "TryPoisonSpit",
+        Child2: "TryGetOverHere",
+        Child3: "TryPoisonSpitSingle",
+        Child4: "TryShootOrReloadOrOverwatch",
+        Child5: "DoIfFlankedMove",
+        Child6: "HuntEnemyWithCover",
+        Child7: "SelectMoveStandard"
+},
+    {
+        id: "Viper::MoveTowardMimicBeacon",
+        reflexive: false,
+        nodeName: "Viper::MoveTowardMimicBeacon",
+        NodeType: "Selector",
+        Child0: "RandTryGetOverHereOnMimicBeacon",
+        Child1: "TryMeleeMoveTowardMimicBeacon",
+        Child2: "TryStandardMoveTowardMimicBeacon"
+}, {
+        id: "RandTryGetOverHereOnMimicBeacon",
+        reflexive: false,
+        nodeName: "RandTryGetOverHereOnMimicBeacon",
+        NodeType: "RandFilter",
+        Child0: "TryGetOverHereOnMimicBeacon",
+        Param0: "50"
+}, {
+        id: "TryGetOverHereOnMimicBeacon",
+        reflexive: false,
+        nodeName: "TryGetOverHereOnMimicBeacon",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-GetOverHere",
+        Child1: "SelectMimicBeaconForGetOverHere",
+        Child2: "SelectAbility-GetOverHere"
+}, {
+        id: "SelectMimicBeaconForGetOverHere",
+        reflexive: false,
+        nodeName: "SelectMimicBeaconForGetOverHere",
+        NodeType: "Sequence",
+        Child0: "SetTargetStack-GetOverHere",
+        Child1: "SelectMimicBeaconTarget",
+        Child2: "HasValidTarget-GetOverHere"
+}, {
+        id: "ConsiderTonguePullPriorityOrMelee",
+        reflexive: false,
+        nodeName: "ConsiderTonguePullPriorityOrMelee",
+        NodeType: "Sequence",
+        Child0: "TryStandardMelee",
+        Child1: "SS_ConsiderTonguePullOverMove"
+}, {
+        id: "SS_ConsiderTonguePullOverMove",
+        reflexive: false,
+        nodeName: "SS_ConsiderTonguePullOverMove",
+        NodeType: "Successor",
+        Child0: "ConsiderTonguePullOverMove"
+}, {
+        id: "ConsiderTonguePullOverMove",
+        reflexive: false,
+        nodeName: "ConsiderTonguePullOverMove",
+        NodeType: "Sequence",
+        Child0: "IsSelectedAbility-StandardMove",
+        Child1: "IsAbilityAvailable-GetOverHere",
+        Child2: "SetPotentialTargetAsCurrentTarget",
+        Child3: "ShouldUseTonguePullOnTarget",
+        Child4: "SelectAbility-GetOverHere"
+}, {
+        id: "SetPotentialTargetAsCurrentTarget",
+        reflexive: false,
+        nodeName: "SetPotentialTargetAsCurrentTarget",
+        NodeType: "Action"
+}, {
+        id: "ShouldUseTonguePullOnTarget",
+        reflexive: false,
+        nodeName: "ShouldUseTonguePullOnTarget",
+        NodeType: "Sequence",
+        Child0: "IsValidTonguePullTarget",
+        Child1: "TargetDistanceGreaterThan4Tiles",
+        Child2: "TonguePullHitChance50",
+        Child3: "SetTargetPotential-GetOverHere"
+}, {
+        id: "TargetDistanceGreaterThan4Tiles",
+        reflexive: false,
+        nodeName: "TargetDistanceGreaterThan4Tiles",
+        NodeType: "StatCondition",
+        Param0: "PotentialTargetDistance",
+        Param1: ">",
+        Param2: "6" //  6m = 4 tiles
+}, {
+        id: "TonguePullHitChance50",
+        reflexive: false,
+        nodeName: "TonguePullHitChance50",
+        NodeType: "StatCondition",
+        Param0: "PotentialHitChance-GetOverHere",
+        Param1: ">:",
+        Param2: "50"
+},
+    {
+        id: "IsSelectedAbility-StandardMove",
+        reflexive: false,
+        nodeName: "IsSelectedAbility-StandardMove",
+        NodeType: "Condition"
+},
+    {
+        id: "SetTargetPotential-GetOverHere",
+        reflexive: false,
+        nodeName: "SetTargetPotential-GetOverHere",
+        NodeType: "Action" //  Set target of "Potential" to the target of ability "GetOverHere".
+},
+    {
+        id: "Viper::CustomMeleeTargetScore",
+        reflexive: false,
+        nodeName: "Viper::CustomMeleeTargetScore",
+        NodeType: "Sequence",
+        Child0: "TargetNotValidForBind",
+        Child1: "AddToTargetScore_-1000" // Overwrite option for melee abilities that are restricted.
+}, {
+        id: "TargetNotValidForBind",
+        reflexive: false,
+        nodeName: "TargetNotValidForBind",
+        NodeType: "Selector",
+        Child0: "TargetIsAlien",
+        Child1: "TargetIsRobotic"
+},
+    {
+        id: "Faceless::CharacterRoot",
+        reflexive: false,
+        nodeName: "Faceless::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "TryJobUnsafe",
+        Child1: "GenericGreenMovement",
+        Child2: "FacelessHeatSeekProtocol",
+        Child3: "FacelessRedAlert",
+        Child4: "GenericAlertHandler"
+}, {
+        id: "FacelessRedAlert",
+        reflexive: false,
+        nodeName: "FacelessRedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "FacelessRedAbilitySelector"
+}, {
+        id: "FacelessRedAbilitySelector",
+        reflexive: false,
+        nodeName: "FacelessRedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "FacelessRedFirstAction",
+        Child2: "FacelessRedLastAction"
+}, {
+        id: "FacelessRedFirstAction",
+        reflexive: false,
+        nodeName: "FacelessRedFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "FacelessFirstActionSelector" // 
+}, {
+        id: "FacelessFirstActionSelector",
+        reflexive: false,
+        nodeName: "FacelessFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "TryScythingClaws",
+        Child1: "MoveMeleeFANATICUnsafe",
+        Child2: "HuntEnemyUnsafe"
+}, {
+        id: "FacelessRedLastAction",
+        reflexive: false,
+        nodeName: "FacelessRedLastAction",
+        NodeType: "Selector",
+        Child0: "TryScythingClaws",
+        Child1: "MoveMeleeFANATICUnsafe",
+        Child2: "HuntEnemyUnsafe"
+},
+    {
+        id: "Faceless::AttackMimicBeacon",
+        reflexive: false,
+        nodeName: "Faceless::AttackMimicBeacon",
+        NodeType: "Sequence",
+        Child0: "TryScythingClaws"
+}, {
+        id: "FacelessHeatSeekProtocol",
+        reflexive: false,
+        nodeName: "FacelessHeatSeekProtocol",
+        NodeType: "Sequence",
+        Child0: "FacelessShouldTriggerHeatSeek",
+        Child1: "SelectHeatSeekMove"
+}, {
+        id: "FacelessShouldTriggerHeatSeek",
+        reflexive: false,
+        nodeName: "FacelessShouldTriggerHeatSeek",
+        NodeType: "Selector",
+        Child0: "NoVisibleEnemies"
+},
+    {
+        id: "Sectopod::CharacterRoot",
+        reflexive: false,
+        nodeName: "Sectopod::CharacterRoot",
+        NodeType: "Selector",
+        Child0: "TryJob",
+        Child1: "GenericGreenMovement",
+        Child2: "SectopodRedAlert",
+        Child3: "GenericAlertHandler"
+}, {
+        id: "SectopodRedAlert",
+        reflexive: false,
+        nodeName: "SectopodRedAlert",
+        NodeType: "Sequence",
+        Child0: "IsRedAlert",
+        Child1: "SectopodRedAbilitySelector"
+}, {
+        id: "SectopodRedAbilitySelector",
+        reflexive: false,
+        nodeName: "SectopodRedAbilitySelector",
+        NodeType: "Selector",
+        Child0: "MimicBeaconBehavior",
+        Child1: "SectopodRedFirstAction",
+        Child2: "SectopodRedSecondAction",
+        Child3: "SectopodRedLastAction"
+}, {
+        id: "SectopodRedFirstAction",
+        reflexive: false,
+        nodeName: "SectopodRedFirstAction",
+        NodeType: "Sequence",
+        Child0: "HasThreeActionPoints",
+        Child1: "SectopodFirstActionSelector"
+}, {
+        id: "SectopodFirstActionSelector",
+        reflexive: false,
+        nodeName: "SectopodFirstActionSelector",
+        NodeType: "Selector",
+        Child0: "SectopodCannonCharging",
+        Child1: "TryStandUp",
+        Child2: "TryLightningField",
+        Child3: "TryFirstMoveTowardVisibleEnemies50",
+        Child4: "ShootIfAvailable",
+        Child5: "TryWrathCannonS166",
+        Child6: "TryMoveForLightningField",
+        Child7: "MoveNoCover",
+        Child8: "TryShootOrReloadOrOverwatch",
+        Child9: "HuntEnemy"
+}, {
+        id: "SectopodRedSecondAction",
+        reflexive: false,
+        nodeName: "SectopodRedSecondAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "SectopodSecondActionSelector"
+}, {
+        id: "SectopodSecondActionSelector",
+        reflexive: false,
+        nodeName: "SectopodSecondActionSelector",
+        NodeType: "Selector",
+        Child0: "SectopodCannonCharging",
+        Child1: "TryStandUp",
+        Child2: "TryLightningField",
+        Child3: "TryMoveTowardVisibleEnemies50",
+        Child4: "TryWrathCannonS166",
+        Child5: "TryMoveForLightningField",
+        Child6: "MoveNoCoverIfNotMoved",
+        Child7: "TryShootOrReloadOrOverwatch",
+        Child8: "HuntEnemy"
+}, {
+        id: "SectopodRedLastAction",
+        reflexive: false,
+        nodeName: "SectopodRedLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "SectopodRedLastActionSelector"
+}, {
+        id: "SectopodRedLastActionSelector",
+        reflexive: false,
+        nodeName: "SectopodRedLastActionSelector",
+        NodeType: "Selector",
+        Child0: "SectopodCannonCharging",
+        Child1: "TryWrathCannonS1",
+        Child2: "TryLightningField",
+        Child3: "TryShootOrReloadOrOverwatch",
+        Child4: "HuntEnemy"
+}, {
+        id: "MoveNoCoverIfNotMoved",
+        reflexive: false,
+        nodeName: "MoveNoCoverIfNotMoved",
+        NodeType: "Sequence",
+        Child0: "DidntJustMove",
+        Child1: "MoveNoCover"
+}, {
+        id: "TryStandUp",
+        reflexive: false,
+        nodeName: "TryStandUp",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-SectopodHigh",
+        Child1: "SelectAbility-SectopodHigh"
+},
+    {
+        id: "IsAbilityAvailable-SectopodHigh",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-SectopodHigh",
+        NodeType: "Condition"
+},
+    {
+        id: "SelectAbility-SectopodHigh",
+        reflexive: false,
+        nodeName: "SelectAbility-SectopodHigh",
+        NodeType: "Action"
+}, {
+        id: "TryWrathCannonS166",
+        reflexive: false,
+        nodeName: "TryWrathCannonS166",
+        NodeType: "RandFilter",
+        Child0: "TryWrathCannon",
+        Param0: "66"
+}, {
+        id: "SectopodCannonCharging",
+        reflexive: false,
+        nodeName: "SectopodCannonCharging",
+        NodeType: "Sequence",
+        Child0: "AffectedByEffect-WrathCannonStage1Effect",
+        Child1: "SectopodChargingSelector"
+}, {
+        id: "SectopodChargingSelector",
+        reflexive: false,
+        nodeName: "SectopodChargingSelector",
+        NodeType: "Selector",
+        Child0: "TryShootOrReloadIfNotLastActionPoint",
+        Child1: "Overwatch50IfLastAction",
+        Child2: "TryShootOrReloadOrOverwatch",
+        Child3: "SkipMove"
+}, {
+        id: "Overwatch50IfLastAction",
+        reflexive: false,
+        nodeName: "Overwatch50IfLastAction",
+        NodeType: "Sequence",
+        Child0: "IsLastActionPoint",
+        Child1: "RandOverwatch50"
+}, {
+        id: "TryShootOrReloadIfNotLastActionPoint",
+        reflexive: false,
+        nodeName: "TryShootOrReloadIfNotLastActionPoint",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "TryShootOrReload"
+},
+    {
+        id: "IsAbilityAvailable-SectopodLightningField",
+        reflexive: false,
+        nodeName: "IsAbilityAvailable-SectopodLightningField",
+        NodeType: "Condition"
+},
+    {
+        id: "IsAbilityReady-SectopodLightningField",
+        reflexive: false,
+        nodeName: "IsAbilityReady-SectopodLightningField",
+        NodeType: "Condition"
+},
+    {
+        id: "SelectAbility-SectopodLightningField",
+        reflexive: false,
+        nodeName: "SelectAbility-SectopodLightningField",
+        NodeType: "Action"
+}, {
+        id: "TryLightningField",
+        reflexive: false,
+        nodeName: "TryLightningField",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-SectopodLightningField",
+        Child1: "HasAnyLightningFieldTargets",
+        Child2: "SelectAbility-SectopodLightningField"
+}, {
+        id: "HasAnyLightningFieldTargets",
+        reflexive: false,
+        nodeName: "HasAnyLightningFieldTargets",
+        NodeType: "StatCondition",
+        Param0: "AbilityTargetUnitCount-SectopodLightningField",
+        Param1: ">",
+        Param2: "1" //  >1 because it always sets itself as the primary target.
+}, {
+        id: "TryFirstMoveTowardVisibleEnemies50",
+        reflexive: false,
+        nodeName: "TryFirstMoveTowardVisibleEnemies50",
+        NodeType: "Sequence",
+        Child0: "AnyLivingEnemyVisible",
+        Child1: "TryMoveForLightningField50"
+}, {
+        id: "TryMoveTowardVisibleEnemies50",
+        reflexive: false,
+        nodeName: "TryMoveTowardVisibleEnemies50",
+        NodeType: "Sequence",
+        Child0: "AnyLivingEnemyVisible",
+        Child1: "DidntJustMove",
+        Child2: "TryMoveForLightningField50"
+}, {
+        id: "TryMoveForLightningField50",
+        reflexive: false,
+        nodeName: "TryMoveForLightningField50",
+        NodeType: "RandFilter",
+        Child0: "TryMoveForLightningField",
+        Param0: "50"
+}, {
+        id: "TryMoveForLightningField",
+        reflexive: false,
+        nodeName: "TryMoveForLightningField",
+        NodeType: "Sequence",
+        Child0: "DidntJustMove",
+        Child1: "SafeToMove",
+        Child2: "IsAbilityReady-SectopodLightningField",
+        Child3: "MoveStandardIfFirstAbility-LightningField",
+        Child4: "MoveMeleeFANATICUnsafe"
+},
+    {
+        id: "MoveStandardIfFirstAbility-LightningField",
+        reflexive: false,
+        nodeName: "MoveStandardIfFirstAbility-LightningField",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "NotLastActionPoint",
+        Child2: "FindLightningFieldDestination",
+        Child3: "SelectAbility-StandardMove"
+}, {
+        id: "FindLightningFieldDestination",
+        reflexive: false,
+        nodeName: "FindLightningFieldDestination",
+        NodeType: "Sequence",
+        Child0: "SelectTargetForLightningField",
+        Child1: "ResetDestinationSearch",
+        Child2: "RestrictToAbilityRange-SectopodLightningField",
+        Child3: "RestrictToEnemyLoS",
+        Child4: "FindRestrictedDestination-Standard"
+}, {
+        id: "SelectTargetForLightningField",
+        reflexive: false,
+        nodeName: "SelectTargetForLightningField",
+        NodeType: "Sequence",
+        Child0: "SetPotentialTargetStack",
+        Child1: "SelectBestPotentialTargetForMelee",
+        Child2: "HasValidTarget-Potential"
+},
+    {
+        id: "RestrictToAbilityRange-SectopodLightningField",
+        reflexive: false,
+        nodeName: "RestrictToAbilityRange-SectopodLightningField",
+        NodeType: "Action"
+},
+    {
+        id: "WasLastAbility-StandardMove",
+        reflexive: false,
+        nodeName: "WasLastAbility-StandardMove",
+        NodeType: "Condition"
+}, {
+        id: "DidntJustMove",
+        reflexive: false,
+        nodeName: "DidntJustMove",
+        NodeType: "Inverter",
+        Child0: "WasLastAbility-StandardMove"
+},
+    {
+        id: "HasJob",
+        reflexive: false,
+        nodeName: "HasJob",
+        NodeType: "Condition"
+}, {
+        id: "HasUnengagedJob",
+        reflexive: false,
+        nodeName: "HasUnengagedJob",
+        NodeType: "Condition"
+},
+    {
+        id: "IsMyJob-Soldier",
+        reflexive: false,
+        nodeName: "IsMyJob-Soldier",
+        NodeType: "Condition"
+},
+    {
+        id: "IsMyJob-Aggressor",
+        reflexive: false,
+        nodeName: "IsMyJob-Aggressor",
+        NodeType: "Condition"
+},
+    {
+        id: "IsMyJob-Flanker",
+        reflexive: false,
+        nodeName: "IsMyJob-Flanker",
+        NodeType: "Condition"
+},
+    {
+        id: "IsMyJob-Leader",
+        reflexive: false,
+        nodeName: "IsMyJob-Leader",
+        NodeType: "Condition"
+},
+    {
+        id: "IsMyJob-Support",
+        reflexive: false,
+        nodeName: "IsMyJob-Support",
+        NodeType: "Condition"
+},
+    {
+        id: "IsMyJob-Terrorist",
+        reflexive: false,
+        nodeName: "IsMyJob-Terrorist",
+        NodeType: "Condition"
+},
+    {
+        id: "IsMyJob-Hunter",
+        reflexive: false,
+        nodeName: "IsMyJob-Hunter",
+        NodeType: "Condition"
+},
+    {
+        id: "IsMyJob-Charger",
+        reflexive: false,
+        nodeName: "IsMyJob-Charger",
+        NodeType: "Condition"
+},
+    {
+        id: "IsMyJob-Defender",
+        reflexive: false,
+        nodeName: "IsMyJob-Defender",
+        NodeType: "Condition"
+},
+    {
+        id: "IsMyJob-Observer",
+        reflexive: false,
+        nodeName: "IsMyJob-Observer",
+        NodeType: "Condition"
+},
+    {
+        id: "IsMyJob-Prisoner",
+        reflexive: false,
+        nodeName: "IsMyJob-Prisoner",
+        NodeType: "Condition"
+},
+    {
+        id: "IsMyJob-GreenStandby",
+        reflexive: false,
+        nodeName: "IsMyJob-GreenStandby",
+        NodeType: "Condition"
+}, {
+        id: "DoNotHaveAlwaysOnJob",
+        reflexive: false,
+        nodeName: "DoNotHaveAlwaysOnJob",
+        NodeType: "Inverter",
+        Child0: "DoIHaveAlwaysOnJob"
+}, {
+        id: "DoIHaveAlwaysOnJob",
+        reflexive: false,
+        nodeName: "DoIHaveAlwaysOnJob",
+        NodeType: "Selector",
+        Child0: "IsMyJob-Terrorist",
+        Child1: "IsMyJob-Hunter",
+        Child2: "IsMyJob-Prisoner"
+}, {
+        id: "TryUnengagedJob",
+        reflexive: false,
+        nodeName: "TryUnengagedJob",
+        NodeType: "Sequence",
+        Child0: "HasUnengagedJob",
+        Child1: "TryJobTypes"
+}, {
+        id: "TryJob",
+        reflexive: false,
+        nodeName: "TryJob",
+        NodeType: "Selector",
+        Child0: "TryUnengagedJob",
+        Child1: "TryJobObserver"
+}, {
+        id: "TryJobUnsafe",
+        reflexive: false,
+        nodeName: "TryJobUnsafe",
+        NodeType: "Sequence",
+        Child0: "HasJob",
+        Child1: "TryJobTypesUnsafe"
+}, {
+        id: "TryJobTypes",
+        reflexive: false,
+        nodeName: "TryJobTypes",
+        NodeType: "Selector",
+        Child0: "TryJobTerrorist",
+        Child1: "TryJobHunter",
+        Child2: "TryJobChargerUnsafe",
+        Child3: "TryJobDefender",
+        Child4: "TryJobPrisoner",
+        Child5: "TryJobGreenStandby"
+}, {
+        id: "TryJobTypesUnsafe",
+        reflexive: false,
+        nodeName: "TryJobTypesUnsafe",
+        NodeType: "Selector",
+        Child0: "TryJobTerrorist",
+        Child1: "TryJobHunter",
+        Child2: "TryJobChargerUnsafe",
+        Child3: "TryJobDefender",
+        Child4: "TryJobObserver",
+        Child5: "TryJobPrisoner",
+        Child6: "TryJobGreenStandby"
+}, {
+        id: "TryJobTerrorist",
+        reflexive: false,
+        nodeName: "TryJobTerrorist",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Terrorist",
+        Child1: "JobRoot_Terrorist"
+}, {
+        id: "TryJobHunter",
+        reflexive: false,
+        nodeName: "TryJobHunter",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Hunter",
+        Child1: "JobRoot_Hunter"
+}, {
+        id: "TryJobChargerUnsafe",
+        reflexive: false,
+        nodeName: "TryJobChargerUnsafe",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Charger",
+        Child1: "JobRoot_ChargerUnsafe"
+}, {
+        id: "TryJobDefender",
+        reflexive: false,
+        nodeName: "TryJobDefender",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Defender",
+        Child1: "JobRoot_Defender"
+}, {
+        id: "TryJobObserver",
+        reflexive: false,
+        nodeName: "TryJobObserver",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Observer",
+        Child1: "IsRedAlert",
+        Child2: "DoIfFlankedMove",
+        Child3: "SkipMove"
+}, {
+        id: "TryJobPrisoner",
+        reflexive: false,
+        nodeName: "TryJobPrisoner",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Prisoner",
+        Child1: "SkipMove"
+}, {
+        id: "TryJobGreenStandby",
+        reflexive: false,
+        nodeName: "TryJobGreenStandby",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-GreenStandby",
+        Child1: "NotYetRevealed",
+        Child2: "SkipMove"
+}, {
+        id: "SelectMoveProfileByJob",
+        reflexive: false,
+        nodeName: "SelectMoveProfileByJob",
+        NodeType: "Selector",
+        Child0: "SelectMoveIfAggressor",
+        Child1: "SelectMoveIfFlanker",
+        Child2: "SelectMoveIfLeader",
+        Child3: "SelectMoveIfSupport",
+        Child4: "SelectMoveIfObserver"
+}, {
+        id: "SelectMoveIfAggressor",
+        reflexive: false,
+        nodeName: "SelectMoveIfAggressor",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Aggressor",
+        Child1: "MoveAggressive"
+}, {
+        id: "SelectMoveIfFlanker",
+        reflexive: false,
+        nodeName: "SelectMoveIfFlanker",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Flanker",
+        Child1: "MoveFlanking"
+}, {
+        id: "SelectMoveIfLeader",
+        reflexive: false,
+        nodeName: "SelectMoveIfLeader",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Leader",
+        Child1: "MoveAdvanceToCover"
+}, {
+        id: "SelectMoveIfSupport",
+        reflexive: false,
+        nodeName: "SelectMoveIfSupport",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Support",
+        Child1: "MoveDefensive"
+}, {
+        id: "SelectMoveIfObserver",
+        reflexive: false,
+        nodeName: "SelectMoveIfObserver",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Observer",
+        Child1: "ObserverMovement"
+}, {
+        id: "SelectMoveProfileByJobUnsafe",
+        reflexive: false,
+        nodeName: "SelectMoveProfileByJobUnsafe",
+        NodeType: "Selector",
+        Child0: "SelectMoveUnsafeIfAggressor",
+        Child1: "SelectMoveUnsafeIfFlanker",
+        Child2: "SelectMoveUnsafeIfLeader",
+        Child3: "SelectMoveUnsafeIfSupport",
+        Child4: "SelectMoveUnsafeIfObserver"
+}, {
+        id: "SelectMoveUnsafeIfAggressor",
+        reflexive: false,
+        nodeName: "SelectMoveUnsafeIfAggressor",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Aggressor",
+        Child1: "MoveAggressiveUnsafe"
+}, {
+        id: "SelectMoveUnsafeIfFlanker",
+        reflexive: false,
+        nodeName: "SelectMoveUnsafeIfFlanker",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Flanker",
+        Child1: "MoveFlankingUnsafe"
+}, {
+        id: "SelectMoveUnsafeIfLeader",
+        reflexive: false,
+        nodeName: "SelectMoveUnsafeIfLeader",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Leader",
+        Child1: "MoveAdvanceToCoverUnsafe"
+}, {
+        id: "SelectMoveUnsafeIfSupport",
+        reflexive: false,
+        nodeName: "SelectMoveUnsafeIfSupport",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Support",
+        Child1: "MoveDefensiveUnsafe"
+}, {
+        id: "SelectMoveUnsafeIfObserver",
+        reflexive: false,
+        nodeName: "SelectMoveUnsafeIfObserver",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Observer",
+        Child1: "ObserverMovementUnsafe"
+}, {
+        id: "SelectNCMoveProfileByJob",
+        reflexive: false,
+        nodeName: "SelectNCMoveProfileByJob",
+        NodeType: "Selector",
+        Child0: "SelectNCMoveIfAggressor",
+        Child1: "SelectNCMoveIfFlanker",
+        Child2: "SelectNCMoveIfLeader",
+        Child3: "SelectNCMoveIfSupport",
+        Child4: "SelectNCMoveIfObserver"
+}, {
+        id: "SelectNCMoveIfAggressor",
+        reflexive: false,
+        nodeName: "SelectNCMoveIfAggressor",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Aggressor",
+        Child1: "NCMoveAggressive"
+}, {
+        id: "SelectNCMoveIfFlanker",
+        reflexive: false,
+        nodeName: "SelectNCMoveIfFlanker",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Flanker",
+        Child1: "NCMoveFlanking"
+}, {
+        id: "SelectNCMoveIfLeader",
+        reflexive: false,
+        nodeName: "SelectNCMoveIfLeader",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Leader",
+        Child1: "NCMoveAdvanceToCover"
+}, {
+        id: "SelectNCMoveIfSupport",
+        reflexive: false,
+        nodeName: "SelectNCMoveIfSupport",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Support",
+        Child1: "NCMoveDefensive"
+}, {
+        id: "SelectNCMoveIfObserver",
+        reflexive: false,
+        nodeName: "SelectNCMoveIfObserver",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Observer",
+        Child1: "NCObserverMovement"
+}, {
+        id: "JobRoot_Terrorist",
+        reflexive: false,
+        nodeName: "JobRoot_Terrorist",
+        NodeType: "Sequence",
+        Child0: "NotYetRevealed",
+        Child1: "TryTerrorJobUnrevealed"
+}, {
+        id: "TryTerrorJobUnrevealed",
+        reflexive: false,
+        nodeName: "TryTerrorJobUnrevealed",
+        NodeType: "Selector",
+        Child0: "SequenceUnrevealedTerroristActionIfLeader",
+        Child1: "DoUnrevealedSkip_Follower"
+}, {
+        id: "SequenceUnrevealedTerroristActionIfLeader",
+        reflexive: false,
+        nodeName: "SequenceUnrevealedTerroristActionIfLeader",
+        NodeType: "Sequence",
+        Child0: "IsGroupLeader",
+        Child1: "SelectUnrevealedTerroristLeaderAction"
+}, {
+        id: "SelectUnrevealedTerroristLeaderAction",
+        reflexive: false,
+        nodeName: "SelectUnrevealedTerroristLeaderAction",
+        NodeType: "Selector",
+        Child0: "RandomizedTryTerrorMovement",
+        Child1: "TryTerrorAttack",
+        Child2: "TerrorMovement"
+}, {
+        id: "DoUnrevealedSkip_Follower",
+        reflexive: false,
+        nodeName: "DoUnrevealedSkip_Follower",
+        NodeType: "Sequence",
+        Child0: "IsFollower",
+        Child1: "SkipMove"
+}, {
+        id: "RandomizedTryTerrorMovement",
+        reflexive: false,
+        nodeName: "RandomizedTryTerrorMovement",
+        NodeType: "RandFilter",
+        Child0: "TryTerrorMovement",
+        Param0: "75"
+}, {
+        id: "TryTerrorMovement",
+        reflexive: false,
+        nodeName: "TryTerrorMovement",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "NotLastActionPoint",
+        Child2: "ResetDestinationSearch",
+        Child3: "SetCiviliansAsEnemiesInMoveCalculation",
+        Child4: "SetNoCoverMovement",
+        Child5: "FindDestination-Fanatic",
+        Child6: "SelectAbility-StandardMove"
+}, {
+        id: "TerrorMovement",
+        reflexive: false,
+        nodeName: "TerrorMovement",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMove",
+        Child1: "ResetDestinationSearch",
+        Child2: "SetCiviliansAsEnemiesInMoveCalculation",
+        Child3: "SetNoCoverMovement",
+        Child4: "FindDestination-Fanatic",
+        Child5: "SelectAbility-StandardMove"
+}, {
+        id: "TryTerrorAttack",
+        reflexive: false,
+        nodeName: "TryTerrorAttack",
+        NodeType: "Sequence",
+        Child0: "NumKilledCiviliansIsLessThanTurnCount",
+        Child1: "TryTerrorAttackSelector"
+}, {
+        id: "TryTerrorAttackSelector",
+        reflexive: false,
+        nodeName: "TryTerrorAttackSelector",
+        NodeType: "Selector",
+        Child0: "ShootIfAvailableTerrorist",
+        Child1: "TryMeleeTerrorist",
+        Child2: "NeedsReload",
+        Intent: "TERRORIZING"
+}, {
+        id: "NumKilledCiviliansIsLessThanTurnCount",
+        reflexive: false,
+        nodeName: "NumKilledCiviliansIsLessThanTurnCount",
+        NodeType: "Condition" //  Multivariate comparisons currently not supported.  Must be a custom condition.
+}, {
+        id: "TryMeleeTerrorist",
+        reflexive: false,
+        nodeName: "TryMeleeTerrorist",
+        NodeType: "Sequence",
+        Child0: "IsAbilityReady-StandardMelee",
+        Child1: "MeleeTerroristStepSelector"
+}, {
+        id: "MeleeTerroristStepSelector",
+        reflexive: false,
+        nodeName: "MeleeTerroristStepSelector",
+        NodeType: "Selector",
+        Child0: "MeleeAttackTerrorist",
+        Child1: "TryTerroristMoveMeleeFANATIC"
+}, {
+        id: "MeleeAttackTerrorist",
+        reflexive: false,
+        nodeName: "MeleeAttackTerrorist",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardMelee",
+        Child1: "SetTargetStack-StandardMelee",
+        Child2: "SelectBestTargetByJob_Terrorist",
+        Child3: "HasValidTarget-StandardMelee",
+        Child4: "SelectAbility-StandardMelee"
+}, {
+        id: "ShootIfAvailableTerrorist",
+        reflexive: false,
+        nodeName: "ShootIfAvailableTerrorist",
+        NodeType: "Sequence",
+        Child0: "IsAbilityAvailable-StandardShot",
+        Child1: "SetTargetStack-StandardShot",
+        Child2: "SelectBestTargetByJob_Terrorist",
+        Child3: "HasValidTarget-StandardShot",
+        Child4: "SelectAbility-StandardShot"
+}, {
+        id: "SelectBestTargetByJob_Terrorist",
+        reflexive: false,
+        nodeName: "SelectBestTargetByJob_Terrorist",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluateTargetByJob_Terrorist"
+}, {
+        id: "EvaluateTargetByJob_Terrorist",
+        reflexive: false,
+        nodeName: "EvaluateTargetByJob_Terrorist",
+        NodeType: "Sequence",
+        Child0: "SetNextTarget",
+        Child1: "SSScoreTerroristTarget",
+        Child2: "UpdateBestTarget"
+}, {
+        id: "SSScoreTerroristTarget",
+        reflexive: false,
+        nodeName: "SSScoreTerroristTarget",
+        NodeType: "Successor",
+        Child0: "ScoreTerroristTarget"
+}, {
+        id: "ScoreTerroristTarget",
+        reflexive: false,
+        nodeName: "ScoreTerroristTarget",
+        NodeType: "Sequence",
+        Child0: "TargetIsNotAlly",
+        Child1: "TargetScoreCivilian",
+        Child2: "TargetScoreHitChance",
+        Child3: "TargetScoreHealth",
+        Child4: "TargetScoreFlanking"
+}, {
+        id: "IncludeCiviliansIfTerrorist",
+        reflexive: false,
+        nodeName: "IncludeCiviliansIfTerrorist",
+        NodeType: "Successor",
+        Child0: "IfTerroristDoForMove"
+}, {
+        id: "IfTerroristDoForMove",
+        reflexive: false,
+        nodeName: "IfTerroristDoForMove",
+        NodeType: "Sequence",
+        Child0: "IsMyJob-Terrorist",
+        Child1: "SetCiviliansAsEnemiesInMoveCalculation"
+}, {
+        id: "JobRoot_Hunter",
+        reflexive: false,
+        nodeName: "JobRoot_Hunter",
+        NodeType: "Sequence",
+        Child0: "ShouldPatrol",
+        Child1: "TryHunterJobUnrevealed"
+}, {
+        id: "TryHunterJobUnrevealed",
+        reflexive: false,
+        nodeName: "TryHunterJobUnrevealed",
+        NodeType: "Selector",
+        Child0: "TryUnrevealedHunterAction_Leader",
+        Child1: "DoUnrevealedSkip_Follower"
+}, {
+        id: "TryUnrevealedHunterAction_Leader",
+        reflexive: false,
+        nodeName: "TryUnrevealedHunterAction_Leader",
+        NodeType: "Sequence",
+        Child0: "IsGroupLeader",
+        Child1: "TryHunterAttack"
+}, {
+        id: "TryHunterAttack",
+        reflexive: false,
+        nodeName: "TryHunterAttack",
+        NodeType: "Selector",
+        Child0: "TryAttackPriorityTarget",
+        Child1: "HuntIfNotLastAction"
+}, {
+        id: "HuntIfNotLastAction",
+        reflexive: false,
+        nodeName: "HuntIfNotLastAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "FindAdvanceLocation",
+        Intent: "HUNTING"
+}, {
+        id: "JobRoot_Charger",
+        reflexive: false,
+        nodeName: "JobRoot_Charger",
+        NodeType: "Selector",
+        Child0: "TryChargerJobIfUnrevealed",
+        Child1: "TryChargerJobIfRevealed"
+}, {
+        id: "TryChargerJobIfUnrevealed",
+        reflexive: false,
+        nodeName: "TryChargerJobIfUnrevealed",
+        NodeType: "Sequence",
+        Child0: "NotYetRevealed",
+        Child1: "DoChargerJobIfLeaderOrSkipMove"
+}, {
+        id: "DoChargerJobIfLeaderOrSkipMove",
+        reflexive: false,
+        nodeName: "DoChargerJobIfLeaderOrSkipMove",
+        NodeType: "Selector",
+        Child0: "DoChargerJobIfLeader",
+        Child1: "SkipMove"
+}, {
+        id: "DoChargerJobIfLeader",
+        reflexive: false,
+        nodeName: "DoChargerJobIfLeader",
+        NodeType: "Sequence",
+        Child0: "IsGroupLeader",
+        Child1: "DoChargerJobPerAction"
+}, {
+        id: "TryChargerJobIfRevealed",
+        reflexive: false,
+        nodeName: "TryChargerJobIfRevealed",
+        NodeType: "Sequence",
+        Child0: "HasRevealed",
+        Child1: "DoChargerJobPerAction"
+}, {
+        id: "DoChargerJobPerAction",
+        reflexive: false,
+        nodeName: "DoChargerJobPerAction",
+        NodeType: "Selector",
+        Child0: "ChargerFirstAction",
+        Child1: "ChargerSecondAction"
+}, {
+        id: "ChargerFirstAction",
+        reflexive: false,
+        nodeName: "ChargerFirstAction",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "DoFirstChargerAction"
+}, {
+        id: "JobRoot_ChargerUnsafe",
+        reflexive: false,
+        nodeName: "JobRoot_ChargerUnsafe",
+        NodeType: "Selector",
+        Child0: "TryChargerJobUnsafeIfUnrevealed",
+        Child1: "TryChargerJobUnsafeIfRevealed"
+}, {
+        id: "TryChargerJobUnsafeIfUnrevealed",
+        reflexive: false,
+        nodeName: "TryChargerJobUnsafeIfUnrevealed",
+        NodeType: "Sequence",
+        Child0: "NotYetRevealed",
+        Child1: "DoChargerJobUnsafeIfLeaderOrSkipMove"
+}, {
+        id: "DoChargerJobUnsafeIfLeaderOrSkipMove",
+        reflexive: false,
+        nodeName: "DoChargerJobUnsafeIfLeaderOrSkipMove",
+        NodeType: "Selector",
+        Child0: "DoChargerJobUnsafeIfLeader",
+        Child1: "SkipMove"
+}, {
+        id: "DoChargerJobUnsafeIfLeader",
+        reflexive: false,
+        nodeName: "DoChargerJobUnsafeIfLeader",
+        NodeType: "Sequence",
+        Child0: "IsGroupLeader",
+        Child1: "DoChargerJobPerActionUnsafe"
+}, {
+        id: "TryChargerJobUnsafeIfRevealed",
+        reflexive: false,
+        nodeName: "TryChargerJobUnsafeIfRevealed",
+        NodeType: "Sequence",
+        Child0: "HasRevealed",
+        Child1: "DoChargerJobPerActionUnsafe"
+}, {
+        id: "DoChargerJobPerActionUnsafe",
+        reflexive: false,
+        nodeName: "DoChargerJobPerActionUnsafe",
+        NodeType: "Selector",
+        Child0: "ChargerFirstActionUnsafe",
+        Child1: "ChargerSecondActionUnsafe"
+}, {
+        id: "ChargerFirstActionUnsafe",
+        reflexive: false,
+        nodeName: "ChargerFirstActionUnsafe",
+        NodeType: "Sequence",
+        Child0: "NotLastActionPoint",
+        Child1: "DoFirstChargerActionUnsafe"
+}, {
+        id: "ChargerSecondActionUnsafe",
+        reflexive: false,
+        nodeName: "ChargerSecondActionUnsafe",
+        NodeType: "Selector",
+        Child0: "TryAttackPriorityTarget",
+        Child1: "FindAdvanceLocationUnsafe"
+}, {
+        id: "DoFirstChargerAction",
+        reflexive: false,
+        nodeName: "DoFirstChargerAction",
+        NodeType: "Selector",
+        Child0: "FindAdvanceLocation",
+        Child1: "TryAttackPriorityTarget"
+}, {
+        id: "ChargerSecondAction",
+        reflexive: false,
+        nodeName: "ChargerSecondAction",
+        NodeType: "Selector",
+        Child0: "TryAttackPriorityTarget",
+        Child1: "FindAdvanceLocation"
+}, {
+        id: "DoFirstChargerActionUnsafe",
+        reflexive: false,
+        nodeName: "DoFirstChargerActionUnsafe",
+        NodeType: "Selector",
+        Child0: "FindAdvanceLocationUnsafe",
+        Child1: "TryAttackPriorityTarget"
+}, {
+        id: "FindAdvanceLocation",
+        reflexive: false,
+        nodeName: "FindAdvanceLocation",
+        NodeType: "Sequence",
+        Child0: "SetAlertDataStack",
+        Child1: "FindDesignatedAlertAdvanceer",
+        Child2: "HasValidAlertDataLocation",
+        Child3: "TakeAlertMoveWithoutCover",
+        Intent: "ADVANCING"
+}, {
+        id: "FindAdvanceLocationUnsafe",
+        reflexive: false,
+        nodeName: "FindAdvanceLocationUnsafe",
+        NodeType: "Sequence",
+        Child0: "SetAlertDataStack",
+        Child1: "FindDesignatedAlertAdvanceer",
+        Child2: "HasValidAlertDataLocation",
+        Child3: "TakeAlertMoveWithoutCoverUnsafe",
+        Intent: "ADVANCING"
+}, {
+        id: "FindDesignatedAlertAdvanceer",
+        reflexive: false,
+        nodeName: "FindDesignatedAlertAdvanceer",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluateAlertDataAdvanceer"
+}, {
+        id: "EvaluateAlertDataAdvanceer",
+        reflexive: false,
+        nodeName: "EvaluateAlertDataAdvanceer",
+        NodeType: "Sequence",
+        Child0: "SetNextAlertData",
+        Child1: "ScoreAlertFor_Advance",
+        Child2: "ScoreAlertDataDistance",
+        Child3: "UpdateBestAlertData"
+}, {
+        id: "JobRoot_Defender",
+        reflexive: false,
+        nodeName: "JobRoot_Defender",
+        NodeType: "Sequence",
+        Child0: "ShouldPatrol",
+        Child1: "TryDefenderJobUnrevealed"
+}, {
+        id: "TryDefenderJobUnrevealed",
+        reflexive: false,
+        nodeName: "TryDefenderJobUnrevealed",
+        NodeType: "Selector",
+        Child0: "TryUnrevealedDefenderAction_Leader",
+        Child1: "DoUnrevealedSkip_Follower"
+}, {
+        id: "TryUnrevealedDefenderAction_Leader",
+        reflexive: false,
+        nodeName: "TryUnrevealedDefenderAction_Leader",
+        NodeType: "Sequence",
+        Child0: "IsGroupLeader",
+        Child1: "TryDefenderMove"
+}, {
+        id: "TryDefenderMove",
+        reflexive: false,
+        nodeName: "TryDefenderMove",
+        NodeType: "Sequence",
+        Child0: "FindDefendLocation",
+        Child1: "DecideDefendAction",
+        Intent: "DEFENDING"
+}, {
+        id: "FindDefendLocation",
+        reflexive: false,
+        nodeName: "FindDefendLocation",
+        NodeType: "Sequence",
+        Child0: "SetAlertDataStack",
+        Child1: "FindDesignatedAlertDefender",
+        Child2: "HasValidAlertDataLocation"
+}, {
+        id: "FindDesignatedAlertDefender",
+        reflexive: false,
+        nodeName: "FindDesignatedAlertDefender",
+        NodeType: "RepeatUntilFail",
+        Child0: "EvaluateAlertDataDefender"
+}, {
+        id: "EvaluateAlertDataDefender",
+        reflexive: false,
+        nodeName: "EvaluateAlertDataDefender",
+        NodeType: "Sequence",
+        Child0: "SetNextAlertData",
+        Child1: "ScoreAlertFor_Defend",
+        Child2: "ScoreAlertDataDistance",
+        Child3: "UpdateBestAlertData"
+}, {
+        id: "DecideDefendAction",
+        reflexive: false,
+        nodeName: "DecideDefendAction",
+        NodeType: "Selector",
+        Child0: "MoveToAlertIfNotVisible",
+        Child1: "SkipMove"
+}, {
+        id: "ObserverMovement",
+        reflexive: false,
+        nodeName: "ObserverMovement",
+        NodeType: "Selector",
+        Child0: "MoveFlanking",
+        Child1: "FallBackWithLoS"
+}, {
+        id: "ObserverMovementUnsafe",
+        reflexive: false,
+        nodeName: "ObserverMovementUnsafe",
+        NodeType: "Selector",
+        Child0: "MoveFlankingUnsafe",
+        Child1: "FallBackWithLoSUnsafe"
+}, {
+        id: "NCObserverMovement",
+        reflexive: false,
+        nodeName: "NCObserverMovement",
+        NodeType: "Selector",
+        Child0: "NCMoveFlanking",
+        Child1: "NCFallBackWithLoS"
+}
+]; // end nodes
