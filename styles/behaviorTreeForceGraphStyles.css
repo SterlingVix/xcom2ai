@@ -1,0 +1,140 @@
+/**
+ * From BehaviorTreeForce.css -- force graph styling
+ **/
+
+svg {
+    background-color: #FFF;
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+svg:not(.active):not(.ctrl) {
+    cursor: crosshair;
+}
+
+path.link {
+    fill: none;
+    stroke: rgba(0, 0, 0, 0.41);
+    stroke-width: 1px;
+    cursor: default;
+}
+
+svg:not(.active):not(.ctrl) path.link {
+    cursor: pointer;
+}
+
+path.link.selected {
+    stroke-dasharray: 10, 2;
+}
+
+path.link.dragline {
+    pointer-events: none;
+}
+
+path.link.hidden {
+    stroke-width: 0;
+}
+
+circle.node {
+    /*    HIDING: */
+    display: none;
+    visibility: hidden;
+    /*    END HIDING */
+    stroke-width: 1.5px;
+    cursor: pointer;
+}
+
+circle.node.reflexive {
+    stroke: #000 !important;
+    stroke-width: 2px;
+}
+
+text {
+    font: 12px sans-serif;
+    pointer-events: none;
+}
+
+text.id {
+    text-anchor: middle;
+    font-weight: bold;
+}
+
+.node {
+    stroke: #fff;
+    stroke-width: 1px;
+}
+
+.node-active {
+    stroke: #555;
+    stroke: #3a2995;
+    color: #555;
+    color: #3a2995;
+    stroke-width: 1px;
+}
+
+.node-selected {
+    stroke: #3a2995;
+    color: #3a2995;
+    stroke-width: 1.5px;
+}
+
+.link {
+    stroke: #555;
+    stroke-opacity: .3;
+}
+
+.link-active {
+    stroke-opacity: 1;
+}
+
+.link-selected {
+    stroke-opacity: 1;
+    color: darkviolet;
+}
+
+.overlay {
+    fill: none;
+    pointer-events: all;
+}
+
+#map {
+    border: 2px #555 dashed;
+    width: 500px;
+    height: 400px;
+}
+
+.node-name {
+/*    display: block;*/
+    font-weight: 600;
+    font-size: 1em;
+/*    fill: hsla(0, 0%, 0%, 0.5);*/
+/*    stroke: rgba(255, 255, 255, 0.5);*/
+    stroke-width: 0.01em;
+    text-anchor: middle;
+/*    pointer-events: all;*/
+}
+
+.node-name:hover {
+/*
+    fill: #000;
+    stroke: #fff;
+*/
+}
+
+.node-name:focus {
+/*
+    fill: #000;
+    stroke: #fff;
+*/
+}
+
+.node-name:active {
+/*
+    fill: #000;
+    stroke: #fff;
+*/
+}

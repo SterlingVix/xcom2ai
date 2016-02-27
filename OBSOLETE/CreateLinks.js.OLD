@@ -1,0 +1,160 @@
+var CreateLinks = function(rootNodeName = 'GenericAIRoot') {
+    this.links = [];
+    this.nodes = window.behaviorGraphNodesArray;
+    this.nodesLength = this.nodes.length;
+    this.nodeTypeForceMap = {
+        "Action": 200,
+        "Condition": 400,
+        "Failer": 600,
+        "Inverter": 800,
+        "RandFilter": 1000,
+        "RandSelector": 200,
+        "RepeatUntilFail": 400,
+        "Selector": 600,
+        "Sequence": 800,
+        "StatCondition": 1000,
+        "Successor": 1200,
+        "TargetStatCondition": 1200
+    };
+    this.nodeHasBeenLinked = {};
+    
+    
+    /**
+    
+    
+    Starting from a specific node (rootNodeName), push "link" objects (newLink) 
+    onto an array (this.links), where each "link" object (newLink) 
+    defines a unique (tracked on this.nodeHasBeenLinked) connection between
+    a parent node (thisNode) and one of its children's nodes (thisNode[key]).
+    
+    Add the root/current node to the exclusion list (this.nodeHasBeenLinked).
+    For each of the root/current node's child nodes, 
+    create a link between the root/current node and the child node,
+    then check the exclusion list to 
+    see whether or not that node has been linked.
+    
+    If it hasn't been linked, perform the same operations on the child node
+    as if the child node were the root/current node.
+    
+    
+    **/
+    
+// for (var i = 0; i < this.nodesLength; i++) {
+        
+        /**
+         * Check thisNode.nodeType for specific node types:
+         *   Condition
+         *   Action
+         * etc...
+         **/
+        
+        
+    
+    return pushLinkToStack(this.rootNodeName);
+}; // end CreateLinks(rootNodeName);
+
+
+
+
+//        Starting from a specific node (rootNodeName)
+//    invoke function pushLinkToStack(rootNodeName | currentValue)
+CreateLinks.prototype.pushLinkToStack = function(currentNodeName) {
+    var currentNode = window.nodesObject[currentNodeName];
+    
+    
+//    Add the root/current node to the exclusion list
+    this.nodeHasBeenLinked[currentNodeName] = true;
+    // iterate through properties of this node,
+// make links for all 'Child#' keys.
+    
+//    For each of the root/current node's child nodes, 
+//    for (var key in currentNode) {if (key === Child)}
+        for (var key in currentNode) {
+       if (key.search('Child' !== -1)) {
+                // create link between currentNode and child node
+           var childNode = window.nodesObject[currentNode[key]];
+           var childNodeName = childNode.nodeName;
+           
+//    create a link between the current node and the child node,
+//    newLink = {
+//        source: ,
+//        target: window.nodesObject[childNode].index
+//    }
+ 
+                // {'source':6,'target':5,'value':6, 'label':'publishedOn'},
+                var newLink = {
+                    'source': currentNode.index,
+                    'target': window.nodesObject[childNode].index,
+                    'value': this.nodeTypeForceMap[currentNode.nodeType],
+                    'label': currentNode.nodeName
+                };
+                
+                this.links.push(newLink);
+                
+           
+           
+           
+           
+           
+    
+//    then check the exclusion list to 
+//    see whether or not that node has been linked.
+//    if (!exclusionList[currentNode.nodeName]) {
+    if (!this.nodeHasBeenLinked[childNodeName]) {
+        this.nodeHasBeenLinked[childNodeName] = true;
+
+//    If it hasn't been linked, perform the same operations on the child node
+//    as if the child node were the root/current node.
+    this.pushLinkToStack(childNodeName)
+    
+    
+    
+    
+        } else if (key.search('Param' !== -1)) {
+        
+       } // end else (key === 'Param#')
+                   
+        } // end for (keys in node)
+    
+    
+    
+    
+            var currentNode = this.nodes[i];
+
+    
+    
+//    , push "link" objects (newLink) 
+//    onto an array (this.links), where each "link" object (newLink) 
+//    defines a unique (tracked on this.nodeHasBeenLinked) connection between
+//    a parent node (currentNode) and one of its children's nodes (childNode).
+    
+    
+    
+    
+    
+    if (currentNodeName === rootNodeName) {
+        return this.links;
+    }
+    
+    
+}; // end pushLinkToStack()
+//
+//
+//CreateLinks.prototype. = function() {
+//    
+//}; // end ()
+//
+//
+//CreateLinks.prototype. = function() {
+//    
+//}; // end ()
+//
+//
+//CreateLinks.prototype. = function() {
+//    
+//}; // end ()
+//
+//
+//CreateLinks.prototype. = function() {
+//    
+//}; // end ()

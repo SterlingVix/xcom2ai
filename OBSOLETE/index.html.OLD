@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>XCom 2 Behavior Tree</title>
+    
+    <!-- Stylesheets -->
+    <link href="behaviorTreeStyles.css" rel="stylesheet">
+
+    <!-- libraries, data -->
+    <script src="d3.v3.min.js"></script>
+    <script src="defaultAIData.js"></script>
+    <script src="behaviorGraphNodesArray.js"></script>
+    <script src="behaviorGraphNodesObject.js"></script>
+    
+    <!-- Classes -->
+    <script src="BehaviorTreeNodes.js"></script>
+    <script src="BehaviorTreeForce.js"></script>
+    
+    <!-- Not currently implemented -->
+     <script src="cachedLinksMap.js"></script>
+    <!-- <script src="cachedVariables.js"></script> -->
+</head>
+<body>
+    <div id="graph-rendering-container"></div>
+	<div id="menu-panel"></div>
+	<div id="tree-panel">
+	    <div class="input-form-container" id="page-top">
+	        <input id="filter-input" type="text"> <button id="filter-button">Filter by term...</button>
+	    </div>
+	    <div class="state-description-container">
+	        <h2 class="state-description-label" id="node-types-label">Node
+	        Types:</h2>
+	        <p id="node-types-list"></p>
+	        <h2 class="state-description-label" id="class-types-label">Class
+	        Types:</h2>
+	        <p id="class-types-list"></p>
+	    </div>
+        <div id="character-root-tree-container">character-root-tree-container</div>
+	    <div id="tree-container"></div>
+    </div>
+    <script>
+	    window.onload = function() {
+	    	// Create grouped nodes of logic + anchors
+            this.behaviorTreeNodes = new BehaviorTreeNodes();
+	    	
+            // Create force graph
+//            this.behaviorTreeForce = new BehaviorTreeForce();
+	    };
+    </script>
+</body>
+</html>

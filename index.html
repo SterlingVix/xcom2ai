@@ -1,48 +1,71 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>XCom 2 Behavior Tree</title>
-    
+
     <!-- Stylesheets -->
-    <link href="behaviorTreeStyles.css" rel="stylesheet">
+    <link href="styles/behaviorTreeStyles.css" rel="stylesheet">
+    <link href="styles/inputStyles.css" rel="stylesheet">
+    <link href="styles/behaviorTreeForceGraphStyles.css" rel="stylesheet">
 
     <!-- libraries, data -->
-    <script src="d3.v3.min.js"></script>
-    <script src="defaultAIData.js"></script>
-    <script src="behaviorGraphNodesArray.js"></script>
-    <script src="behaviorGraphNodesObject.js"></script>
-    
-    <!-- Classes -->
-    <script src="BehaviorTreeNodes.js"></script>
-    <script src="BehaviorTreeForce.js"></script>
-    
+    <script src="lib/d3.v3.min.js"></script>
+    <script src="lib/behaviorGraphNodesObject.js"></script>
+    <script src="lib/defaultAIData.js"></script> 
+
+    <!-- Scripts -->
+     <script src="scripts/BehaviorTreeNodes.js"></script> 
+     <script src="scripts/BehaviorTreeForceGraph.js"></script> 
+     <script src="scripts/CreateLinksAndNodes.js"></script> 
+
     <!-- Not currently implemented -->
-    <!-- <script src="cachedLinksAfterIngestion.js"></script> -->
-    <!-- <script src="cachedVariables.js"></script> -->
+<!--     <script src="cached/cachedLinks.js"></script> -->
+<!--     <script src="cached/cachedVariables.js"></script> -->
 </head>
+
 <body>
-    <div id="character-root-tree-container"></div>
-	<div id="menu-panel"></div>
-	<div id="tree-panel">
-	    <div class="input-form-container" id="page-top">
-	        <input id="filter-input" type="text"> <button id="filter-button">Filter by term...</button>
-	    </div>
-	    <div class="state-description-container">
-	        <h2 class="state-description-label" id="node-types-label">Node
+    <div id="input-container" class="flex-container">
+        <label class="flex-item input-label">Charge: <span class="slider-value-display" id="charge-value"></span>
+            <br />
+            <input id="charge-input" class="input-element" value="-4000" type="range" step="100" min="-20000" max="20000" />
+        </label>
+        <label class="flex-item input-label">Link Distance: <span class="slider-value-display" id="link-distance-value"></span>
+            <br />
+            <input id="link-distance-input" class="input-element" value="100" type="range" step="100" min="-4000" max="4000" />
+        </label>
+    </div>
+    <div id="graph-rendering-container"></div>
+    <div id="menu-panel"></div>
+    <div id="tree-panel">
+        <div class="input-form-container" id="page-top">
+            <input id="filter-input" type="text">
+            <button id="filter-button">Filter by term...</button>
+        </div>
+        <div class="state-description-container">
+            <h2 class="state-description-label" id="node-types-label">Node
 	        Types:</h2>
-	        <p id="node-types-list"></p>
-	        <h2 class="state-description-label" id="class-types-label">Class
+            <p id="node-types-list"></p>
+            <h2 class="state-description-label" id="class-types-label">Class
 	        Types:</h2>
-	        <p id="class-types-list"></p>
-	    </div>
-	    <div id="tree-container"></div>
+            <p id="class-types-list"></p>
+        </div>
+        <div id="character-root-tree-container">character-root-tree-container</div>
+        <div id="tree-container"></div>
     </div>
     <script>
-	    window.onload = function() {
-	    	this.behaviorTreeNodes = new BehaviorTreeNodes();
-	    	this.behaviorTreeForce = new BehaviorTreeForce();
-	    };
+        window.onload = function () {
+            // Create links map from full data
+//            window.links = new CreateLinksAndNodes('GenericAIRoot');
+
+            // Create grouped nodes of logic + anchors
+            window.behaviorTreeNodes = new BehaviorTreeNodes();
+
+            // Create force graph
+            window.behaviorTreeForceGraph = new BehaviorTreeForceGraph('GenericAIRoot');
+        };
     </script>
 </body>
+
 </html>

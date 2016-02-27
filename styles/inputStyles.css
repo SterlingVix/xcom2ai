@@ -1,0 +1,141 @@
+/**
+ * Styling for sliders: http://danielstern.ca/range.css/?ref=css-tricks#/
+ **/
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 6.2px 0;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 6.6px;
+  cursor: pointer;
+  box-shadow: 1px 1px 0px #113a55, 0px 0px 1px #15496a;
+  background: #97adbf;
+  border-radius: 25px;
+  border: 0px solid #010101;
+}
+
+/**
+ * Thumb styles
+ **/
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 1px 1px 1px #113a55, 0px 0px 1px #15496a;
+  border: 1px solid #113a55;
+  height: 19px;
+  width: 50px;
+  border-radius: 2px;
+  background: #dcdcff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -6.2px;
+  content: attr(value);
+}
+input[type=range]::-ms-thumb {
+  box-shadow: 1px 1px 1px #113a55, 0px 0px 1px #15496a;
+  border: 1px solid #113a55;
+  height: 19px;
+  width: 50px;
+  border-radius: 2px;
+  background: #dcdcff;
+  cursor: pointer;
+  height: 6.6px;
+  content: attr(value);
+}
+input[type=range]::-moz-range-thumb {
+  box-shadow: 1px 1px 1px #113a55, 0px 0px 1px #15496a;
+  border: 1px solid #113a55;
+  height: 19px;
+  width: 50px;
+  border-radius: 2px;
+  background: #dcdcff;
+  cursor: pointer;
+  content: attr(value);
+}
+
+
+/**
+ * Display value
+ **/
+input[type=range]::-webkit-slider-thumb:after {
+  color: #000;
+  content: attr(value);
+  font-size: em;
+}
+
+input[type=range]::-moz-range-thumb:after {
+  color: #000;
+  content: attr(value);
+  font-size: em;
+}
+
+input[type=range]::-ms-thumb:after {
+  color: #000;
+  content: attr(value);
+  font-size: em;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #a7b9c9;
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 6.6px;
+  cursor: pointer;
+  box-shadow: 1px 1px 0px #113a55, 0px 0px 1px #15496a;
+  background: #97adbf;
+  border-radius: 25px;
+  border: 0px solid #010101;
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 6.6px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #87a1b5;
+  border: 0px solid #010101;
+  border-radius: 50px;
+  box-shadow: 1px 1px 0px #113a55, 0px 0px 1px #15496a;
+}
+input[type=range]::-ms-fill-upper {
+  background: #97adbf;
+  border: 0px solid #010101;
+  border-radius: 50px;
+  box-shadow: 1px 1px 0px #113a55, 0px 0px 1px #15496a;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #97adbf;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #a7b9c9;
+}
