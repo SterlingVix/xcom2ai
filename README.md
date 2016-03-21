@@ -22,3 +22,8 @@ Here's my immediate to-do list:
 * Create linkages (unsure of implementation) between identical node types.
 * Better visualizations: 1) show heirarchy in a tree; 2) create force-graph or map showing linkages.
 
+# Usage
+
+This is open source under the MIT License:
+
+http://choosealicense.com/licenses/mit/
