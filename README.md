@@ -3,7 +3,7 @@ Visualization of XCOM 2 Behavior AI .ini file
 
 View the live app at http://sterlingvix.github.io/xcom2ai
 
-You can apply a (case-insensitive) filter to the list to find specific keyaords. For instance: enter "panic".
+You can apply a (case-insensitive) filter to the list to find specific keywords. For instance: enter "panic".
 
 # Install Instructions:
 Currently none. Pull the repo and you're good to go.
